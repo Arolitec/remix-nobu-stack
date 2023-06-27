@@ -1,53 +1,61 @@
-import { PrismaClient } from "@prisma/client";
-import bcrypt from "bcryptjs";
+import { PrismaClient } from '@prisma/client'
+import * as argon2 from 'argon2'
+import invariant from 'tiny-invariant'
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient()
+
+invariant(
+	process.env.ARGON_SECRET_KEY,
+	'ARGON_SECRET_KEY must be defined in .env file',
+)
+invariant(
+	process.env.SUPER_ADMIN_EMAIL,
+	'SUPER_ADMIN_EMAIL must be defined in .env file',
+)
+invariant(
+	process.env.SUPER_ADMIN_PASSWORD,
+	'SUPER_ADMIN_PASSWORD must be defined in .env file',
+)
+
+const argonSecretKey = process.env.ARGON_SECRET_KEY
+const superAdminEmail = process.env.SUPER_ADMIN_EMAIL
+const superAdminPassword = process.env.SUPER_ADMIN_PASSWORD
 
 async function seed() {
-  const email = "rachel@remix.run";
+	console.time('Resetting DB...')
+	await resetDatabase()
+	console.timeEnd('DB has been reset. ✅')
 
-  // cleanup the existing database
-  await prisma.user.delete({ where: { email } }).catch(() => {
-    // no worries if it doesn't exist yet
-  });
+	const hashedPassword = await argon2.hash(superAdminPassword, {
+		secret: Buffer.from(argonSecretKey),
+	})
 
-  const hashedPassword = await bcrypt.hash("racheliscool", 10);
+	console.time('Seeding DB...')
+	await prisma.user.create({
+		data: {
+			email: superAdminEmail,
+			password: {
+				create: {
+					hash: hashedPassword,
+				},
+			},
+		},
+	})
 
-  const user = await prisma.user.create({
-    data: {
-      email,
-      password: {
-        create: {
-          hash: hashedPassword,
-        },
-      },
-    },
-  });
+	console.timeEnd(`DB has been seeded. 🌱`)
+}
 
-  await prisma.note.create({
-    data: {
-      title: "My first note",
-      body: "Hello, world!",
-      userId: user.id,
-    },
-  });
-
-  await prisma.note.create({
-    data: {
-      title: "My second note",
-      body: "Hello, world!",
-      userId: user.id,
-    },
-  });
-
-  console.log(`Database has been seeded. 🌱`);
+async function resetDatabase() {
+	await prisma.user
+		.delete({ where: { email: superAdminEmail } })
+		.catch(() => {})
 }
 
 seed()
-  .catch((e) => {
-    console.error(e);
-    process.exit(1);
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
+	.catch(e => {
+		console.error(e)
+		process.exit(1)
+	})
+	.finally(async () => {
+		await prisma.$disconnect()
+	})
