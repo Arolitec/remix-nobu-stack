@@ -11,8 +11,8 @@ import {
 } from '@remix-run/react'
 
 import { getUser } from '~/session.server'
-import tailwindStylesHref from './styles/tailwind.css?inline'
-import appStylesHref from './styles/app.css?inline'
+import tailwindStylesHref from './styles/tailwind.css'
+import appStylesHref from './styles/app.css'
 
 export const links: LinksFunction = () => [
 	{ rel: 'stylesheet', href: tailwindStylesHref },
@@ -20,7 +20,7 @@ export const links: LinksFunction = () => [
 	...(cssBundleHref ? [{ rel: 'stylesheet', href: cssBundleHref }] : []),
 ]
 
-export const loader = async ({ request }: LoaderArgs) => {
+export const loader = async ({ request }: LoaderArgs) => { 
 	return json({ user: await getUser(request) })
 }
 
