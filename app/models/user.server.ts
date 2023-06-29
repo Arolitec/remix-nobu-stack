@@ -1,62 +1,66 @@
-import type { Password, User } from "@prisma/client";
-import bcrypt from "bcryptjs";
+import type { Password, User } from '@prisma/client'
+import * as argon2 from 'argon2'
+import invariant from 'tiny-invariant'
 
-import { prisma } from "~/db.server";
+import { prisma } from '~/db.server'
 
-export type { User } from "@prisma/client";
+export type { User } from '@prisma/client'
 
-export async function getUserById(id: User["id"]) {
-  return prisma.user.findUnique({ where: { id } });
+const { ARGON_SECRET_KEY } = process.env
+
+export async function getUserById(id: User['id']) {
+	return prisma.user.findUnique({ where: { id } })
 }
 
-export async function getUserByEmail(email: User["email"]) {
-  return prisma.user.findUnique({ where: { email } });
+export async function getUserByEmail(email: User['email']) {
+	return prisma.user.findUnique({ where: { email } })
 }
 
-export async function createUser(email: User["email"], password: string) {
-  const hashedPassword = await bcrypt.hash(password, 10);
+export async function createUser(email: User['email'], password: string) {
+	invariant(ARGON_SECRET_KEY, 'ARGON_SECRET_KEY env var must be set')
 
-  return prisma.user.create({
-    data: {
-      email,
-      password: {
-        create: {
-          hash: hashedPassword,
-        },
-      },
-    },
-  });
+	const hashedPassword = await argon2.hash(password, {
+		secret: Buffer.from(ARGON_SECRET_KEY),
+	})
+
+	return prisma.user.create({
+		data: {
+			email,
+			password: {
+				create: {
+					hash: hashedPassword,
+				},
+			},
+		},
+	})
 }
 
-export async function deleteUserByEmail(email: User["email"]) {
-  return prisma.user.delete({ where: { email } });
+export async function deleteUserByEmail(email: User['email']) {
+	return prisma.user.delete({ where: { email } })
 }
 
 export async function verifyLogin(
-  email: User["email"],
-  password: Password["hash"]
+	email: User['email'],
+	password: Password['hash'],
 ) {
-  const userWithPassword = await prisma.user.findUnique({
-    where: { email },
-    include: {
-      password: true,
-    },
-  });
+	const userWithPassword = await prisma.user.findUnique({
+		where: { email },
+		include: {
+			password: true,
+		},
+	})
 
-  if (!userWithPassword || !userWithPassword.password) {
-    return null;
-  }
+	if (!userWithPassword || !userWithPassword.password) {
+		return null
+	}
 
-  const isValid = await bcrypt.compare(
-    password,
-    userWithPassword.password.hash
-  );
+	const isValid = await argon2.verify(password, userWithPassword.password.hash)
 
-  if (!isValid) {
-    return null;
-  }
+	if (!isValid) {
+		return null
+	}
 
-  const { password: _password, ...userWithoutPassword } = userWithPassword;
+	const { password: _password, ...userWithoutPassword } = userWithPassword
 
-  return userWithoutPassword;
+	return userWithoutPassword
 }
