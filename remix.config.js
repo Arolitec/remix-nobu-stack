@@ -11,9 +11,9 @@ module.exports = {
 		v2_routeConvention: true,
 		v2_dev: true,
 	},
-	ignoredRouteFiles: ['**/.*', '**/*.test.{js,jsx,ts,tsx}'],
+	ignoredRouteFiles: ['**/*'],
 	routes: async defineRoutes => {
-		flatRoutes('routes', defineRoutes)
+		return flatRoutes('routes', defineRoutes)
 	},
 	postcss: true,
 	serverModuleFormat: 'cjs',
