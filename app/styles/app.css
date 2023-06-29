@@ -469,6 +469,8 @@ html {
   --bc: 215 28% 17%;
 }
 
+/* Keep normalization for the themes you plan to use */
+
 @media (prefers-color-scheme: dark) {
   :root {
     --p: 262 80% 50%;
