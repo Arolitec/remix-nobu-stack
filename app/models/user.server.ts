@@ -54,7 +54,12 @@ export async function verifyLogin(
 		return null
 	}
 
-	const isValid = await argon2.verify(password, userWithPassword.password.hash)
+	invariant(ARGON_SECRET_KEY, 'ARGON_SECRET_KEY env var must be set')
+	const isValid = await argon2.verify(
+		userWithPassword.password.hash,
+		password,
+		{ secret: Buffer.from(ARGON_SECRET_KEY) },
+	)
 
 	if (!isValid) {
 		return null
