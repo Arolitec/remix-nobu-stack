@@ -1,8 +1,9 @@
 version: '3.7'
 services:
-  remix-postgres:
+  nobu-postgres:
     image: postgres:latest
     restart: always
+    container_name: nobu-postgres
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
@@ -11,3 +12,11 @@ services:
       - '5432:5432'
     volumes:
       - ./postgres-data:/var/lib/postgresql/data
+
+  nobu-smtp-server:
+    image: mailhog/mailhog:latest
+    container_name: nobu-smtp-server
+    restart: unless-stopped
+    ports:
+      - '2525:1025'
+      - '2580:8025'
