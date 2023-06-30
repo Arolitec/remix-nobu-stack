@@ -1,5 +1,5 @@
 import type { V2_MetaFunction } from '@remix-run/node'
-import { Link } from '@remix-run/react'
+import { Form, Link } from '@remix-run/react'
 
 import { useOptionalUser } from '~/utils'
 
@@ -17,13 +17,20 @@ export default function Index() {
 								Nobu Stack
 							</span>
 						</h1>
-						<p className="mx-auto mt-6 max-w-lg text-center text-xl text-gray-400 sm:max-w-3xl">
+						<p className="mx-auto mt-6 max-w-lg text-center text-xl text-neutral sm:max-w-3xl">
 							Check the README.md file for instructions on how to start with the
 							stack.
 						</p>
 						<div className="mx-auto mt-10 max-w-sm sm:flex sm:max-w-none sm:justify-center">
 							{user ? (
-								<div className="text-lg">Welcome {user?.email}!</div>
+								<div className="text-lg">
+									<p>
+										Welcome {user?.email}!{' '}
+										<Form method="POST" action="/logout">
+											<button className="link">Logout</button>{' '}
+										</Form>
+									</p>
+								</div>
 							) : (
 								<div className="space-y-4 sm:mx-auto sm:inline-grid sm:grid-cols-2 sm:gap-5 sm:space-y-0">
 									<Link to="/join" className="btn-primary btn w-full">
@@ -36,7 +43,7 @@ export default function Index() {
 							)}
 						</div>
 						<div className="mx-auto flex justify-center">
-							<p className="text-center">
+							<p className="text-center text-gray-500">
 								Powered by{' '}
 								<a
 									href="remix.run"
