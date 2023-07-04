@@ -1,7 +1,7 @@
 import type { V2_MetaFunction } from '@remix-run/node'
 import { Form, Link } from '@remix-run/react'
 
-import { useOptionalUser } from '~/utils'
+import { useOptionalUser } from '~/utils/user'
 
 export const meta: V2_MetaFunction = () => [{ title: 'Nobu Stack' }]
 
