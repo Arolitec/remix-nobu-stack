@@ -2,7 +2,7 @@ import { parse } from '@conform-to/zod'
 import { json, type ActionArgs } from '@remix-run/node'
 import { z } from 'zod'
 import { render } from '@react-email/render'
-import { sendMail } from '~/mailer.server'
+import { sendMail } from '~/utils/mailer.server'
 import WelcomeEmail from './welcome.email.server'
 
 import { type User, createUser, getUserByEmail } from '~/models/user.server'

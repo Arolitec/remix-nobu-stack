@@ -2,7 +2,7 @@ import type { Password, User } from '@prisma/client'
 import * as argon2 from 'argon2'
 import invariant from 'tiny-invariant'
 
-import { prisma } from '~/db.server'
+import { prisma } from '~/utils/db.server'
 
 export type { User } from '@prisma/client'
 
