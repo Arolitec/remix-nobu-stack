@@ -2,7 +2,7 @@ import { parse } from '@conform-to/zod'
 import { json, type ActionArgs } from '@remix-run/node'
 import z from 'zod'
 import { verifyLogin } from '~/models/user.server'
-import { createUserSession } from '~/session.server'
+import { createUserSession } from '~/utils/auth.server'
 
 import { safeRedirect } from '~/utils'
 

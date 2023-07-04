@@ -6,7 +6,7 @@ import { sendMail } from '~/mailer.server'
 import WelcomeEmail from './welcome.email.server'
 
 import { type User, createUser, getUserByEmail } from '~/models/user.server'
-import { createUserSession } from '~/session.server'
+import { createUserSession } from '~/utils/auth.server'
 import { safeRedirect } from '~/utils'
 
 export const schema = z.object({

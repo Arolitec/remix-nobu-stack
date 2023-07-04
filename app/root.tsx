@@ -10,7 +10,7 @@ import {
 	ScrollRestoration,
 } from '@remix-run/react'
 
-import { getUser } from '~/session.server'
+import { getUser } from '~/utils/auth.server'
 import tailwindStylesHref from './styles/tailwind.css'
 import appStylesHref from './styles/app.css'
 
