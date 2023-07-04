@@ -1,5 +1,11 @@
 import type { V2_MetaFunction } from '@remix-run/node'
-import { Form, Link, useActionData, useSearchParams } from '@remix-run/react'
+import {
+	Form,
+	Link,
+	useActionData,
+	useNavigation,
+	useSearchParams,
+} from '@remix-run/react'
 import { conform, useForm } from '@conform-to/react'
 import { parse } from '@conform-to/zod'
 import { useId, useState } from 'react'
@@ -25,6 +31,9 @@ export default function Join() {
 		},
 		id,
 	})
+	const { state } = useNavigation()
+
+	const isSubmitting = ['loading', 'submitting'].includes(state)
 
 	const [showPass, setShowPass] = useState(false)
 
@@ -90,8 +99,12 @@ export default function Join() {
 					</div>
 
 					<input type="hidden" name="redirectTo" value={redirectTo} />
-					<button type="submit" className="btn-primary btn w-full">
-						Create Account
+					<button
+						type="submit"
+						className="btn-primary btn w-full"
+						disabled={isSubmitting}
+					>
+						{isSubmitting ? 'Please wait...' : 'Create Account'}
 					</button>
 					<div className="flex items-center justify-center">
 						<div className="text-center text-sm text-gray-500">

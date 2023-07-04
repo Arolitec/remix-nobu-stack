@@ -26,7 +26,11 @@ export default function Index() {
 								<div className="text-lg">
 									<p>
 										Welcome {user?.email}!{' '}
-										<Form method="POST" action="/logout">
+										<Form
+											method="POST"
+											action="/logout"
+											className="inline-block"
+										>
 											<button className="link">Logout</button>{' '}
 										</Form>
 									</p>

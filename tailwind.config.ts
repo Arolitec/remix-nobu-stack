@@ -9,5 +9,6 @@ export default {
 	daisyui: {
 		// If you want to create a custom theme -> https://daisyui.com/docs/themes/
 		themes: false,
+		logs: false,
 	},
 } satisfies Config
