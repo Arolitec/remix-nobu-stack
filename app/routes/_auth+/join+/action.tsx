@@ -6,8 +6,9 @@ import { sendMail } from '~/mailer.server'
 import WelcomeEmail from './welcome.email.server'
 
 import { type User, createUser, getUserByEmail } from '~/models/user.server'
-import { createUserSession } from '~/utils/auth.server'
-import { safeRedirect } from '~/utils'
+import { safeRedirect } from '~/utils/redirect'
+import { authenticator } from '~/utils/auth.server'
+import { FormStrategy } from 'remix-auth-form'
 
 export const schema = z.object({
 	email: z.coerce.string().email('You must enter a valid mail address'),
@@ -41,12 +42,10 @@ export const actionFn = async ({ request }: ActionArgs) => {
 
 	await sendWelcomeEmail(user)
 
-	return createUserSession({
-		redirectTo,
-		remember: false,
-		request,
-		userId: user.id,
-	} as const)
+	return authenticator.authenticate(FormStrategy.name, request, {
+		successRedirect: redirectTo,
+		context: { formData },
+	})
 }
 
 function sendWelcomeEmail(user: User) {

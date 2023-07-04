@@ -1,10 +1,12 @@
 import { parse } from '@conform-to/zod'
 import { json, type ActionArgs } from '@remix-run/node'
-import z from 'zod'
-import { verifyLogin } from '~/models/user.server'
-import { createUserSession } from '~/utils/auth.server'
+import { FormStrategy } from 'remix-auth-form'
+import invariant from 'tiny-invariant'
+import { z } from 'zod'
+import { type User } from '~/models/user.server'
+import { authenticator, createUserSession } from '~/utils/auth.server'
 
-import { safeRedirect } from '~/utils'
+import { safeRedirect } from '~/utils/redirect'
 
 export const schema = z.object({
 	email: z.coerce.string().email('You must enter a valid mail address'),
@@ -28,12 +30,21 @@ export const actionFn = async ({ request }: ActionArgs) => {
 			{ status: 400 },
 		)
 
-	const user = await verifyLogin(
-		submission.value.email,
-		submission.value.password,
-	)
+	try {
+		const user = (await authenticator.authenticate(FormStrategy.name, request, {
+			context: { formData },
+			throwOnError: true,
+		})) satisfies User | null
 
-	if (!user) {
+		invariant(user, 'User is required')
+
+		return createUserSession({
+			redirectTo,
+			request,
+			remember: submission.value.remember === 'on',
+			user,
+		} as const)
+	} catch (e) {
 		return json(
 			{
 				...submission,
@@ -42,11 +53,4 @@ export const actionFn = async ({ request }: ActionArgs) => {
 			{ status: 400 },
 		)
 	}
-
-	return createUserSession({
-		redirectTo,
-		remember: submission.value.remember === 'on' ? true : false,
-		request,
-		userId: user.id,
-	})
 }
