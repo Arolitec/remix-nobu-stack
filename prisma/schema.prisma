@@ -30,7 +30,7 @@ model Verification {
   secret    String
 
   period    Int
-  expiredAt DateTime
+  expiresAt DateTime
 
   createdAt DateTime @default(now())
 }
