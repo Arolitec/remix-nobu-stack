@@ -23,3 +23,14 @@ model Password {
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId String @unique
 }
+
+model Verification {
+  id        String @id @default(cuid())
+  algorithm String
+  secret    String
+
+  period    Int
+  expiredAt DateTime
+
+  createdAt DateTime @default(now())
+}
