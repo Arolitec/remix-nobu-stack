@@ -36,6 +36,13 @@ authenticator.use(
 	FormStrategy.name,
 )
 
+export async function requireAnonymous(
+	request: Request,
+	redirectTo: string = '/',
+) {
+	await authenticator.isAuthenticated(request, { successRedirect: redirectTo })
+}
+
 export async function getUserId(
 	request: Request,
 ): Promise<User['id'] | undefined> {

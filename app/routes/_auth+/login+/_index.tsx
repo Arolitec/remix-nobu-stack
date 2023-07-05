@@ -55,10 +55,7 @@ export default function LoginPage() {
 								}`}
 							/>
 							{!!email.error && (
-								<div
-									className="label-text pt-1 text-red-700"
-									id={email.errorId}
-								>
+								<div className="label-text pt-1 text-error" id={email.errorId}>
 									{email.error}
 								</div>
 							)}
@@ -82,7 +79,7 @@ export default function LoginPage() {
 							/>
 							{password.error ? (
 								<div
-									className="label-text pt-1 text-red-700"
+									className="label-text pt-1 text-error"
 									id={password.errorId}
 								>
 									{password.error}
@@ -121,10 +118,7 @@ export default function LoginPage() {
 							<Link
 								prefetch="intent"
 								className="link-accent link"
-								to={{
-									pathname: '/join',
-									search: searchParams.toString(),
-								}}
+								to="/password-forgotten"
 							>
 								Reset
 							</Link>

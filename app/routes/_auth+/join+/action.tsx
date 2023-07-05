@@ -21,7 +21,7 @@ export const actionFn = async ({ request }: ActionArgs) => {
 	const redirectTo = safeRedirect(formData.get('redirectTo'), '/')
 
 	if (!submission.value || submission.intent !== 'submit') {
-		return json(submission, { status: 400 } as const)
+		return json(submission, { status: 400 })
 	}
 
 	const existingUser = await getUserByEmail(submission.value.email)
@@ -30,8 +30,8 @@ export const actionFn = async ({ request }: ActionArgs) => {
 			{
 				...submission,
 				error: { email: 'A user already exists with this email' },
-			} as const,
-			{ status: 400 } as const,
+			},
+			{ status: 400 },
 		)
 	}
 
