@@ -112,22 +112,38 @@ export default function LoginPage() {
 									})}
 									className="checkbox-accent checkbox checkbox-sm"
 								/>
-								<span className="label-text ml-2">Remember me</span>
+								<span className="ml-2">Remember me</span>
 							</label>
 						</div>
 
-						<div className="label-text text-center text-gray-500">
-							Don't have an account?{' '}
+						<div className="text-center text-base text-slate-500">
+							Password forgotten?{' '}
 							<Link
+								prefetch="intent"
 								className="link-accent link"
 								to={{
 									pathname: '/join',
 									search: searchParams.toString(),
 								}}
 							>
-								Sign up
+								Reset
 							</Link>
 						</div>
+					</div>
+					<div className="flex items-center justify-between">
+						<hr className="inline-block flex-1" />
+						<p className="inline-block px-2 text-sm text-slate-500">
+							Don't have an account yet?
+						</p>
+						<hr className="inline-block flex-1" />
+					</div>
+					<div className="flex items-center justify-center">
+						<Link
+							className="btn-ghost btn-sm btn"
+							to={{ pathname: '/join', search: searchParams.toString() }}
+						>
+							Create an account
+						</Link>
 					</div>
 				</Form>
 			</div>
