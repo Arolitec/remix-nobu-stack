@@ -30,6 +30,7 @@ export default function Join() {
 			return parse(formData, { schema })
 		},
 		id,
+		shouldValidate: 'onBlur',
 	})
 	const { state } = useNavigation()
 

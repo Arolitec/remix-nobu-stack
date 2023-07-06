@@ -1,11 +1,30 @@
 import { conform, useForm } from '@conform-to/react'
-import { Form } from '@remix-run/react'
+import { Form, useActionData, useNavigation } from '@remix-run/react'
+import { parse } from '@conform-to/zod'
+
 import { loaderFn } from './loader'
+import { actionFn, schema } from './action'
+import { useId } from 'react'
 
 export const loader = loaderFn
 
+export const action = actionFn
+
 export default function PasswordForgottenPage() {
-	const [form, { email }] = useForm()
+	const id = useId()
+	const lastSubmission = useActionData<typeof action>()
+	const [form, { email }] = useForm({
+		lastSubmission,
+		onValidate({ formData }) {
+			return parse(formData, { schema })
+		},
+		shouldValidate: 'onBlur',
+		id,
+	})
+
+	const { state } = useNavigation()
+	const isSubmitting = ['loading', 'submitting'].includes(state)
+
 
 	return (
 		<div className="flex min-h-full flex-col justify-center">
@@ -33,8 +52,12 @@ export default function PasswordForgottenPage() {
 						</div>
 					</div>
 
-					<button className="btn-primary btn w-full" type="submit">
-						send verification mail
+					<button
+						className="btn-primary btn w-full"
+						type="submit"
+						disabled={isSubmitting}
+					>
+						{isSubmitting ? 'please wait...' : 'send verification mail'}
 					</button>
 				</Form>
 			</div>

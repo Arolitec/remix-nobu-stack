@@ -26,6 +26,7 @@ export default function LoginPage() {
 			return parse(formData, { schema })
 		},
 		id,
+		shouldValidate: 'onBlur',
 	})
 
 	return (
