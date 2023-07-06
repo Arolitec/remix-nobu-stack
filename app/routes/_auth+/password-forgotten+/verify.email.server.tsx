@@ -36,7 +36,8 @@ export default function VerifyEmail(props: VerifyEmailProps) {
 
 					<Section>
 						<Text className="text-base">
-							Here is your verification code: {otp},
+							Here is your verification code:{' '}
+							<code className="font-semibold tracking-wider">{otp}</code>,
 						</Text>
 						<Text className="text-base">
 							or, you can click the button below

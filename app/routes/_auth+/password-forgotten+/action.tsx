@@ -3,7 +3,7 @@ import { render } from '@react-email/render'
 import { json, redirect, type ActionArgs } from '@remix-run/node'
 import { z } from 'zod'
 
-import { type User } from '~/models/user.server'
+import { verifyLogin, type User } from '~/models/user.server'
 import { prisma } from '~/utils/db.server'
 import { sendMail } from '~/utils/mailer.server'
 import { generateTOTP } from '~/utils/otp.server'
@@ -28,7 +28,7 @@ export const actionFn = async ({ request }: ActionArgs) => {
 	if (!user) {
 		// Redirect even if user does not exists
 		// He won't be able to enter a valid OTP anyway
-		redirect('/password-forgotten/verify')
+		throw redirect('/password-forgotten/verify')
 	}
 
 	invariant(user, 'User must be defined')
@@ -42,8 +42,10 @@ export const actionFn = async ({ request }: ActionArgs) => {
 		data: { algorithm, expiresAt, period: step, secret },
 	})
 
-	const verifyLink = `${getDomain(request)}/password-forgotten/verify`
-	await sendVerifyEmail(user, { otp, verifyLink })
+	const verifyLink = new URL(`${getDomain(request)}/password-forgotten/verify`)
+	verifyLink.searchParams.set('otp', otp)
+
+	await sendVerifyEmail(user, { otp, verifyLink: verifyLink.toString() })
 
 	return redirect('/password-forgotten/verify')
 }
