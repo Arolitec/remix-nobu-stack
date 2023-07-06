@@ -3,7 +3,7 @@ import { render } from '@react-email/render'
 import { json, redirect, type ActionArgs } from '@remix-run/node'
 import { z } from 'zod'
 
-import { verifyLogin, type User } from '~/models/user.server'
+import { type User } from '~/models/user.server'
 import { prisma } from '~/utils/db.server'
 import { sendMail } from '~/utils/mailer.server'
 import { generateTOTP } from '~/utils/otp.server'
