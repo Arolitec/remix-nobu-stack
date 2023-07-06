@@ -3,6 +3,14 @@ import { totp } from 'otplib'
 import { HashAlgorithms } from 'otplib/core'
 import * as base32 from 'thirty-two'
 
+type VerifyOTPArgs = {
+	otp: string
+	secret: string
+	algorithm: string
+	period: number
+	digits: number
+}
+
 export function generateTOTP(
 	digits = 6,
 	secret = base32.encode(crypto.randomBytes(10)).toString(),
@@ -17,7 +25,12 @@ export function generateTOTP(
 	return { otp, secret, algorithm, expiresAt, step }
 }
 
-export function verifyTOTP(otp: string, secret: string, algorithm: string) {
-	totp.options = { algorithm: algorithm as HashAlgorithms }
+export function verifyTOTP({ algorithm, otp, period, secret, digits }: VerifyOTPArgs) {
+	totp.options = {
+		algorithm: algorithm as HashAlgorithms,
+		window: 0,
+		digits,
+		step: period,
+	}
 	return totp.verify({ token: otp, secret })
 }

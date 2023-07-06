@@ -33,17 +33,20 @@ export const actionFn = async ({ request }: ActionArgs) => {
 
 	invariant(user, 'User must be defined')
 
+	// A user should have only one pending verification at a time
 	await prisma.verification.deleteMany({
-		where: { expiresAt: { lt: new Date() } },
+		where: { email },
 	})
 
-	const { otp, algorithm, secret, expiresAt, step } = generateTOTP()
+	const digits = 6
+	const { otp, algorithm, secret, expiresAt, step } = generateTOTP(digits)
 	await prisma.verification.create({
-		data: { algorithm, expiresAt, period: step, secret },
+		data: { algorithm, expiresAt, period: step, secret, digits, email },
 	})
 
 	const verifyLink = new URL(`${getDomain(request)}/password-forgotten/verify`)
 	verifyLink.searchParams.set('otp', otp)
+	verifyLink.searchParams.set('email', email)
 
 	await sendVerifyEmail(user, { otp, verifyLink: verifyLink.toString() })
 

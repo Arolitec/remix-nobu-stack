@@ -29,8 +29,12 @@ model Verification {
   algorithm String
   secret    String
 
+  digits Int
+
   period    Int
   expiresAt DateTime
+
+  email String
 
   createdAt DateTime @default(now())
 }
