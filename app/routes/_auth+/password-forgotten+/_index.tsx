@@ -12,6 +12,7 @@ import { type V2_MetaFunction } from '@remix-run/node'
 import { loaderFn } from './loader'
 import { actionFn, schema } from './action'
 import { useId } from 'react'
+import { GeneralErrorBoundary } from '~/components/error-boundary'
 
 export const loader = loaderFn
 
@@ -87,4 +88,8 @@ export default function PasswordForgottenPage() {
 			</div>
 		</div>
 	)
+}
+
+export function ErrorBoundary() {
+	return <GeneralErrorBoundary />
 }

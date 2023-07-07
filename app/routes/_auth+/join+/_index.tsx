@@ -12,6 +12,7 @@ import { useId, useState } from 'react'
 
 import { actionFn, schema } from './action'
 import { loaderFn } from './loader'
+import { GeneralErrorBoundary } from '~/components/error-boundary'
 
 export const loader = loaderFn
 
@@ -127,4 +128,8 @@ export default function Join() {
 			</div>
 		</div>
 	)
+}
+
+export function ErrorBoundary() {
+	return <GeneralErrorBoundary />
 }

@@ -14,6 +14,7 @@ import { requireAnonymous } from '~/utils/auth.server'
 import { commitSession, getSession } from '~/utils/session.server'
 import { RESET_PASSWORD_SESSION_KEY } from './constants'
 import { actionFn, schema } from './action'
+import { GeneralErrorBoundary } from '~/components/error-boundary'
 
 export const meta: V2_MetaFunction = () => [{ title: 'Reset Your Password' }]
 
@@ -115,4 +116,8 @@ export default function ResetPasswordPage() {
 			</div>
 		</div>
 	)
+}
+
+export function ErrorBoundary() {
+	return <GeneralErrorBoundary />
 }

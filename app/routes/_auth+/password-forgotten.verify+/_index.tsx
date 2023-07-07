@@ -11,6 +11,7 @@ import { actionFn, clientSchema, validate } from './action'
 import { useId } from 'react'
 import { type LoaderArgs, type V2_MetaFunction, json } from '@remix-run/node'
 import { requireAnonymous } from '~/utils/auth.server'
+import { GeneralErrorBoundary } from '~/components/error-boundary'
 
 export const meta: V2_MetaFunction = () => [{ title: 'Verify Your Email' }]
 
@@ -116,4 +117,8 @@ export default function VerifyPage() {
 			</div>
 		</div>
 	)
+}
+
+export function ErrorBoundary() {
+	return <GeneralErrorBoundary />
 }
