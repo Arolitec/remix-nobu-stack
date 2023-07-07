@@ -1,3 +1,4 @@
+import * as argon2 from 'argon2'
 import { Authenticator } from 'remix-auth'
 import { FormStrategy } from 'remix-auth-form'
 import invariant from 'tiny-invariant'
@@ -5,9 +6,11 @@ import invariant from 'tiny-invariant'
 import { redirect } from '@remix-run/node'
 import type { User } from '~/models/user.server'
 import { verifyLogin } from '~/models/user.server'
+import { prisma } from './db.server'
 import { commitSession, getSession, sessionStorage } from './session.server'
 
 export const AUTH_SESSION_ERROR_KEY = 'AUTH_SESSION_ERROR_KEY'
+const { ARGON_SECRET_KEY } = process.env
 
 export type CreateSessionArgs = {
 	request: Request
@@ -102,6 +105,44 @@ export async function createUserSession({
 					? 60 * 60 * 24 * 7 // 7 days
 					: undefined,
 			}),
+		},
+	})
+}
+
+export async function createUser(email: User['email'], password: string) {
+	invariant(ARGON_SECRET_KEY, 'ARGON_SECRET_KEY env var must be set')
+
+	const hashedPassword = await argon2.hash(password, {
+		secret: Buffer.from(ARGON_SECRET_KEY),
+	})
+
+	return prisma.user.create({
+		data: {
+			email,
+			password: {
+				create: {
+					hash: hashedPassword,
+				},
+			},
+		},
+	})
+}
+
+export async function resetPassword(email: User['email'], password: string) {
+	invariant(ARGON_SECRET_KEY, 'ARGON_SECRET_KEY env var must be set')
+
+	const hashedPassword = await argon2.hash(password, {
+		secret: Buffer.from(ARGON_SECRET_KEY),
+	})
+
+	return prisma.user.update({
+		where: { email },
+		data: {
+			password: {
+				update: {
+					hash: hashedPassword,
+				},
+			},
 		},
 	})
 }

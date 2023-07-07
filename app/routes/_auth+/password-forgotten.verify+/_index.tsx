@@ -45,8 +45,6 @@ export default function VerifyPage() {
 
 	const isSubmitting = ['loading', 'submitting'].includes(state)
 
-	console.log({ email, otp })
-
 	return (
 		<div className="flex min-h-full flex-col justify-center">
 			<div className="mx-auto w-full max-w-sm px-8">

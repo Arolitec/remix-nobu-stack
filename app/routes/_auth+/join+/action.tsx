@@ -6,9 +6,9 @@ import { sendMail } from '~/utils/mailer.server'
 import WelcomeEmail from './welcome.email.server'
 import { FormStrategy } from 'remix-auth-form'
 
-import { type User, createUser, getUserByEmail } from '~/models/user.server'
+import { type User, getUserByEmail } from '~/models/user.server'
 import { safeRedirect } from '~/utils/redirect'
-import { authenticator } from '~/utils/auth.server'
+import { authenticator, createUser } from '~/utils/auth.server'
 
 export const schema = z.object({
 	email: z.coerce.string().email('You must enter a valid mail address'),

@@ -17,7 +17,7 @@ export default function Index() {
 								Nobu Stack
 							</span>
 						</h1>
-						<p className="mx-auto mt-6 max-w-lg text-center text-xl text-neutral sm:max-w-3xl">
+						<p className="mx-auto mt-6 max-w-lg text-center text-xl text-neutral dark:text-slate-300 sm:max-w-3xl">
 							Check the README.md file for instructions on how to start with the
 							stack.
 						</p>

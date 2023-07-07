@@ -25,12 +25,19 @@ export function generateTOTP(
 	return { otp, secret, algorithm, expiresAt, step }
 }
 
-export function verifyTOTP({ algorithm, otp, period, secret, digits }: VerifyOTPArgs) {
+export function verifyTOTP({
+	algorithm,
+	otp,
+	period,
+	secret,
+	digits,
+}: VerifyOTPArgs) {
 	totp.options = {
 		algorithm: algorithm as HashAlgorithms,
 		window: 0,
 		digits,
 		step: period,
 	}
+
 	return totp.verify({ token: otp, secret })
 }

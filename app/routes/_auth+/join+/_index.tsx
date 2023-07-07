@@ -7,7 +7,7 @@ import {
 	useSearchParams,
 } from '@remix-run/react'
 import { conform, useForm } from '@conform-to/react'
-import { parse } from '@conform-to/zod'
+import { getFieldsetConstraint, parse } from '@conform-to/zod'
 import { useId, useState } from 'react'
 
 import { actionFn, schema } from './action'
@@ -25,12 +25,13 @@ export default function Join() {
 	const redirectTo = searchParams.get('redirectTo') ?? undefined
 	const lastSubmission = useActionData<typeof action>()
 	const [form, { email, password }] = useForm({
+		constraint: getFieldsetConstraint(schema),
 		lastSubmission,
 		onValidate({ formData }) {
 			return parse(formData, { schema })
 		},
 		id,
-		shouldValidate: 'onBlur',
+		shouldRevalidate: 'onBlur',
 	})
 	const { state } = useNavigation()
 

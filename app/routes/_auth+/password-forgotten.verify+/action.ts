@@ -4,7 +4,7 @@ import { z } from 'zod'
 import { prisma } from '~/utils/db.server'
 import { verifyTOTP } from '~/utils/otp.server'
 import { commitSession, getSession } from '~/utils/session.server'
-import { resetPasswordSessionKey } from '../reset-password+/constants'
+import { RESET_PASSWORD_SESSION_KEY } from '../reset-password+/constants'
 
 export const clientSchema = z.object({
 	otp: z.coerce
@@ -66,9 +66,9 @@ export const actionFn = async ({ request }: ActionArgs) => {
 	})
 
 	const session = await getSession(request.headers.get('Cookie'))
-	session.set(resetPasswordSessionKey, submission.value.email)
+	session.set(RESET_PASSWORD_SESSION_KEY, submission.value.email)
 
-	return redirect('/login', {
+	return redirect('/reset-password', {
 		headers: { 'Set-Cookie': await commitSession(session) },
 	})
 }

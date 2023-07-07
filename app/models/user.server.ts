@@ -16,25 +16,6 @@ export async function getUserByEmail(email: User['email']) {
 	return prisma.user.findUnique({ where: { email } })
 }
 
-export async function createUser(email: User['email'], password: string) {
-	invariant(ARGON_SECRET_KEY, 'ARGON_SECRET_KEY env var must be set')
-
-	const hashedPassword = await argon2.hash(password, {
-		secret: Buffer.from(ARGON_SECRET_KEY),
-	})
-
-	return prisma.user.create({
-		data: {
-			email,
-			password: {
-				create: {
-					hash: hashedPassword,
-				},
-			},
-		},
-	})
-}
-
 export async function deleteUserByEmail(email: User['email']) {
 	return prisma.user.delete({ where: { email } })
 }

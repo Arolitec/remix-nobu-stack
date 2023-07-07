@@ -2,7 +2,7 @@ import type { V2_MetaFunction } from '@remix-run/node'
 import { Form, Link, useActionData, useSearchParams } from '@remix-run/react'
 import { useId } from 'react'
 import { conform, useForm } from '@conform-to/react'
-import { parse } from '@conform-to/zod'
+import { getFieldsetConstraint, parse } from '@conform-to/zod'
 
 import { actionFn, schema } from './action'
 import { loaderFn } from './loader'
@@ -15,18 +15,20 @@ export const meta: V2_MetaFunction = () => [{ title: 'Login' }]
 
 export default function LoginPage() {
 	const [searchParams] = useSearchParams()
-	const redirectToLink = searchParams.get('redirectTo') || '/'
 	const id = useId()
-
 	const lastSubmission = useActionData<typeof action>()
 
 	const [form, { email, password, redirectTo, remember }] = useForm({
+		constraint: getFieldsetConstraint(schema),
 		lastSubmission,
 		onValidate({ formData }) {
 			return parse(formData, { schema })
 		},
 		id,
-		shouldValidate: 'onBlur',
+		shouldRevalidate: 'onBlur',
+		defaultValue: {
+			redirectTo: searchParams.get('redirectTo') ?? '/',
+		},
 	})
 
 	return (
@@ -95,7 +97,6 @@ export default function LoginPage() {
 							hidden: true,
 							ariaAttributes: false,
 						})}
-						value={redirectToLink}
 					/>
 					<button type="submit" className="btn-primary btn w-full">
 						Log in

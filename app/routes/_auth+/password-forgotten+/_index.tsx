@@ -1,6 +1,6 @@
 import { conform, useForm } from '@conform-to/react'
 import { Form, useActionData, useNavigation } from '@remix-run/react'
-import { parse } from '@conform-to/zod'
+import { getFieldsetConstraint, parse } from '@conform-to/zod'
 
 import { loaderFn } from './loader'
 import { actionFn, schema } from './action'
@@ -14,17 +14,17 @@ export default function PasswordForgottenPage() {
 	const id = useId()
 	const lastSubmission = useActionData<typeof action>()
 	const [form, { email }] = useForm({
+		constraint: getFieldsetConstraint(schema),
 		lastSubmission,
 		onValidate({ formData }) {
 			return parse(formData, { schema })
 		},
-		shouldValidate: 'onBlur',
+		shouldRevalidate: 'onBlur',
 		id,
 	})
 
 	const { state } = useNavigation()
 	const isSubmitting = ['loading', 'submitting'].includes(state)
-
 
 	return (
 		<div className="flex min-h-full flex-col justify-center">
