@@ -4,6 +4,7 @@ import {
 	type V2_MetaFunction,
 	useActionData,
 	useLoaderData,
+	useNavigation,
 } from '@remix-run/react'
 import { type LoaderArgs, json, redirect } from '@remix-run/node'
 import { useId } from 'react'
@@ -35,6 +36,7 @@ export const action = actionFn
 export default function ResetPasswordPage() {
 	const { email } = useLoaderData<typeof loader>()
 	const lastSubmission = useActionData<typeof action>()
+	const { state } = useNavigation()
 
 	const id = useId()
 	const [form, { password, passwordConfirm }] = useForm({
@@ -47,6 +49,8 @@ export default function ResetPasswordPage() {
 		constraint: getFieldsetConstraint(schema),
 	})
 
+	const isSubmitting = ['loading', 'submitting'].includes(state)
+
 	return (
 		<div className="flex min-h-full flex-col justify-center">
 			<div className="mx-auto w-full max-w-sm px-8">
@@ -54,7 +58,7 @@ export default function ResetPasswordPage() {
 					<p>{email}</p>
 					<div className="form-control">
 						<label htmlFor={password.id} className="label">
-							<span className="label-text">Password</span>
+							<span className="label-text">New password</span>
 						</label>
 						<div className="mt-1">
 							<input
@@ -62,7 +66,7 @@ export default function ResetPasswordPage() {
 									type: 'password',
 									ariaAttributes: true,
 								})}
-								autoComplete="off"
+								autoComplete="new-password"
 								className={`input-bordered input w-full ${
 									password.error ? 'input-error' : ''
 								}`}
@@ -80,7 +84,7 @@ export default function ResetPasswordPage() {
 
 					<div className="form-control">
 						<label htmlFor={passwordConfirm.id} className="label">
-							<span className="label-text">Confirm password</span>
+							<span className="label-text">Confirm new password</span>
 						</label>
 						<div className="mt-1">
 							<input
@@ -88,7 +92,7 @@ export default function ResetPasswordPage() {
 									type: 'password',
 									ariaAttributes: true,
 								})}
-								autoComplete="off"
+								autoComplete="new-password"
 								className={`input-bordered input w-full ${
 									passwordConfirm.error ? 'input-error' : ''
 								}`}
@@ -104,7 +108,9 @@ export default function ResetPasswordPage() {
 						</div>
 					</div>
 
-					<button className="btn-primary btn w-full">reset password</button>
+					<button className="btn-primary btn w-full" disabled={isSubmitting}>
+						reset password
+					</button>
 				</Form>
 			</div>
 		</div>

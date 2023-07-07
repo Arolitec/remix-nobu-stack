@@ -59,6 +59,7 @@ export default function VerifyPage() {
 									ariaAttributes: true,
 									type: 'email',
 								})}
+								readOnly
 								className={`input-bordered input w-full ${
 									email.error ? 'input-error' : ''
 								}`}
@@ -85,6 +86,7 @@ export default function VerifyPage() {
 									otp.error ? 'input-error' : ''
 								}`}
 								maxLength={6}
+								autoFocus
 							/>
 						</div>
 						{!!otp.error && (

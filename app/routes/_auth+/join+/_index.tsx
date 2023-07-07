@@ -108,7 +108,7 @@ export default function Join() {
 					>
 						{isSubmitting ? 'Please wait...' : 'Create Account'}
 					</button>
-					<div className="flex items-center justify-center">
+					<div className="flex items-center justify-center pt-8">
 						<div className="text-center text-sm text-gray-500">
 							Already have an account?{' '}
 							<Link

@@ -50,7 +50,7 @@ export const actionFn = async ({ request }: ActionArgs) => {
 
 	await sendVerifyEmail(user, { otp, verifyLink: verifyLink.toString() })
 
-	return redirect('/password-forgotten/verify')
+	return redirect(encodeURI(`/password-forgotten/verify?email=${email}`))
 }
 
 function sendVerifyEmail(

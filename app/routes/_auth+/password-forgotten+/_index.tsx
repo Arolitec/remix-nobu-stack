@@ -1,5 +1,5 @@
 import { conform, useForm } from '@conform-to/react'
-import { Form, useActionData, useNavigation } from '@remix-run/react'
+import { Form, Link, useActionData, useNavigation, useSearchParams } from '@remix-run/react'
 import { getFieldsetConstraint, parse } from '@conform-to/zod'
 
 import { loaderFn } from './loader'
@@ -12,7 +12,10 @@ export const action = actionFn
 
 export default function PasswordForgottenPage() {
 	const id = useId()
+	const [searchParams] = useSearchParams()
 	const lastSubmission = useActionData<typeof action>()
+	const { state } = useNavigation()
+
 	const [form, { email }] = useForm({
 		constraint: getFieldsetConstraint(schema),
 		lastSubmission,
@@ -23,7 +26,6 @@ export default function PasswordForgottenPage() {
 		id,
 	})
 
-	const { state } = useNavigation()
 	const isSubmitting = ['loading', 'submitting'].includes(state)
 
 	return (
@@ -59,6 +61,18 @@ export default function PasswordForgottenPage() {
 					>
 						{isSubmitting ? 'please wait...' : 'send verification mail'}
 					</button>
+
+					<div className="flex items-center justify-center pt-8">
+						<p className="inline-block  px-2 text-sm text-slate-500">
+							Remember your password?{' '}
+							<Link
+								className="link text-primary-focus"
+								to={{ pathname: '/login', search: searchParams.toString() }}
+							>
+								Back to login
+							</Link>
+						</p>
+					</div>
 				</Form>
 			</div>
 		</div>
