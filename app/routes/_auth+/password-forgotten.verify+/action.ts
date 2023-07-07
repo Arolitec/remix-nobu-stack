@@ -52,6 +52,14 @@ const schema = clientSchema.superRefine(async (object, ctx) => {
 
 export const actionFn = async ({ request }: ActionArgs) => {
 	const formData = await request.formData()
+
+	return validate(request, formData)
+}
+
+export async function validate(
+	request: Request,
+	formData: FormData | URLSearchParams,
+) {
 	const submission = await parse(formData, {
 		schema: schema,
 		async: true,

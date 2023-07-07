@@ -7,7 +7,7 @@ import {
 } from '@remix-run/react'
 import { getFieldsetConstraint, parse } from '@conform-to/zod'
 
-import { actionFn, clientSchema } from './action'
+import { actionFn, clientSchema, validate } from './action'
 import { useId } from 'react'
 import { type LoaderArgs, type V2_MetaFunction, json } from '@remix-run/node'
 import { requireAnonymous } from '~/utils/auth.server'
@@ -17,7 +17,21 @@ export const meta: V2_MetaFunction = () => [{ title: 'Verify Your Email' }]
 export const loader = async ({ request }: LoaderArgs) => {
 	await requireAnonymous(request)
 
-	return json({})
+	const searchParams = new URL(request.url).searchParams
+
+	if (!searchParams.has('otp')) {
+		// We don't want to show error if otp is not prefilled,
+		// typically if user did not used the reset link
+		return json({
+			lastSubmission: {
+				intent: '',
+				payload: Object.fromEntries(searchParams),
+				error: {},
+			},
+		})
+	}
+
+	return validate(request, searchParams)
 }
 
 export const action = actionFn
