@@ -88,6 +88,19 @@ export default function LoginPage() {
 									{password.error}
 								</div>
 							) : null}
+
+							<label className="label justify-end">
+								<span className="label-text-alt">
+									Password forgotten?{' '}
+									<Link
+										prefetch="intent"
+										className="link-secondary link"
+										to="/password-forgotten"
+									>
+										Reset
+									</Link>
+								</span>
+							</label>
 						</div>
 					</div>
 
@@ -114,32 +127,17 @@ export default function LoginPage() {
 								<span className="ml-2">Remember me</span>
 							</label>
 						</div>
-
-						<div className="text-center text-base text-slate-500">
-							Password forgotten?{' '}
+					</div>
+					<div className="flex items-center justify-center pt-8">
+						<p className="inline-block  px-2 text-sm text-slate-500">
+							Don't have an account yet?{' '}
 							<Link
-								prefetch="intent"
-								className="link-accent link"
-								to="/password-forgotten"
+								className="link text-primary-focus"
+								to={{ pathname: '/join', search: searchParams.toString() }}
 							>
-								Reset
+								Create one
 							</Link>
-						</div>
-					</div>
-					<div className="flex items-center justify-between">
-						<hr className="inline-block flex-1" />
-						<p className="inline-block px-2 text-sm text-slate-500">
-							Don't have an account yet?
 						</p>
-						<hr className="inline-block flex-1" />
-					</div>
-					<div className="flex items-center justify-center">
-						<Link
-							className="btn-ghost btn-sm btn"
-							to={{ pathname: '/join', search: searchParams.toString() }}
-						>
-							Create an account
-						</Link>
 					</div>
 				</Form>
 			</div>
