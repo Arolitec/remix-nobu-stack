@@ -132,6 +132,7 @@ export default function LoginPage() {
 						<p className="inline-block  px-2 text-sm text-slate-500">
 							Don't have an account yet?{' '}
 							<Link
+								prefetch="intent"
 								className="link text-primary-focus"
 								to={{ pathname: '/join', search: searchParams.toString() }}
 							>

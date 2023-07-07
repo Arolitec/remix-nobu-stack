@@ -1,6 +1,13 @@
 import { conform, useForm } from '@conform-to/react'
-import { Form, Link, useActionData, useNavigation, useSearchParams } from '@remix-run/react'
+import {
+	Form,
+	Link,
+	useActionData,
+	useNavigation,
+	useSearchParams,
+} from '@remix-run/react'
 import { getFieldsetConstraint, parse } from '@conform-to/zod'
+import { type V2_MetaFunction } from '@remix-run/node'
 
 import { loaderFn } from './loader'
 import { actionFn, schema } from './action'
@@ -9,6 +16,8 @@ import { useId } from 'react'
 export const loader = loaderFn
 
 export const action = actionFn
+
+export const meta: V2_MetaFunction = () => [{ title: 'Password Forgotten' }]
 
 export default function PasswordForgottenPage() {
 	const id = useId()
@@ -66,6 +75,7 @@ export default function PasswordForgottenPage() {
 						<p className="inline-block  px-2 text-sm text-slate-500">
 							Remember your password?{' '}
 							<Link
+								prefetch="intent"
 								className="link text-primary-focus"
 								to={{ pathname: '/login', search: searchParams.toString() }}
 							>
