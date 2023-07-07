@@ -8,7 +8,8 @@ import { FormStrategy } from 'remix-auth-form'
 
 import { type User, getUserByEmail } from '~/models/user.server'
 import { safeRedirect } from '~/utils/redirect'
-import { authenticator, createUser } from '~/utils/auth.server'
+import { authenticator } from '~/utils/auth.server'
+import { xprisma } from '~/utils/db.server'
 
 export const schema = z.object({
 	email: z.coerce.string().email('You must enter a valid mail address'),
@@ -35,7 +36,7 @@ export const actionFn = async ({ request }: ActionArgs) => {
 		)
 	}
 
-	const user = await createUser(
+	const user = await xprisma.user.createUser(
 		submission.value.email,
 		submission.value.password,
 	)
