@@ -20,15 +20,15 @@ export const actionFn = async ({ request }: ActionArgs) => {
 	const submission = parse(formData, { schema })
 
 	if (!submission.value || submission.intent !== 'submit')
-		return json(submission, { status: 400 })
+		return json({ submission, ok: false }, { status: 400 })
 
 	const { email } = submission.value
 	const user = await prisma.user.findFirst({ where: { email } })
 
 	if (!user) {
-		// Redirect even if user does not exists
+		// Early return if user does not exists
 		// He won't be able to enter a valid OTP anyway
-		throw redirect('/password-forgotten/verify')
+		return json({ ok: true, submission: undefined })
 	}
 
 	invariant(user, 'User must be defined')
@@ -50,7 +50,7 @@ export const actionFn = async ({ request }: ActionArgs) => {
 
 	await sendVerifyEmail(user, { otp, verifyLink: verifyLink.toString() })
 
-	return redirect(encodeURI(`/password-forgotten/verify?email=${email}`))
+	return json({ ok: true, submission: undefined })
 }
 
 function sendVerifyEmail(
