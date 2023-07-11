@@ -77,7 +77,7 @@ export async function requireUser(
 	const user = await authenticator.isAuthenticated(request, {
 		failureRedirect: `/login?${searchParams}`,
 	})
-	invariant(user, 'You must be logged in')
+	invariant(user, 'User must be defined')
 
 	return user
 }
