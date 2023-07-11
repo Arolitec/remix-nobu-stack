@@ -15,8 +15,6 @@ export const action = actionFn
 
 export const meta: V2_MetaFunction = () => [{ title: 'Password Forgotten' }]
 
-type ActionData = Awaited<ReturnType<typeof actionFn>>
-
 export default function PasswordForgottenPage() {
 	const id = useId()
 	const [searchParams] = useSearchParams()
