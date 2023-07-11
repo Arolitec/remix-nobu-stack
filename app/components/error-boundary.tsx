@@ -1,4 +1,7 @@
 import { isRouteErrorResponse, useRouteError } from '@remix-run/react'
+import { isPageLinkDescriptor } from '@remix-run/react/dist/links'
+
+const isProduction = process.env.NODE_ENV === 'production'
 
 type Props = {
 	routeErrorRenderer?: (error: {
@@ -22,10 +25,12 @@ export function GeneralErrorBoundary({
 	),
 	errorRenderer = error => (
 		<div className="mx-auto flex w-fit flex-col items-start justify-center break-words pt-16">
-			<div className="alert alert-error flex flex-col items-start">
-				{process.env.NODE_ENV !== 'production' ? (
+			{!isProduction && (
+				<h1 className="py-2 text-2xl font-semibold">{error.message}</h1>
+			)}
+			<div className="alert alert-warning flex flex-col items-start">
+				{!isProduction ? (
 					<>
-						<span className="text-lg font-semibold">{error.message}</span>
 						<pre className="text-xs">{error.stack}</pre>
 					</>
 				) : (

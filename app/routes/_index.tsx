@@ -1,9 +1,14 @@
 import type { V2_MetaFunction } from '@remix-run/node'
 import { Form, Link } from '@remix-run/react'
+import { GeneralErrorBoundary } from '~/components/error-boundary'
 
 import { useOptionalUser } from '~/utils/user'
 
 export const meta: V2_MetaFunction = () => [{ title: 'Nobu Stack' }]
+
+export const loader = async () => {
+	throw new Error('Error!')
+}
 
 export default function Index() {
 	const user = useOptionalUser()
@@ -63,4 +68,8 @@ export default function Index() {
 			</div>
 		</main>
 	)
+}
+
+export function ErrorBoundary() {
+	return <GeneralErrorBoundary />
 }
