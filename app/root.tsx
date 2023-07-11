@@ -13,6 +13,7 @@ import {
 import { getUser } from '~/utils/auth.server'
 import tailwindStylesHref from './styles/tailwind.css'
 import appStylesHref from './styles/app.css'
+import { withSentry } from '@sentry/remix'
 
 export const links: LinksFunction = () => [
 	{ rel: 'stylesheet', href: tailwindStylesHref },
@@ -24,7 +25,7 @@ export const loader = async ({ request }: LoaderArgs) => {
 	return json({ user: await getUser(request) } as const)
 }
 
-export default function App() {
+function App() {
 	return (
 		<html lang="en" className="h-full">
 			<head>
@@ -42,3 +43,5 @@ export default function App() {
 		</html>
 	)
 }
+
+export default withSentry(App, { wrapWithErrorBoundary: false })

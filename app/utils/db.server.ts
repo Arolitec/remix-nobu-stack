@@ -92,6 +92,11 @@ const resetPasswordExt = Prisma.defineExtension({
 	},
 })
 
+/**
+ * Prefer xprisma over prisma
+ */
 const xprisma = prisma.$extends(createUserExt).$extends(resetPasswordExt)
+
+
 
 export { prisma, xprisma }
