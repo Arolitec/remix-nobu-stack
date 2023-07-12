@@ -2,7 +2,7 @@ import { Prisma, PrismaClient } from '@prisma/client'
 import * as argon2 from 'argon2'
 import invariant from 'tiny-invariant'
 
-let prisma: PrismaClient
+let _prisma: PrismaClient
 
 declare global {
 	var __db__: PrismaClient
@@ -13,12 +13,12 @@ declare global {
 // create a new connection to the DB with every change either.
 // in production we'll have a single connection to the DB.
 if (process.env.NODE_ENV === 'production') {
-	prisma = getClient()
+	_prisma = getClient()
 } else {
 	if (!global.__db__) {
 		global.__db__ = getClient()
 	}
-	prisma = global.__db__
+	_prisma = global.__db__
 }
 
 function getClient() {
@@ -50,7 +50,7 @@ const createUserExt = Prisma.defineExtension({
 					secret: Buffer.from(ARGON_SECRET_KEY),
 				})
 
-				return prisma.user.create({
+				return _prisma.user.create({
 					data: {
 						email,
 						password: {
@@ -77,7 +77,7 @@ const resetPasswordExt = Prisma.defineExtension({
 					secret: Buffer.from(ARGON_SECRET_KEY),
 				})
 
-				return prisma.user.update({
+				return _prisma.user.update({
 					where: { email },
 					data: {
 						password: {
@@ -100,7 +100,7 @@ const verifyPasswordExt = Prisma.defineExtension({
 				const { ARGON_SECRET_KEY } = process.env
 				invariant(ARGON_SECRET_KEY, 'ARGON_SECRET_KEY env var must be set')
 
-				const userWithPassword = await prisma.user.findUnique({
+				const userWithPassword = await _prisma.user.findUnique({
 					where: { email },
 					include: {
 						password: true,
@@ -129,12 +129,24 @@ const verifyPasswordExt = Prisma.defineExtension({
 	},
 })
 
-/**
- * Prefer xprisma over prisma
- */
-const xprisma = prisma
+const hidePasswordExt = Prisma.defineExtension({
+	name: 'hidePassword',
+	model: {
+		password: {
+			hash: {
+				need: {},
+				compute() {
+					return undefined
+				},
+			},
+		},
+	},
+})
+
+const prisma = _prisma
 	.$extends(createUserExt)
 	.$extends(resetPasswordExt)
 	.$extends(verifyPasswordExt)
+	.$extends(hidePasswordExt)
 
-export { prisma, xprisma }
+export { prisma }

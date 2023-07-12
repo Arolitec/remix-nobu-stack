@@ -1,9 +1,9 @@
 import { parse } from '@conform-to/zod'
-import { json, redirect, type ActionArgs } from '@remix-run/node'
 import { z } from 'zod'
-import { xprisma } from '~/utils/db.server'
-import { commitSession, getSession } from '~/utils/session.server'
 import { RESET_PASSWORD_SESSION_KEY } from './constants'
+import { json, redirect, type ActionArgs } from '@remix-run/node'
+import { prisma } from '~/utils/db.server'
+import { commitSession, getSession } from '~/utils/session.server'
 
 export const schema = z
 	.object({
@@ -30,7 +30,7 @@ export const actionFn = async ({ request }: ActionArgs) => {
 
 	if (!email || typeof email !== 'string') return redirect('/login')
 
-	await xprisma.user.resetPassword(email, password)
+	await prisma.user.resetPassword(email, password)
 	session.unset(RESET_PASSWORD_SESSION_KEY)
 
 	return redirect('/login', {

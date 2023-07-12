@@ -8,7 +8,7 @@ import { sendMail } from '~/utils/mailer.server'
 import { type User } from '@prisma/client'
 import { safeRedirect } from '~/utils/redirect'
 import { authenticator } from '~/utils/auth.server'
-import { xprisma } from '~/utils/db.server'
+import { prisma } from '~/utils/db.server'
 
 export const clientSchema = z.object({
 	email: z.coerce.string().email('You must enter a valid mail address'),
@@ -18,7 +18,7 @@ export const clientSchema = z.object({
 const schema = clientSchema.superRefine(async (data, ctx) => {
 	const { email } = data
 
-	const existingUser = await xprisma.user.findUnique({
+	const existingUser = await prisma.user.findUnique({
 		where: { email: email },
 	})
 
@@ -45,7 +45,7 @@ export const actionFn = async ({ request }: ActionArgs) => {
 		return json(submission, { status: 400 })
 	}
 
-	const user = await xprisma.user.createUser(
+	const user = await prisma.user.createUser(
 		submission.value.email,
 		submission.value.password,
 	)

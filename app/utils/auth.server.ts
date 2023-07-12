@@ -2,7 +2,7 @@ import { redirect } from '@remix-run/node'
 import { Authenticator } from 'remix-auth'
 import { FormStrategy } from 'remix-auth-form'
 import invariant from 'tiny-invariant'
-import { xprisma } from './db.server'
+import { prisma } from './db.server'
 import { commitSession, getSession, sessionStorage } from './session.server'
 import type { User } from '@prisma/client'
 
@@ -28,7 +28,7 @@ authenticator.use(
 		invariant(typeof email === 'string', 'Email must be a string')
 		invariant(typeof password === 'string', 'Email must be a string')
 
-		const user = xprisma.user.verifyLogin(email, password)
+		const user = prisma.user.verifyLogin(email, password)
 
 		return user
 	}),

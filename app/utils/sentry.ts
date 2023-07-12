@@ -1,8 +1,8 @@
-import * as Sentry from '@sentry/remix'
-import { useEffect } from 'react'
 import { useLocation, useMatches } from '@remix-run/react'
+import * as Sentry from '@sentry/remix'
 import chalk from 'chalk'
-import { xprisma } from './db.server'
+import { useEffect } from 'react'
+import { prisma } from './db.server'
 
 export function initClient() {
 	Sentry.init({
@@ -44,6 +44,6 @@ export function initServer() {
 		tracesSampleRate: 1.0,
 
 		// Capture Prisma errors with sentry
-		integrations: [new Sentry.Integrations.Prisma({ client: xprisma })],
+		integrations: [new Sentry.Integrations.Prisma({ client: prisma })],
 	})
 }
