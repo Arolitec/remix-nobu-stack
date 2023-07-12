@@ -4,8 +4,8 @@ import { FormStrategy } from 'remix-auth-form'
 import invariant from 'tiny-invariant'
 
 import type { User } from '~/models/user.server'
-import { verifyLogin } from '~/models/user.server'
 import { commitSession, getSession, sessionStorage } from './session.server'
+import { xprisma } from './db.server'
 
 export const AUTH_SESSION_ERROR_KEY = 'AUTH_SESSION_ERROR_KEY'
 
@@ -29,7 +29,7 @@ authenticator.use(
 		invariant(typeof email === 'string', 'Email must be a string')
 		invariant(typeof password === 'string', 'Email must be a string')
 
-		const user = await verifyLogin(email, password)
+		const user = xprisma.user.verifyLogin(email, password)
 
 		return user
 	}),

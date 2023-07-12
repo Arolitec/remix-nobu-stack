@@ -6,7 +6,7 @@ import { sendMail } from '~/utils/mailer.server'
 import WelcomeEmail from './welcome.email.server'
 import { FormStrategy } from 'remix-auth-form'
 
-import { type User, getUserByEmail } from '~/models/user.server'
+import { type User } from '@prisma/client'
 import { safeRedirect } from '~/utils/redirect'
 import { authenticator } from '~/utils/auth.server'
 import { xprisma } from '~/utils/db.server'
@@ -25,7 +25,9 @@ export const actionFn = async ({ request }: ActionArgs) => {
 		return json(submission, { status: 400 })
 	}
 
-	const existingUser = await getUserByEmail(submission.value.email)
+	const existingUser = await xprisma.user.findUnique({
+		where: { email: submission.value.email },
+	})
 	if (existingUser) {
 		return json(
 			{

@@ -92,11 +92,49 @@ const resetPasswordExt = Prisma.defineExtension({
 	},
 })
 
+const verifyPasswordExt = Prisma.defineExtension({
+	name: 'verifyPassword',
+	model: {
+		user: {
+			async verifyLogin(email: string, password: string) {
+				const { ARGON_SECRET_KEY } = process.env
+				invariant(ARGON_SECRET_KEY, 'ARGON_SECRET_KEY env var must be set')
+
+				const userWithPassword = await prisma.user.findUnique({
+					where: { email },
+					include: {
+						password: true,
+					},
+				})
+
+				if (!userWithPassword || !userWithPassword.password) {
+					return null
+				}
+
+				const isValid = await argon2.verify(
+					userWithPassword.password.hash,
+					password,
+					{ secret: Buffer.from(ARGON_SECRET_KEY) },
+				)
+
+				if (!isValid) {
+					return null
+				}
+
+				const { password: _password, ...userWithoutPassword } = userWithPassword
+
+				return userWithoutPassword
+			},
+		},
+	},
+})
+
 /**
  * Prefer xprisma over prisma
  */
-const xprisma = prisma.$extends(createUserExt).$extends(resetPasswordExt)
-
-
+const xprisma = prisma
+	.$extends(createUserExt)
+	.$extends(resetPasswordExt)
+	.$extends(verifyPasswordExt)
 
 export { prisma, xprisma }
