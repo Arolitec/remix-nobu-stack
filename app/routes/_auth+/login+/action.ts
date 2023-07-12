@@ -3,7 +3,7 @@ import { json, type ActionArgs } from '@remix-run/node'
 import { FormStrategy } from 'remix-auth-form'
 import invariant from 'tiny-invariant'
 import { z } from 'zod'
-import { type User } from '~/models/user.server'
+import { type User } from '@prisma/client'
 import { authenticator, createUserSession } from '~/utils/auth.server'
 
 import { safeRedirect } from '~/utils/redirect'
@@ -26,7 +26,7 @@ export const actionFn = async ({ request }: ActionArgs) => {
 			{
 				...submission,
 				payload: { ...submission.payload, redirectTo },
-			},
+			} as const,
 			{ status: 400 },
 		)
 
@@ -49,7 +49,7 @@ export const actionFn = async ({ request }: ActionArgs) => {
 			{
 				...submission,
 				error: { '': 'Invalid email/password' },
-			},
+			} as const,
 			{ status: 400 },
 		)
 	}
