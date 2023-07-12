@@ -10,7 +10,7 @@ import { conform, useForm } from '@conform-to/react'
 import { getFieldsetConstraint, parse } from '@conform-to/zod'
 import { useId, useState } from 'react'
 
-import { actionFn, schema } from './action'
+import { actionFn, clientSchema } from './action'
 import { loaderFn } from './loader'
 import { GeneralErrorBoundary } from '~/components/error-boundary'
 
@@ -26,10 +26,10 @@ export default function Join() {
 	const redirectTo = searchParams.get('redirectTo') ?? undefined
 	const lastSubmission = useActionData<typeof action>()
 	const [form, { email, password }] = useForm({
-		constraint: getFieldsetConstraint(schema),
+		constraint: getFieldsetConstraint(clientSchema),
 		lastSubmission,
 		onValidate({ formData }) {
-			return parse(formData, { schema })
+			return parse(formData, { schema: clientSchema })
 		},
 		id,
 		shouldRevalidate: 'onBlur',
