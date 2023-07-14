@@ -1,14 +1,16 @@
 import { conform, useForm } from '@conform-to/react'
+import { getFieldsetConstraint, parse } from '@conform-to/zod'
+import { subscribe } from 'diagnostics_channel'
+import { useId } from 'react'
+import { actionFn, clientSchema, validate } from './action'
 import {
 	Form,
 	useActionData,
+	useLoaderData,
 	useNavigation,
 	useSearchParams,
 } from '@remix-run/react'
-import { getFieldsetConstraint, parse } from '@conform-to/zod'
 
-import { actionFn, clientSchema, validate } from './action'
-import { useId } from 'react'
 import { type LoaderArgs, type V2_MetaFunction, json } from '@remix-run/node'
 import { requireAnonymous } from '~/utils/auth.server'
 import { GeneralErrorBoundary } from '~/components/error-boundary'
@@ -24,12 +26,12 @@ export const loader = async ({ request }: LoaderArgs) => {
 		// We don't want to show error if otp is not prefilled,
 		// typically if user did not used the reset link
 		return json({
-			lastSubmission: {
+			submission: {
 				intent: '',
 				payload: Object.fromEntries(searchParams),
 				error: {},
 			},
-		})
+		} as const)
 	}
 
 	return validate(request, searchParams)
@@ -42,7 +44,10 @@ export default function VerifyPage() {
 	const { state } = useNavigation()
 	const id = useId()
 
-	const lastSubmission = useActionData<typeof action>()
+	const actionData = useActionData<typeof action>()
+	const loaderData = useLoaderData<typeof loader>()
+
+	const lastSubmission = loaderData?.submission ?? actionData?.submission
 
 	const [form, { otp, email }] = useForm({
 		constraint: getFieldsetConstraint(clientSchema),
@@ -53,8 +58,8 @@ export default function VerifyPage() {
 		id,
 		shouldRevalidate: 'onBlur',
 		defaultValue: {
-			otp: searchParams.get('otp') ?? '',
-			email: searchParams.get('email') ?? '',
+			otp: lastSubmission?.payload.otp ?? searchParams.get('otp') ?? '',
+			email: lastSubmission?.payload.email ?? searchParams.get('email') ?? '',
 		},
 	})
 

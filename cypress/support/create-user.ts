@@ -42,7 +42,7 @@ async function createAndLogin(
 	console.log(
 		`
 <cookie>
-  ${parsedCookie.__session}
+  ${parsedCookie._session}
 </cookie>
   `.trim(),
 	)

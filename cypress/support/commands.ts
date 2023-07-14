@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker'
+import { generateTOTP } from '~/utils/otp.server'
 
 declare global {
 	namespace Cypress {
@@ -59,22 +60,43 @@ declare global {
 			 *    cy.createUser()
 			 */
 			createUser: typeof createUser
+
+			/**
+			 * Create a verification from given
+			 */
+			createVerification: typeof createVerification
 		}
 	}
 }
 
-function resetDb(seed = true) {
-	return cy.exec(`yarn prisma migrate reset -f ${!seed ? '--skip-seed' : ''}`)
+function resetDb() {
+	return cy.exec(
+		`yarn prisma migrate reset -f --skip-seed && yarn prisma migrate deploy && yarn prisma db seed`,
+	)
+}
+
+function createVerification(email: string) {
+	cy.exec(
+		`yarn ts-node --require tsconfig-paths/register ./cypress/support/create-verification.ts "${email}"`,
+	)
+		.then(({ stdout }) => {
+			const otp = stdout.replace(/.*<otp>(?<otp>.*)<\/otp>.*/s, '$<otp>').trim()
+			return cy.then(() => otp)
+		})
+		.as('otp')
+
+	return cy.get('@otp')
 }
 
 function createUser() {
 	const email = faker.internet.email({ provider: 'example.com' })
 	const password = faker.internet.password()
-	return cy
-		.exec(
-			`npx ts-node --require tsconfig-paths/register ./cypress/support/create-user.ts "${email}" "${password}"`,
-		)
+	cy.exec(
+		`npx ts-node --require tsconfig-paths/register ./cypress/support/create-user.ts "${email}" "${password}"`,
+	)
 		.then(() => ({ email, password }))
+		.as('user')
+	return cy.get('@user')
 }
 
 function login({
@@ -93,7 +115,7 @@ function login({
 		const cookieValue = stdout
 			.replace(/.*<cookie>(?<cookieValue>.*)<\/cookie>.*/s, '$<cookieValue>')
 			.trim()
-		cy.setCookie('__session', cookieValue)
+		cy.setCookie('_session', cookieValue)
 	})
 	return cy.get('@user')
 }
@@ -109,14 +131,14 @@ function cleanupUser({ email }: { email?: string } = {}) {
 			}
 		})
 	}
-	cy.clearCookie('__session')
+	cy.clearCookie('_session')
 }
 
 function deleteUserByEmail(email: string) {
 	cy.exec(
 		`npx ts-node --require tsconfig-paths/register ./cypress/support/delete-user.ts "${email}"`,
 	)
-	cy.clearCookie('__session')
+	cy.clearCookie('_session')
 }
 
 // We're waiting a second because of this issue happen randomly
@@ -134,3 +156,4 @@ Cypress.Commands.add('cleanupUser', cleanupUser)
 Cypress.Commands.add('visitAndCheck', visitAndCheck)
 Cypress.Commands.add('resetDb', resetDb)
 Cypress.Commands.add('createUser', createUser)
+Cypress.Commands.add('createVerification', createVerification)

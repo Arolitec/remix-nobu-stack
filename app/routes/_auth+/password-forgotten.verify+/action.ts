@@ -1,6 +1,6 @@
 import { parse } from '@conform-to/zod'
-import { json, redirect, type ActionArgs } from '@remix-run/node'
 import { z } from 'zod'
+import { json, redirect, type ActionArgs } from '@remix-run/node'
 import { prisma } from '~/utils/db.server'
 import { verifyTOTP } from '~/utils/otp.server'
 import { commitSession, getSession } from '~/utils/session.server'
@@ -67,7 +67,7 @@ export async function validate(
 	})
 
 	if (!submission.value || submission.intent !== 'submit')
-		return json(submission, { status: 400 })
+		return json({ submission }, { status: 400 })
 
 	await prisma.verification.deleteMany({
 		where: { email: submission.value.email },

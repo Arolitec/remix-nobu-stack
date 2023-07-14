@@ -24,7 +24,7 @@ const superAdminPassword = process.env.SUPER_ADMIN_PASSWORD
 async function seed() {
 	console.time('Resetting DB...')
 	await resetDatabase()
-	console.timeEnd('DB has been reset. ✅')
+	console.timeEnd('Resetting DB...')
 
 	const hashedPassword = await argon2.hash(superAdminPassword, {
 		secret: Buffer.from(argonSecretKey),
@@ -42,7 +42,7 @@ async function seed() {
 		},
 	})
 
-	console.timeEnd(`DB has been seeded. 🌱`)
+	console.timeEnd(`Seeding DB...`)
 }
 
 async function resetDatabase() {
