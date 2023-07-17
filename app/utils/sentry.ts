@@ -1,6 +1,5 @@
 import { useLocation, useMatches } from '@remix-run/react'
 import * as Sentry from '@sentry/remix'
-import chalk from 'chalk'
 import { useEffect } from 'react'
 import { prisma } from './db.server'
 

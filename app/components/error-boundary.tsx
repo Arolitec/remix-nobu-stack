@@ -1,5 +1,4 @@
 import { isRouteErrorResponse, useRouteError } from '@remix-run/react'
-import { isPageLinkDescriptor } from '@remix-run/react/dist/links'
 
 const isProduction = process.env.NODE_ENV === 'production'
 

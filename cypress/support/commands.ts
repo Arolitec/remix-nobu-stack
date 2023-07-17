@@ -1,5 +1,4 @@
 import { faker } from '@faker-js/faker'
-import { generateTOTP } from '~/utils/otp.server'
 
 declare global {
 	namespace Cypress {
