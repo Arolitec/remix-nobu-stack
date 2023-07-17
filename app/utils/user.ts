@@ -1,4 +1,4 @@
-import { type User } from '~/models/user.server'
+import { User } from '@prisma/client'
 import { useMatchesData } from './match'
 
 function isUser(user: any): user is User {
