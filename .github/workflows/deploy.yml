@@ -19,7 +19,7 @@ permissions:
 jobs:
   lint:
     name: ⬣ ESLint
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-16.04
     steps:
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v3
@@ -116,6 +116,7 @@ jobs:
       - name: 🌳 Cypress run
         uses: cypress-io/github-action@v5
         with:
+          install: true
           start: yarn start:mocks
           wait-on: http://localhost:8811
         env:
