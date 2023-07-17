@@ -1,10 +1,9 @@
-import { PrismaClientKnownRequestError } from '@prisma/client/runtime'
+import { Prisma } from '@prisma/client'
 import { installGlobals } from '@remix-run/node'
 // Use this to delete a user by their email
 // Simply call this with:
 // npx ts-node --require tsconfig-paths/register ./cypress/support/delete-user.ts username@example.com
 // and that user will get deleted
-
 
 import { prisma } from '~/utils/db.server'
 
@@ -22,7 +21,7 @@ async function deleteUser(email: string) {
 		await prisma.user.delete({ where: { email } })
 	} catch (error) {
 		if (
-			error instanceof PrismaClientKnownRequestError &&
+			error instanceof Prisma.PrismaClientKnownRequestError &&
 			error.code === 'P2025'
 		) {
 			console.log('User not found, so no need to delete')
