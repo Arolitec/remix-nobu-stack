@@ -112,6 +112,8 @@ jobs:
 
       - name: 🛠 Setup Database
         run: yarn prisma migrate reset --force
+        env:
+          ARGON_SECRET_KEY: 'b08d6553c95cbe0129b26134b8e83065927d35eda58c6f2a7573d81b6316d881'
 
       - name: ⚙️ Build
         run: yarn build
