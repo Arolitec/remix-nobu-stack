@@ -80,6 +80,8 @@ jobs:
   cypress:
     name: ⚫️ Cypress
     runs-on: ubuntu-latest
+    env:
+      DEBUG: '@cypress/github-action, cypress:*'
     steps:
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v3
