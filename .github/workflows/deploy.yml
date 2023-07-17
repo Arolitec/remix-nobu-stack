@@ -116,7 +116,8 @@ jobs:
       - name: 🌳 Cypress run
         uses: cypress-io/github-action@v5
         with:
-          install: false
+          install: true
+          install-command: yarn install
           start: yarn start:mocks
           wait-on: http://localhost:8811
         env:
