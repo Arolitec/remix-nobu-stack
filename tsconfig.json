@@ -1,6 +1,6 @@
 {
   "exclude": ["./cypress", "./cypress.config.ts"],
-  "include": ["**/*.ts", "**/*.tsx"],
+  "include": ["**/*.ts", "**/*.tsx", "vitest.config.mts"],
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ES2023"],
     "types": ["vitest/globals"],
