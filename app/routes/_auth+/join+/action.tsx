@@ -1,14 +1,14 @@
 import { parse } from '@conform-to/zod'
+import { type User } from '@prisma/client'
 import { render } from '@react-email/render'
+import { json, type ActionArgs } from '@remix-run/node'
 import { FormStrategy } from 'remix-auth-form'
 import { z } from 'zod'
-import WelcomeEmail from './welcome.email.server'
-import { json, type ActionArgs } from '@remix-run/node'
-import { sendMail } from '~/utils/mailer.server'
-import { type User } from '@prisma/client'
-import { safeRedirect } from '~/utils/redirect'
 import { authenticator } from '~/utils/auth.server'
 import { prisma } from '~/utils/db.server'
+import { sendMail } from '~/utils/mailer.server'
+import { safeRedirect } from '~/utils/redirect'
+import WelcomeEmail from './welcome.email.server'
 
 export const clientSchema = z.object({
 	email: z.coerce.string().email('You must enter a valid mail address'),
@@ -50,7 +50,7 @@ export const actionFn = async ({ request }: ActionArgs) => {
 		submission.value.password,
 	)
 
-	await sendWelcomeEmail(user)
+	sendWelcomeEmail(user)
 
 	return authenticator.authenticate(FormStrategy.name, request, {
 		successRedirect: redirectTo,

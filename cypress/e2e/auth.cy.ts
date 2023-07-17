@@ -20,11 +20,15 @@ describe('auth', () => {
 			cy.findByLabelText(/password/i).type(registerData.password)
 			cy.findByRole('button', { name: /create account/i }).click()
 
-			cy.location('pathname', { timeout: 10000 }).should('eq', '/')
+			cy.location('pathname', {
+				timeout: 10000,
+			}).should('eq', '/')
 
 			cy.findByText(new RegExp(registerData.email.toLowerCase(), 'i')).should(
 				'be.visible',
 			)
+
+			cy.getCookie('_session').should('exist')
 		})
 
 		it('should display error message if email or password are invalid', () => {
