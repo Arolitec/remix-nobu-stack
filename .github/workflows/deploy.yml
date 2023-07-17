@@ -55,7 +55,7 @@ jobs:
         run: yarn install
 
       - name: 🔎 Type check
-        run: yarn typecheck --if-present
+        run: yarn typecheck
 
   vitest:
     name: ⚡ Vitest
@@ -108,6 +108,7 @@ jobs:
           SMTP_PORT: 2525
           SMTP_FROM: 'no-reply@example.com'
           SMTP_FROM_NAME: 'Nobu Stack'
+          ARGON_SECRET_KEY: 'b08d6553c95cbe0129b26134b8e83065927d35eda58c6f2a7573d81b6316d881'
 
       - name: 🛠 Setup Database
         run: yarn prisma migrate reset --force
