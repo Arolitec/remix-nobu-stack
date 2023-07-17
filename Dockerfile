@@ -1,52 +1,58 @@
 # base node image
-FROM node:18-bullseye-slim as base
+FROM node:18-alpine as base
 
 # set for base and all layer that inherit from it
 ENV NODE_ENV production
 
 # Install openssl for Prisma
-RUN apt-get update && apt-get install -y openssl
+RUN apk -U update && apk add --no-cache openssl && rm -rf /var/cache/apk/*
 
 # Install all node_modules, including dev dependencies
 FROM base as deps
 
-WORKDIR /myapp
+WORKDIR /app
 
-COPY package.json .npmrc ./
-RUN npm install --include=dev
+COPY package.json yarn.lock ./
+RUN yarn install --production=false
 
 # Setup production node_modules
 FROM base as production-deps
 
-WORKDIR /myapp
+WORKDIR /app
 
-COPY --from=deps /myapp/node_modules /myapp/node_modules
-COPY package.json .npmrc ./
-RUN npm prune --omit=dev
+COPY --from=deps /app/node_modules /app/node_modules
+COPY package.json yarn.lock ./
+RUN yarn install --production
 
 # Build the app
 FROM base as build
 
-WORKDIR /myapp
+WORKDIR /app
 
-COPY --from=deps /myapp/node_modules /myapp/node_modules
+COPY --from=deps /app/node_modules /app/node_modules
 
+COPY package.json yarn.lock ./
 COPY prisma .
-RUN npx prisma generate
+RUN yarn prisma generate
 
 COPY . .
-RUN npm run build
+RUN yarn build
 
 # Finally, build the production image with minimal footprint
 FROM base
 
-WORKDIR /myapp
+WORKDIR /app
 
-COPY --from=production-deps /myapp/node_modules /myapp/node_modules
-COPY --from=build /myapp/node_modules/.prisma /myapp/node_modules/.prisma
+RUN addgroup -S arolitec && \
+    adduser -S arolitec -G arolitec
 
-COPY --from=build /myapp/build /myapp/build
-COPY --from=build /myapp/public /myapp/public
+COPY --from=production-deps /app/node_modules /app/node_modules
+COPY --from=build /app/node_modules/.prisma /app/node_modules/.prisma
+
+COPY --from=build /app/build /app/build
+COPY --from=build /app/public /app/public
 COPY . .
+
+USER arolitec
 
 CMD ["yarn", "start"]
