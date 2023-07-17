@@ -102,6 +102,12 @@ jobs:
         run: docker-compose up -d && sleep 3
         env:
           DATABASE_URL: 'postgresql://postgres:postgres@localhost:5432/postgres'
+          SUPER_ADMIN_PASSWORD: 'Password$2023'
+          COOKIE_SECRETS: 'efaad8733a638c8c2408cff29ab9159b'
+          SMTP_HOST: localhost
+          SMTP_PORT: 2525
+          SMTP_FROM: 'no-reply@example.com'
+          SMTP_FROM_NAME: 'Nobu Stack'
 
       - name: 🛠 Setup Database
         run: yarn prisma migrate reset --force
