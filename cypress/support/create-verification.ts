@@ -6,10 +6,6 @@ import { generateTOTP } from '~/utils/otp.server'
 installGlobals()
 
 async function createVerification(email: string) {
-	console.log(
-		'🚀 ~ file: create-verification.ts:8 ~ createVerification ~ email:',
-		email,
-	)
 	const otpData = generateTOTP()
 	await prisma.verification.create({
 		data: {
