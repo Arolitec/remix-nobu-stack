@@ -4,8 +4,10 @@
 
 Learn more about [Remix Stacks](https://remix.run/stacks).
 
-```
+```sh
 npx create-remix@latest --template arolitec/remix-nobu-stack
+# or
+yarn create remix --template arolitec/remix-nobu-stack
 ```
 
 ## What's in the stack
@@ -29,7 +31,7 @@ Not a fan of bits of the stack? Fork it, change it, and use `npx create-remix --
 - First run this stack's `remix.init` script and commit the changes it makes to your project.
 
   ```sh
-  npx remix init
+  yarn remix init
   git init # if you haven't already
   git add .
   git commit -m "Initialize project"
