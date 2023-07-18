@@ -1,9 +1,9 @@
 import { parse } from '@conform-to/zod'
+import type { User } from '@prisma/client'
 import { json, type ActionArgs } from '@remix-run/node'
 import { FormStrategy } from 'remix-auth-form'
 import invariant from 'tiny-invariant'
 import { z } from 'zod'
-import { type User } from '@prisma/client'
 import { authenticator, createUserSession } from '~/utils/auth.server'
 
 import { safeRedirect } from '~/utils/redirect'
