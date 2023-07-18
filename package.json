@@ -1,5 +1,5 @@
 {
-  "name": "blues-stack-template",
+  "name": "nobu-stack-template",
   "private": true,
   "sideEffects": false,
   "scripts": {
@@ -44,7 +44,6 @@
     "@remix-run/server-runtime": "^1.18.1",
     "@sentry/remix": "^7.57.0",
     "argon2": "0.30.3",
-    "chalk": "^4.1.2",
     "compression": "^1.7.4",
     "cross-env": "^7.0.3",
     "daisyui": "^3.1.7",
