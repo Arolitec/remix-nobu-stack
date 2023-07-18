@@ -119,7 +119,7 @@ jobs:
         uses: cypress-io/github-action@v5
         with:
           start: yarn start:mocks
-          wait-on: 'npx wait-on --timeout 10000 http://127.0.0.1:9911'
+          wait-on: 'npx wait-on --timeout 10000 http://127.0.0.1:8811'
           browser: chrome
         env:
           PORT: 8811
