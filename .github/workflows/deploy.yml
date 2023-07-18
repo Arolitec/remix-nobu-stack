@@ -121,7 +121,7 @@ jobs:
           install: true
           install-command: yarn install
           start: yarn start:mocks
-          wait-on: npx wait-on --timeout 5000 http://localhost:8811
+          wait-on: 127.0.0.1:8811
         env:
           PORT: 8811
           SUPER_ADMIN_EMAIL: 'admin@example.com'
