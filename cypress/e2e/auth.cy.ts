@@ -5,6 +5,45 @@ describe('auth', () => {
 		cy.resetDb()
 	})
 
+	describe('login', () => {
+		beforeEach(() => {
+			cy.createUser().debug()
+
+			cy.visitAndCheck('/login')
+		})
+
+		it('should display error message if email or/and password are invalid', function () {
+			cy.findByRole('textbox', { name: /email/i }).type('bademail')
+
+			cy.findByRole('button', { name: /log in/i }).click()
+
+			cy.findByText(/you must enter a valid mail address/i).should('be.visible')
+			cy.findByText(/you must enter a password/i).should('be.visible')
+		})
+
+		it('should allow user to log in and out', function () {
+			cy.findByRole('textbox', { name: /email/i }).type(this.user.email)
+			cy.findByLabelText(/password/i).type(this.user.password)
+
+			cy.findByRole('button', { name: /log in/i }).click()
+
+			cy.findByText(new RegExp(this.user.email, 'i')).should('be.visible')
+
+			cy.findByRole('button', { name: /logout/i }).click()
+
+			cy.location('pathname').should('eq', '/login')
+		})
+
+		it('should show error message if password and email do not match', function () {
+			cy.findByRole('textbox', { name: /email/i }).type(this.user.email)
+			cy.findByLabelText(/password/i).type('fakepassword')
+
+			cy.findByRole('button', { name: /log in/i }).click()
+
+			cy.findByText(/invalid email\/password/i).should('be.visible')
+		})
+	})
+
 	describe('register', () => {
 		let registerData = {
 			email: `${faker.internet.userName()}@example.com`,
@@ -44,46 +83,6 @@ describe('auth', () => {
 			cy.findByText(/password must be at least 8 characters/i).should(
 				'be.visible',
 			)
-		})
-	})
-
-	describe('login', () => {
-		beforeEach(() => cy.createUser())
-
-		beforeEach(() => {
-			cy.visitAndCheck('/')
-			cy.findByRole('link', { name: /log in/i }).click()
-		})
-
-		it('should allow user to log in and out', function () {
-			cy.findByRole('textbox', { name: /email/i }).type(this.user.email)
-			cy.findByLabelText(/password/i).type(this.user.password)
-
-			cy.findByRole('button', { name: /log in/i }).click()
-
-			cy.findByText(new RegExp(this.user.email, 'i')).should('be.visible')
-
-			cy.findByRole('button', { name: /logout/i }).click()
-
-			cy.location('pathname').should('eq', '/login')
-		})
-
-		it('should show error message if password and email do not match', function () {
-			cy.findByRole('textbox', { name: /email/i }).type(this.user.email)
-			cy.findByLabelText(/password/i).type('fakepassword')
-
-			cy.findByRole('button', { name: /log in/i }).click()
-
-			cy.findByText(/invalid email\/password/i).should('be.visible')
-		})
-
-		it('should display error message if email or/and password are invalid', () => {
-			cy.findByRole('textbox', { name: /email/i }).type('bademail')
-
-			cy.findByRole('button', { name: /log in/i }).click()
-
-			cy.findByText(/you must enter a valid mail address/i).should('be.visible')
-			cy.findByText(/you must enter a password/i).should('be.visible')
 		})
 	})
 
