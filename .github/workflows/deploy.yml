@@ -79,7 +79,7 @@ jobs:
 
   cypress:
     name: ⚫️ Cypress
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     env:
       DEBUG: '@cypress/github-action, cypress:*'
     steps:
@@ -118,8 +118,6 @@ jobs:
       - name: 🌳 Cypress run
         uses: cypress-io/github-action@v5
         with:
-          install: true
-          install-command: yarn install
           start: yarn start:mocks
           wait-on: http://localhost:8811
           browser: chrome
