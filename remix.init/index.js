@@ -210,9 +210,6 @@ const main = async ({isTypeScript, packageManager, rootDirectory}) => {
         /^ARGON_SECRET_KEY=.*$/m,
         `ARGON_SECRET_KEY="${getRandomString(16)}"`
     ).replace(
-        /^SUPER_ADMIN_PASSWORD=.*$/m,
-        `SUPER_ADMIN_PASSWORD="${getRandomString(16)}"`
-    ).replace(
         /^COOKIE_SECRETS=.*$/m,
         `COOKIE_SECRETS="${getRandomString(32)}"`
     )
