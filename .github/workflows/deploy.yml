@@ -114,7 +114,7 @@ jobs:
         run: yarn build
 
       - name: 🌳 Cypress run
-        uses: cypress-io/github-action@v5
+        uses: cypress-io/github-action@v6
         with:
           start: yarn start:mocks
           wait-on: 'http://127.0.0.1:3000'
