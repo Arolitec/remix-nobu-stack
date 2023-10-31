@@ -1,9 +1,9 @@
-import type { LoaderArgs } from '@remix-run/node'
+import type { LoaderFunctionArgs } from '@remix-run/node'
 
 import { prisma } from '~/utils/db.server'
 import { getDomain } from '~/utils/url.server'
 
-export const loader = async ({ request }: LoaderArgs) => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
 	const host = getDomain(request)
 
 	try {

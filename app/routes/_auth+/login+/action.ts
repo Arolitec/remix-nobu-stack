@@ -1,6 +1,6 @@
 import { parse } from '@conform-to/zod'
 import type { User } from '@prisma/client'
-import { json, type ActionArgs } from '@remix-run/node'
+import { ActionFunctionArgs, json } from '@remix-run/node'
 import { FormStrategy } from 'remix-auth-form'
 import invariant from 'tiny-invariant'
 import { z } from 'zod'
@@ -15,7 +15,7 @@ export const schema = z.object({
 	remember: z.coerce.string().nullable(),
 })
 
-export const actionFn = async ({ request }: ActionArgs) => {
+export const actionFn = async ({ request }: ActionFunctionArgs) => {
 	const formData = await request.formData()
 	const submission = parse(formData, { schema })
 
