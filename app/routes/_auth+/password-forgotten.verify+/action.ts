@@ -46,7 +46,6 @@ const schema = clientSchema.superRefine(async (object, ctx) => {
 			message: 'Invalid OTP',
 			path: ['otp'],
 		})
-		return
 	}
 })
 
@@ -63,7 +62,6 @@ export async function validate(
 	const submission = await parse(formData, {
 		schema: schema,
 		async: true,
-		acceptMultipleErrors: () => true,
 	})
 
 	if (!submission.value || submission.intent !== 'submit')

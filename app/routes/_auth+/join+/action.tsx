@@ -28,7 +28,6 @@ const schema = clientSchema.superRefine(async (data, ctx) => {
 			message: 'A user already exists with this email',
 			path: ['email'],
 		})
-		return
 	}
 })
 
@@ -36,7 +35,6 @@ export const actionFn = async ({ request }: ActionFunctionArgs) => {
 	const formData = await request.formData()
 	const submission = await parse(formData, {
 		schema,
-		acceptMultipleErrors: () => true,
 		async: true,
 	})
 	const redirectTo = safeRedirect(formData.get('redirectTo'), '/')
