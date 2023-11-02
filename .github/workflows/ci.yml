@@ -113,7 +113,7 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           start: yarn start:mocks
-          wait-on: 'http://127.0.0.1:3000'
+          wait-on: 'http://127.0.0.1:8811'
         env:
           PORT: 3000
           SUPER_ADMIN_EMAIL: 'admin@example.com'
