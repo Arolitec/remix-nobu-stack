@@ -1,14 +1,20 @@
 {
   "exclude": ["./cypress", "./cypress.config.ts"],
   "include": ["**/*.ts", "**/*.tsx", "vitest.config.ts"],
+  "ts-node": {
+    "compilerOptions": {
+      "module": "es2015",
+      "moduleResolution": "node"
+    }
+  },
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ES2023"],
     "types": ["vitest/globals"],
     "isolatedModules": true,
     "esModuleInterop": true,
     "jsx": "react-jsx",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
     "noImplicitAny": true,
     "resolveJsonModule": true,
     "target": "ESNext",

@@ -1,10 +1,6 @@
 name: 🚀 CI
 
 on:
-  push:
-    branches:
-      - main
-      - dev
   pull_request:
 
 concurrency:
@@ -22,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: ⬇️ Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: ⎔ Setup node
         uses: actions/setup-node@v3
@@ -42,7 +38,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: ⬇️ Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: ⎔ Setup node
         uses: actions/setup-node@v3
@@ -62,7 +58,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: ⬇️ Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: ⎔ Setup node
         uses: actions/setup-node@v3
@@ -82,7 +78,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: ⬇️ Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: 🏄 Copy test env vars
         run: cp .env.example .env
@@ -114,12 +110,12 @@ jobs:
         run: yarn build
 
       - name: 🌳 Cypress run
-        uses: cypress-io/github-action@v5
+        uses: cypress-io/github-action@v6
         with:
           start: yarn start:mocks
-          wait-on: 'http://127.0.0.1:3000'
+          wait-on: 'http://127.0.0.1:8811'
         env:
-          PORT: 3000
+          PORT: 8811
           SUPER_ADMIN_EMAIL: 'admin@example.com'
           SUPER_ADMIN_PASSWORD: 'Password$2023'
           COOKIE_SECRETS: 'efaad8733a638c8c2408cff29ab9159b'

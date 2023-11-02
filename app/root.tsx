@@ -1,5 +1,5 @@
 import { cssBundleHref } from '@remix-run/css-bundle'
-import type { LinksFunction, LoaderArgs } from '@remix-run/node'
+import type { LinksFunction, LoaderFunctionArgs } from '@remix-run/node'
 import { json } from '@remix-run/node'
 import {
 	Links,
@@ -11,9 +11,8 @@ import {
 } from '@remix-run/react'
 
 import { getUser } from '~/utils/auth.server'
-import tailwindStylesHref from './styles/tailwind.css'
-import appStylesHref from './styles/app.css'
-import { withSentry } from '@sentry/remix'
+import appStylesHref from './styles/app.css?inline'
+import tailwindStylesHref from './styles/tailwind.css?inline'
 
 export const links: LinksFunction = () => [
 	{ rel: 'stylesheet', href: tailwindStylesHref },
@@ -21,11 +20,11 @@ export const links: LinksFunction = () => [
 	...(cssBundleHref ? [{ rel: 'stylesheet', href: cssBundleHref }] : []),
 ]
 
-export const loader = async ({ request }: LoaderArgs) => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
 	return json({ user: await getUser(request) } as const)
 }
 
-function App() {
+export default function App() {
 	return (
 		<html lang="en" className="h-full">
 			<head>
@@ -43,5 +42,3 @@ function App() {
 		</html>
 	)
 }
-
-export default withSentry(App, { wrapWithErrorBoundary: false })

@@ -1,18 +1,18 @@
-import type { V2_MetaFunction } from '@remix-run/node'
-import { Form, Link, useActionData, useSearchParams } from '@remix-run/react'
-import { useId } from 'react'
 import { conform, useForm } from '@conform-to/react'
 import { getFieldsetConstraint, parse } from '@conform-to/zod'
+import type { MetaFunction } from '@remix-run/node'
+import { Form, Link, useActionData, useSearchParams } from '@remix-run/react'
+import { useId } from 'react'
 
+import { GeneralErrorBoundary } from '~/components/error-boundary'
 import { actionFn, schema } from './action'
 import { loaderFn } from './loader'
-import { GeneralErrorBoundary } from '~/components/error-boundary'
 
 export const loader = loaderFn
 
 export const action = actionFn
 
-export const meta: V2_MetaFunction = () => [{ title: 'Login' }]
+export const meta: MetaFunction = () => [{ title: 'Login' }]
 
 export default function LoginPage() {
 	const [searchParams] = useSearchParams()

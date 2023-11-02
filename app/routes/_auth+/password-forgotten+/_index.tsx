@@ -1,26 +1,28 @@
 import { conform, useForm } from '@conform-to/react'
-import { Link, useFetcher, useSearchParams } from '@remix-run/react'
 import { getFieldsetConstraint, parse } from '@conform-to/zod'
-import { type V2_MetaFunction } from '@remix-run/node'
+import { MetaFunction } from '@remix-run/node'
+import { Link, useFetcher, useSearchParams } from '@remix-run/react'
 import MailCheckIcon from 'remixicon-react/MailCheckLineIcon'
 
-import { loaderFn } from './loader'
-import { actionFn, schema } from './action'
 import { useId } from 'react'
 import { GeneralErrorBoundary } from '~/components/error-boundary'
+import { actionFn, schema } from './action'
+import { loaderFn } from './loader'
 
 export const loader = loaderFn
 
 export const action = actionFn
 
-export const meta: V2_MetaFunction = () => [{ title: 'Password Forgotten' }]
+export const meta: MetaFunction = () => [{ title: 'Password Forgotten' }]
 
 export default function PasswordForgottenPage() {
 	const id = useId()
 	const [searchParams] = useSearchParams()
-	const passwordForgotten = useFetcher()
-	const actionData = passwordForgotten.data
-	const lastSubmission = actionData?.submission
+	const passwordForgotten = useFetcher<typeof action>()
+
+	const lastSubmission = passwordForgotten.data
+		? passwordForgotten.data.submission
+		: undefined
 
 	const [form, { email }] = useForm({
 		constraint: getFieldsetConstraint(schema),
@@ -39,7 +41,7 @@ export default function PasswordForgottenPage() {
 	return (
 		<div className="flex min-h-full flex-col justify-center">
 			<div className="mx-auto w-full max-w-md px-8">
-				{passwordForgotten.state === 'idle' && !actionData?.ok ? (
+				{passwordForgotten.state === 'idle' && !passwordForgotten.data?.ok ? (
 					<passwordForgotten.Form
 						method="POST"
 						className="space-y-6"

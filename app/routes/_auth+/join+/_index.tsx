@@ -1,4 +1,6 @@
-import type { V2_MetaFunction } from '@remix-run/node'
+import { conform, useForm } from '@conform-to/react'
+import { getFieldsetConstraint, parse } from '@conform-to/zod'
+import type { MetaFunction } from '@remix-run/node'
 import {
 	Form,
 	Link,
@@ -6,19 +8,17 @@ import {
 	useNavigation,
 	useSearchParams,
 } from '@remix-run/react'
-import { conform, useForm } from '@conform-to/react'
-import { getFieldsetConstraint, parse } from '@conform-to/zod'
 import { useId, useState } from 'react'
 
+import { GeneralErrorBoundary } from '~/components/error-boundary'
 import { actionFn, clientSchema } from './action'
 import { loaderFn } from './loader'
-import { GeneralErrorBoundary } from '~/components/error-boundary'
 
 export const loader = loaderFn
 
 export const action = actionFn
 
-export const meta: V2_MetaFunction = () => [{ title: 'Sign Up' }]
+export const meta: MetaFunction = () => [{ title: 'Sign Up' }]
 
 export default function Join() {
 	const id = useId()

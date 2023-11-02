@@ -1,9 +1,9 @@
 import { parse } from '@conform-to/zod'
+import { ActionFunctionArgs, json, redirect } from '@remix-run/node'
 import { z } from 'zod'
-import { RESET_PASSWORD_SESSION_KEY } from './constants'
-import { json, redirect, type ActionArgs } from '@remix-run/node'
 import { prisma } from '~/utils/db.server'
 import { commitSession, getSession } from '~/utils/session.server'
+import { RESET_PASSWORD_SESSION_KEY } from './constants'
 
 export const schema = z
 	.object({
@@ -17,7 +17,7 @@ export const schema = z
 		path: ['passwordConfirm'],
 	})
 
-export const actionFn = async ({ request }: ActionArgs) => {
+export const actionFn = async ({ request }: ActionFunctionArgs) => {
 	const formData = await request.formData()
 	const submission = parse(formData, { schema })
 

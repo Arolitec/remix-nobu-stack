@@ -10,13 +10,13 @@ import {
 import { useId } from 'react'
 import { actionFn, clientSchema, validate } from './action'
 
-import { json, type LoaderArgs, type V2_MetaFunction } from '@remix-run/node'
+import { LoaderFunctionArgs, MetaFunction, json } from '@remix-run/node'
 import { GeneralErrorBoundary } from '~/components/error-boundary'
 import { requireAnonymous } from '~/utils/auth.server'
 
-export const meta: V2_MetaFunction = () => [{ title: 'Verify Your Email' }]
+export const meta: MetaFunction = () => [{ title: 'Verify Your Email' }]
 
-export const loader = async ({ request }: LoaderArgs) => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
 	await requireAnonymous(request)
 
 	const searchParams = new URL(request.url).searchParams

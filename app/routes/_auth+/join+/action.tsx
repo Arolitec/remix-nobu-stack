@@ -1,7 +1,7 @@
 import { parse } from '@conform-to/zod'
 import { type User } from '@prisma/client'
 import { render } from '@react-email/render'
-import { json, type ActionArgs } from '@remix-run/node'
+import { json, type ActionFunctionArgs } from '@remix-run/node'
 import { FormStrategy } from 'remix-auth-form'
 import { z } from 'zod'
 import { authenticator } from '~/utils/auth.server'
@@ -28,15 +28,13 @@ const schema = clientSchema.superRefine(async (data, ctx) => {
 			message: 'A user already exists with this email',
 			path: ['email'],
 		})
-		return
 	}
 })
 
-export const actionFn = async ({ request }: ActionArgs) => {
+export const actionFn = async ({ request }: ActionFunctionArgs) => {
 	const formData = await request.formData()
 	const submission = await parse(formData, {
 		schema,
-		acceptMultipleErrors: () => true,
 		async: true,
 	})
 	const redirectTo = safeRedirect(formData.get('redirectTo'), '/')

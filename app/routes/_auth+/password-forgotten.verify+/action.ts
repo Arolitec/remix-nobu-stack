@@ -1,6 +1,6 @@
 import { parse } from '@conform-to/zod'
+import { ActionFunctionArgs, json, redirect } from '@remix-run/node'
 import { z } from 'zod'
-import { json, redirect, type ActionArgs } from '@remix-run/node'
 import { prisma } from '~/utils/db.server'
 import { verifyTOTP } from '~/utils/otp.server'
 import { commitSession, getSession } from '~/utils/session.server'
@@ -46,11 +46,10 @@ const schema = clientSchema.superRefine(async (object, ctx) => {
 			message: 'Invalid OTP',
 			path: ['otp'],
 		})
-		return
 	}
 })
 
-export const actionFn = async ({ request }: ActionArgs) => {
+export const actionFn = async ({ request }: ActionFunctionArgs) => {
 	const formData = await request.formData()
 
 	return validate(request, formData)
@@ -63,7 +62,6 @@ export async function validate(
 	const submission = await parse(formData, {
 		schema: schema,
 		async: true,
-		acceptMultipleErrors: () => true,
 	})
 
 	if (!submission.value || submission.intent !== 'submit')

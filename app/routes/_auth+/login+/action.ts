@@ -1,6 +1,6 @@
 import { parse } from '@conform-to/zod'
 import type { User } from '@prisma/client'
-import { json, type ActionArgs } from '@remix-run/node'
+import { ActionFunctionArgs, json } from '@remix-run/node'
 import { FormStrategy } from 'remix-auth-form'
 import invariant from 'tiny-invariant'
 import { z } from 'zod'
@@ -9,13 +9,15 @@ import { authenticator, createUserSession } from '~/utils/auth.server'
 import { safeRedirect } from '~/utils/redirect'
 
 export const schema = z.object({
-	email: z.coerce.string().email('You must enter a valid mail address'),
-	password: z.coerce.string().min(1, 'You must enter a password'),
-	redirectTo: z.coerce.string().min(1, 'Redirect URL is required'),
+	email: z
+		.string({ required_error: 'You must enter an e-mail address' })
+		.email('You must enter a valid mail address'),
+	password: z.string({ required_error: 'You must enter a password' }),
+	redirectTo: z.string({ required_error: 'Redirect URL is required' }),
 	remember: z.coerce.string().nullable(),
 })
 
-export const actionFn = async ({ request }: ActionArgs) => {
+export const actionFn = async ({ request }: ActionFunctionArgs) => {
 	const formData = await request.formData()
 	const submission = parse(formData, { schema })
 
@@ -48,7 +50,7 @@ export const actionFn = async ({ request }: ActionArgs) => {
 		return json(
 			{
 				...submission,
-				error: { '': 'Invalid email/password' },
+				error: { '': ['Invalid email/password'] },
 			} as const,
 			{ status: 400 },
 		)

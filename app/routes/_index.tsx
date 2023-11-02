@@ -1,10 +1,10 @@
-import type { V2_MetaFunction } from '@remix-run/node'
+import type { MetaFunction } from '@remix-run/node'
 import { Form, Link } from '@remix-run/react'
 import { GeneralErrorBoundary } from '~/components/error-boundary'
 
 import { useOptionalUser } from '~/utils/user'
 
-export const meta: V2_MetaFunction = () => [{ title: 'Nobu Stack' }]
+export const meta: MetaFunction = () => [{ title: 'Nobu Stack' }]
 
 export default function Index() {
 	const user = useOptionalUser()

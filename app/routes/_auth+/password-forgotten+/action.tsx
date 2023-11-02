@@ -1,20 +1,20 @@
 import { parse } from '@conform-to/zod'
+import { type User } from '@prisma/client'
 import { render } from '@react-email/render'
+import { ActionFunctionArgs, json } from '@remix-run/node'
 import invariant from 'tiny-invariant'
 import { z } from 'zod'
-import VerifyEmail from './verify.email.server'
-import { json, type ActionArgs } from '@remix-run/node'
-import { type User } from '@prisma/client'
 import { prisma } from '~/utils/db.server'
 import { sendMail } from '~/utils/mailer.server'
 import { generateTOTP } from '~/utils/otp.server'
 import { getDomain } from '~/utils/url.server'
+import VerifyEmail from './verify.email.server'
 
 export const schema = z.object({
 	email: z.coerce.string().email('You must enter a valid mail address'),
 })
 
-export const actionFn = async ({ request }: ActionArgs) => {
+export const actionFn = async ({ request }: ActionFunctionArgs) => {
 	const formData = await request.formData()
 	const submission = parse(formData, { schema })
 
@@ -27,7 +27,10 @@ export const actionFn = async ({ request }: ActionArgs) => {
 	if (!user) {
 		// Early return if user does not exists
 		// He won't be able to enter a valid OTP anyway
-		return json({ ok: true, submission: undefined } as const)
+		return json({
+			ok: true,
+			submission: { payload: {}, error: {}, intent: '' },
+		} as const)
 	}
 
 	invariant(user, 'User must be defined')
@@ -49,7 +52,10 @@ export const actionFn = async ({ request }: ActionArgs) => {
 
 	await sendVerifyEmail(user, { otp, verifyLink: verifyLink.toString() })
 
-	return json({ ok: true, submission: undefined } as const)
+	return json({
+		ok: true,
+		submission: { payload: {}, error: {}, intent: '' },
+	} as const)
 }
 
 function sendVerifyEmail(
