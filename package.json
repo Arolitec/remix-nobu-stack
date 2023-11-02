@@ -20,7 +20,7 @@
     "test": "vitest",
     "test:e2e:dev": "start-server-and-test dev http://localhost:3000 \"npx cypress open\"",
     "pretest:e2e:run": "yarn build",
-    "test:e2e:run": "cross-env PORT=3000 start-server-and-test start:mocks http://127.0.0.1:3000 \"npx cypress run --browser chromium --headless\"",
+    "test:e2e:run": "cross-env PORT=3000 start-server-and-test start:mocks http://127.0.0.1:8811 \"npx cypress run --browser chromium --headless\"",
     "typecheck": "tsc && tsc -p cypress",
     "validate": "run-p \"test -- --run\" lint typecheck test:e2e:run"
   },
