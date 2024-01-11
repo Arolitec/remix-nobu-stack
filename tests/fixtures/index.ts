@@ -1,7 +1,7 @@
 import { test as base } from '@playwright/test'
 import { installGlobals } from '@remix-run/node'
-import { DatabaseSetup } from './db.fixture'
-import { SignUpPage } from './signup-page.fixture'
+import { DatabaseSetup } from './db'
+import { SignUpPage } from './signup-page'
 
 installGlobals()
 
