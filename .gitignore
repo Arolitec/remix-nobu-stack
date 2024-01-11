@@ -17,3 +17,7 @@ node_modules
 /postgres-data
 .vscode
 .idea
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
