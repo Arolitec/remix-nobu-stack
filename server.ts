@@ -124,7 +124,7 @@ async function run() {
 	async function createDevRequestHandler(
 		initialBuild: ServerBuild,
 	): Promise<RequestHandler> {
-		let build = initialBuild
+		let build = withServerDevTools(initialBuild, defineServerConfig(rdtConfig))
 		async function handleServerUpdate() {
 			// 1. re-import the server build
 			build = await reimportServer()
