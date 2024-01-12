@@ -1,4 +1,4 @@
-import { LoaderFunctionArgs, json, redirect } from '@remix-run/node'
+import { json, redirect, type LoaderFunctionArgs } from '@remix-run/node'
 import { getUserId } from '~/utils/auth.server'
 
 export const loaderFn = async ({ request }: LoaderFunctionArgs) => {

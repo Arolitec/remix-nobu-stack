@@ -1,6 +1,6 @@
 import { conform, useForm } from '@conform-to/react'
 import { getFieldsetConstraint, parse } from '@conform-to/zod'
-import { MetaFunction } from '@remix-run/node'
+import { type MetaFunction } from '@remix-run/node'
 import { Link, useFetcher, useSearchParams } from '@remix-run/react'
 import MailCheckIcon from 'remixicon-react/MailCheckLineIcon'
 

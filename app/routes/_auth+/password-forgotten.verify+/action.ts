@@ -1,5 +1,5 @@
 import { parse } from '@conform-to/zod'
-import { ActionFunctionArgs, json, redirect } from '@remix-run/node'
+import { json, redirect, type ActionFunctionArgs } from '@remix-run/node'
 import { z } from 'zod'
 import { prisma } from '~/utils/db.server'
 import { verifyTOTP } from '~/utils/otp.server'
