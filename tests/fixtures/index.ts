@@ -24,6 +24,7 @@ type Fixtures = {
 }
 
 const test = base.extend<Fixtures>({
+	// eslint-disable-next-line no-empty-pattern
 	setupDb: async ({}, use) => {
 		await use(async () => {
 			await execa('yarn', ['prisma', 'migrate', 'reset', '-f'], {
