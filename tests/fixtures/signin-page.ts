@@ -1,10 +1,9 @@
 import type { BrowserContext, Locator, Page } from '@playwright/test'
 
-export class SignUpPage {
+export class SignInPage {
 	public readonly emailField: Locator
 	public readonly passwordField: Locator
-	public readonly showPasswordButton: Locator
-	public readonly hidePasswordButton: Locator
+	public readonly rememberMeCheckbox: Locator
 	public readonly submitButton: Locator
 
 	constructor(
@@ -13,31 +12,23 @@ export class SignUpPage {
 	) {
 		this.emailField = this.page.getByRole('textbox', { name: /email address/i })
 		this.passwordField = this.page.getByRole('textbox', { name: /password/i })
-		this.showPasswordButton = this.page.getByRole('button', { name: /show/i })
-		this.hidePasswordButton = this.page.getByRole('button', { name: /hide/i })
-		this.submitButton = this.page.getByRole('button', {
-			name: /create account/i,
+		this.rememberMeCheckbox = this.page.getByRole('checkbox', {
+			name: /remember me/i,
 		})
+		this.submitButton = this.page.getByRole('button', { name: /log in/i })
 	}
 
 	async goTo() {
-		await this.page.goto('/join')
+		await this.page.goto('/login')
 	}
 
-	async fillInputs(email: string, password: string) {
+	async fillInputs(email: string, password: string, rememberMe = false) {
 		await this.emailField.fill(email)
 		await this.passwordField.fill(password)
+		if (rememberMe) await this.rememberMeCheckbox.check()
 	}
 
 	async submit() {
 		await this.submitButton.click()
-	}
-
-	async showPassword() {
-		await this.showPasswordButton.click()
-	}
-
-	async hidePassword() {
-		await this.hidePasswordButton.click()
 	}
 }
