@@ -32,6 +32,7 @@ const test = base.extend<Fixtures>({
 			})
 		})
 	},
+	// eslint-disable-next-line no-empty-pattern
 	createUser: async ({}, use) => {
 		await use(
 			(
