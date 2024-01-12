@@ -7,6 +7,8 @@ import execa from 'execa'
 import { createSessionCookie } from 'utils/auth'
 import { prisma } from '~/utils/db.server'
 import { generateTOTP } from '~/utils/otp.server'
+import { PasswordForgottenPage } from './password-forgotten-page'
+import { PasswordResetPage } from './password-rest-page'
 import { SignInPage } from './signin-page'
 import { SignUpPage } from './signup-page'
 
@@ -21,6 +23,8 @@ type Fixtures = {
 	getSessionCookie: () => Promise<Cookie>
 	signupPage: SignUpPage
 	signInPage: SignInPage
+	passwordForgottenPage: PasswordForgottenPage
+	passwordResetPage: PasswordResetPage
 }
 
 const test = base.extend<Fixtures>({
@@ -96,6 +100,12 @@ const test = base.extend<Fixtures>({
 	},
 	signInPage: async ({ page, context }, use) => {
 		await use(new SignInPage(page, context))
+	},
+	passwordForgottenPage: async ({ page }, use) => {
+		await use(new PasswordForgottenPage(page))
+	},
+	passwordResetPage: async ({ page }, use) => {
+		await use(new PasswordResetPage(page))
 	},
 })
 
