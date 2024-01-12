@@ -4,9 +4,9 @@ import { test as base } from '@playwright/test'
 import type { User } from '@prisma/client'
 import { installGlobals } from '@remix-run/node'
 import execa from 'execa'
-import { createSessionCookie } from 'utils/auth'
 import { prisma } from '~/utils/db.server'
 import { generateTOTP } from '~/utils/otp.server'
+import { createSessionCookie } from '../utils/auth'
 import { PasswordForgottenPage } from './password-forgotten-page'
 import { PasswordResetPage } from './password-rest-page'
 import { SignInPage } from './signin-page'
@@ -20,7 +20,7 @@ type Fixtures = {
 	createManyUsers: (count: number) => Promise<User[]>
 	createVerification: (email?: string) => Promise<string>
 	login: (email?: string, password?: string) => Promise<void>
-	getSessionCookie: () => Promise<Cookie>
+	getSessionCookie: () => Promise<Cookie | undefined>
 	signupPage: SignUpPage
 	signInPage: SignInPage
 	passwordForgottenPage: PasswordForgottenPage
