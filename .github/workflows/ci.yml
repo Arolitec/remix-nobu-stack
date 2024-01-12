@@ -106,6 +106,7 @@ jobs:
           ARGON_SECRET_KEY: 'b08d6553c95cbe0129b26134b8e83065927d35eda58c6f2a7573d81b6316d881'
           SUPER_ADMIN_EMAIL: 'admin@example.com'
           SUPER_ADMIN_PASSWORD: 'Password$2023'
+          DATABASE_URL: 'postgresql://postgres:postgres@localhost:5432/postgres'
 
       - name: 📥 Install Playwright Browsers
         run: yarn playwright install --with-deps
