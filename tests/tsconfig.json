@@ -4,6 +4,7 @@
         "paths": {
             "~/*": ["../app/*"]
         },
-        "esModuleInterop": true
+        "esModuleInterop": true,
+        "skipLibCheck": true
     }
 }
