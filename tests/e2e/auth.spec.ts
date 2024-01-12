@@ -2,8 +2,8 @@ import { expect, test } from '../fixtures'
 import { generateUserCredentials } from '../utils/user'
 
 test.describe('register', async () => {
-	test.beforeAll(async ({ db }) => {
-		await db.setup()
+	test.beforeAll(async ({ setupDb }) => {
+		await setupDb()
 	})
 
 	test.beforeEach(async ({ page }) => {
@@ -17,6 +17,7 @@ test.describe('register', async () => {
 	test('should allow user to register and get redirected to "/" page', async ({
 		page,
 		signupPage,
+		getSessionCookie,
 	}) => {
 		const user = generateUserCredentials()
 		await signupPage.fillInputs(user.email, user.password)
@@ -26,7 +27,7 @@ test.describe('register', async () => {
 		await expect(page).toHaveURL('/')
 		await expect(page.getByText(new RegExp(user.email, 'i'))).toBeVisible()
 
-		await expect(signupPage.getSessionCookie()).toBeDefined()
+		expect(getSessionCookie()).toBeDefined()
 	})
 
 	test('should display error message if email or password are invalid', async ({
@@ -48,12 +49,12 @@ test.describe('register', async () => {
 	})
 
 	test('should display error message if email is already taken', async ({
-		db,
+		createUser,
 		signupPage,
 		page,
 	}) => {
 		const user = generateUserCredentials()
-		await db.user.create(user.email, user.password)
+		await createUser(user.email, user.password)
 
 		const userWithSameEmail = generateUserCredentials(user.email)
 
@@ -77,5 +78,66 @@ test.describe('register', async () => {
 
 		await signupPage.hidePassword()
 		await expect(signupPage.passwordField).toHaveAttribute('type', 'password')
+	})
+})
+
+test.describe('[logged in] signin', async () => {
+	test.beforeAll(async ({ setupDb }) => {
+		await setupDb()
+	})
+
+	test.beforeEach(async ({ login }) => {
+		await login()
+	})
+
+	test('should redirect to "/" page', async ({ page }) => {
+		await page.goto('/join')
+		await expect(page).toHaveURL('/')
+
+		await expect(page.getByText(/logout/i)).toBeVisible()
+		await expect(page.getByText(/@example.com/i)).toBeVisible()
+	})
+})
+
+test.describe('[logged out] sign in', async () => {
+	test.beforeAll(async ({ setupDb }) => {
+		await setupDb()
+	})
+
+	test.beforeEach(async ({ signInPage }) => {
+		signInPage.goTo()
+	})
+
+	test('should login', async ({
+		page,
+		createUser,
+		signInPage,
+		getSessionCookie,
+	}) => {
+		const credentials = generateUserCredentials()
+		await createUser(credentials.email, credentials.password)
+
+		await signInPage.fillInputs(credentials.email, credentials.password)
+		await signInPage.submit()
+
+		await expect(page).toHaveURL('/')
+
+		expect(getSessionCookie()).toBeDefined()
+	})
+
+	test('should display error message if email or password are invalid', async ({
+		signInPage,
+		page,
+	}) => {
+		const badCredentials = generateUserCredentials()
+		await signInPage.fillInputs(badCredentials.email, badCredentials.password)
+
+		await signInPage.submit()
+
+		await expect(
+			signInPage.page.getByText(/invalid email\/password/i),
+		).toBeVisible()
+
+		await expect(page).not.toHaveURL('/')
 	})
 })
