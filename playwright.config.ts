@@ -37,9 +37,9 @@ export default defineConfig({
 		},
 	],
 	webServer: {
-		command: `yarn start-server-and-test ${
-			process.env.CI ? 'start:mocks' : 'dev'
-		} http://127.0.0.1:${PORT}`,
+		command: process.env.CI
+			? 'yarn start:mocks'
+			: `yarn start-server-and-test dev http://127.0.0.1:${PORT}`,
 		reuseExistingServer: !process.env.CI,
 		port: Number(PORT),
 		stderr: 'pipe',
