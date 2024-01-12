@@ -1,13 +1,14 @@
 import { faker } from '@faker-js/faker'
 
-export function generateUserCredentials(email?: string, password?: string) {
-	if (!email.endsWith('@example.com')) {
-		throw new Error('Email must be an example.com email')
-	}
+export function generateUserCredentials(
+	email = faker.internet.email({ provider: 'example.com' }),
+	password = faker.internet.password({ length: 8, memorable: false }),
+) {
+	if (!email.endsWith('@example.com'))
+		throw new Error('Email must be @example.com')
 
 	return {
-		email: email ?? faker.internet.email({ provider: 'example.com' }),
-		password:
-			password ?? faker.internet.password({ length: 8, memorable: false }),
+		email: email,
+		password: password,
 	}
 }
