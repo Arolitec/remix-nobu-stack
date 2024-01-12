@@ -110,10 +110,13 @@ jobs:
       - name: 📥 Install Playwright Browsers
         run: yarn playwright install --with-deps
 
+      - name: ⚙️ Build
+        run: yarn build
+
       - name: 🌳 Run Playwright tests
         run: yarn playwright test --shard ${{ matrix.shard }}
         env:
-          PORT: 8811
+          PORT: 3000
           SUPER_ADMIN_EMAIL: 'admin@example.com'
           SUPER_ADMIN_PASSWORD: 'Password$2023'
           COOKIE_SECRETS: 'efaad8733a638c8c2408cff29ab9159b'
