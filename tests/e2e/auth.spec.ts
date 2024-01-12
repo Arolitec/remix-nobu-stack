@@ -1,6 +1,8 @@
 import { expect, test } from '../fixtures'
 import { generateUserCredentials } from '../utils/user'
 
+test.describe.configure({ mode: 'serial' })
+
 test.describe('register', async () => {
 	test.beforeAll(async ({ setupDb }) => {
 		await setupDb()
@@ -81,7 +83,7 @@ test.describe('register', async () => {
 	})
 })
 
-test.describe('[logged in] signin', async () => {
+test.describe('[logged in] sign in', async () => {
 	test.beforeAll(async ({ setupDb }) => {
 		await setupDb()
 	})
@@ -139,5 +141,61 @@ test.describe('[logged out] sign in', async () => {
 		).toBeVisible()
 
 		await expect(page).not.toHaveURL('/')
+	})
+})
+
+test.describe('reset password', async () => {
+	test.beforeAll(async ({ setupDb }) => {
+		await setupDb()
+	})
+
+	test('should allow user to request a password reset', async ({
+		passwordForgottenPage,
+		page,
+	}) => {
+		passwordForgottenPage.goTo()
+
+		const email = generateUserCredentials().email
+		await passwordForgottenPage.fillEmail(email)
+
+		await passwordForgottenPage.submit()
+
+		await expect(page.getByText(/we have sent you an e-mail/i)).toBeVisible()
+	})
+
+	test('should allow user to reset password with valid otp', async ({
+		passwordForgottenPage,
+		passwordResetPage,
+		page,
+		createVerification,
+		createUser,
+	}) => {
+		const credentials = generateUserCredentials()
+		await createUser(credentials.email, credentials.password)
+		const otp = await createVerification(credentials.email)
+
+		await passwordForgottenPage.goToVerify(credentials.email, otp)
+
+		await expect(page).toHaveURL('/reset-password')
+
+		const password = generateUserCredentials().password
+		await passwordResetPage.fillFields(password, password)
+
+		await passwordResetPage.submit()
+
+		await expect(page).toHaveURL('/login')
+	})
+
+	test('should show error message if otp is invalid', async ({
+		passwordForgottenPage,
+		page,
+	}) => {
+		const email = generateUserCredentials().email
+		const otp = '123445'
+
+		passwordForgottenPage.goToVerify(email, otp)
+
+		await expect(page.getByText(/invalid otp/i)).toBeVisible()
+		await expect(page).toHaveURL(/password-forgotten\/verify?.*/)
 	})
 })
