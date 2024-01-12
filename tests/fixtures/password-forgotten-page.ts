@@ -15,7 +15,7 @@ export class PasswordForgottenPage {
 		await this.page.goto('/password-forgotten')
 	}
 
-	async goToVerify(email: string, otp) {
+	async goToVerify(email: string, otp: string) {
 		await this.page.goto(`/password-forgotten/verify?email=${email}&otp=${otp}`)
 	}
 
