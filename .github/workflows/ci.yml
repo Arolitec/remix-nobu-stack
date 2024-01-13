@@ -115,7 +115,7 @@ jobs:
         run: yarn build
 
       - name: 🌳 Run Playwright tests
-        run: npx playwright test --shard ${{ matrix.shard }}
+        run: yarn playwright test --shard ${{ matrix.shard }}
         env:
           PORT: 3000
           SUPER_ADMIN_EMAIL: 'admin@example.com'
@@ -126,6 +126,7 @@ jobs:
           SMTP_FROM: 'no-reply@example.com'
           SMTP_FROM_NAME: 'Nobu Stack'
           ARGON_SECRET_KEY: 'b08d6553c95cbe0129b26134b8e83065927d35eda58c6f2a7573d81b6316d881'
+          DATABASE_URL: 'postgresql://postgres:postgres@localhost:5432/postgres'
 
       - name: 🌎 Upload blob report to GitHub Actions Artifacts
         uses: actions/upload-artifact@v3
