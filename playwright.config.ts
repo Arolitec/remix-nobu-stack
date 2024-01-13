@@ -45,7 +45,7 @@ export default defineConfig({
 		port: Number(PORT),
 		stderr: 'pipe',
 		stdout: 'pipe',
-		timeout: 30 * 1000,
+		timeout: 10 * 1000,
 		env: {
 			PORT,
 		},
