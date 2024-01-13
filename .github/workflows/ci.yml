@@ -115,7 +115,7 @@ jobs:
         run: yarn build
 
       - name: 🌳 Run Playwright tests
-        run: yarn playwright test --shard ${{ matrix.shard }}
+        run: npx playwright test --shard ${{ matrix.shard }}
         env:
           PORT: 3000
           SUPER_ADMIN_EMAIL: 'admin@example.com'
