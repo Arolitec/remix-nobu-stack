@@ -57,5 +57,7 @@ const test = base.extend<Fixtures>({
 	},
 })
 
+test.describe.configure({ mode: process.env.CI ? 'parallel' : 'serial' })
+
 export { expect } from '@playwright/test'
 export { test }

@@ -2,8 +2,6 @@ import { createUser, createVerification, setupDb } from '@utils/db'
 import { generateUserCredentials } from '@utils/user'
 import { expect, test } from '../fixtures'
 
-test.describe.configure({ mode: 'serial' })
-
 test.describe('register', async () => {
 	test.beforeAll(async () => {
 		await setupDb()
