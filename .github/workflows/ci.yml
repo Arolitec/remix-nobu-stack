@@ -109,7 +109,7 @@ jobs:
           DATABASE_URL: 'postgresql://postgres:postgres@localhost:5432/postgres'
 
       - name: 📥 Install Playwright Browsers
-        run: yarn playwright install --with-deps
+        run: yarn playwright install --with-deps chromium
 
       - name: ⚙️ Build
         run: yarn build
@@ -170,55 +170,3 @@ jobs:
           name: html-report--attempt-${{ github.run_attempt }}
           path: playwright-report
           retention-days: 14
-
-  # cypress:
-  #   name: ⚫️ Cypress
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: ⬇️ Checkout repo
-  #       uses: actions/checkout@v4
-
-  #     - name: 🏄 Copy test env vars
-  #       run: cp .env.example .env
-
-  #     - name: ⎔ Setup node
-  #       uses: actions/setup-node@v4
-  #       with:
-  #         cache: yarn
-  #         cache-dependency-path: ./package.json
-  #         node-version: 18
-
-  #     - name: 📥 Install deps
-  #       run: yarn install
-
-  #     - name: 🐳 Docker compose
-  #       # the sleep is just there to give time for postgres to get started
-  #       run: docker-compose up -d && sleep 3
-  #       env:
-  #         DATABASE_URL: 'postgresql://postgres:postgres@localhost:5432/postgres'
-
-  #     - name: 🛠 Setup Database
-  #       run: yarn prisma migrate reset --force
-  #       env:
-  #         ARGON_SECRET_KEY: 'b08d6553c95cbe0129b26134b8e83065927d35eda58c6f2a7573d81b6316d881'
-  #         SUPER_ADMIN_EMAIL: 'admin@example.com'
-  #         SUPER_ADMIN_PASSWORD: 'Password$2023'
-
-  #     - name: ⚙️ Build
-  #       run: yarn build
-
-  #     - name: 🌳 Cypress run
-  #       uses: cypress-io/github-action@v6
-  #       with:
-  #         start: yarn start:mocks
-  #         wait-on: 'http://127.0.0.1:8811'
-  #       env:
-  #         PORT: 8811
-  #         SUPER_ADMIN_EMAIL: 'admin@example.com'
-  #         SUPER_ADMIN_PASSWORD: 'Password$2023'
-  #         COOKIE_SECRETS: 'efaad8733a638c8c2408cff29ab9159b'
-  #         SMTP_HOST: localhost
-  #         SMTP_PORT: 2525
-  #         SMTP_FROM: 'no-reply@example.com'
-  #         SMTP_FROM_NAME: 'Nobu Stack'
-  #         ARGON_SECRET_KEY: 'b08d6553c95cbe0129b26134b8e83065927d35eda58c6f2a7573d81b6316d881'
