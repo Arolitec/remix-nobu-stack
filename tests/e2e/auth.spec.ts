@@ -1,10 +1,11 @@
+import { createUser, createVerification, setupDb } from '@utils/db'
+import { generateUserCredentials } from '@utils/user'
 import { expect, test } from '../fixtures'
-import { generateUserCredentials } from '../utils/user'
 
 test.describe.configure({ mode: 'serial' })
 
 test.describe('register', async () => {
-	test.beforeAll(async ({ setupDb }) => {
+	test.beforeAll(async () => {
 		await setupDb()
 	})
 
@@ -51,7 +52,6 @@ test.describe('register', async () => {
 	})
 
 	test('should display error message if email is already taken', async ({
-		createUser,
 		signupPage,
 		page,
 	}) => {
@@ -84,7 +84,7 @@ test.describe('register', async () => {
 })
 
 test.describe('[logged in] sign in', async () => {
-	test.beforeAll(async ({ setupDb }) => {
+	test.beforeAll(async () => {
 		await setupDb()
 	})
 
@@ -102,7 +102,7 @@ test.describe('[logged in] sign in', async () => {
 })
 
 test.describe('[logged out] sign in', async () => {
-	test.beforeAll(async ({ setupDb }) => {
+	test.beforeAll(async () => {
 		await setupDb()
 	})
 
@@ -110,12 +110,7 @@ test.describe('[logged out] sign in', async () => {
 		signInPage.goTo()
 	})
 
-	test('should login', async ({
-		page,
-		createUser,
-		signInPage,
-		getSessionCookie,
-	}) => {
+	test('should login', async ({ page, signInPage, getSessionCookie }) => {
 		const credentials = generateUserCredentials()
 		await createUser(credentials.email, credentials.password)
 
@@ -145,7 +140,7 @@ test.describe('[logged out] sign in', async () => {
 })
 
 test.describe('reset password', async () => {
-	test.beforeAll(async ({ setupDb }) => {
+	test.beforeAll(async () => {
 		await setupDb()
 	})
 
@@ -167,8 +162,6 @@ test.describe('reset password', async () => {
 		passwordForgottenPage,
 		passwordResetPage,
 		page,
-		createVerification,
-		createUser,
 	}) => {
 		const credentials = generateUserCredentials()
 		await createUser(credentials.email, credentials.password)
