@@ -4,9 +4,13 @@ import { prisma } from '~/utils/db.server'
 import { generateTOTP } from '~/utils/otp.server'
 
 export async function setupDb() {
-	await execa('yarn', ['prisma', 'migrate', 'reset', '-f'], {
-		stdio: 'inherit',
-	})
+	await execa(
+		'yarn',
+		['prisma', 'migrate', 'reset', '--force', '--skip-generate'],
+		{
+			stdio: 'inherit',
+		},
+	)
 }
 
 export async function createUser(
