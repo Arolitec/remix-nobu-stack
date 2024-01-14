@@ -4,6 +4,7 @@ package-lock.json
 yarn.lock
 pnpm-lock.yaml
 pnpm-lock.yml
+yarn-error.log
 
 node_modules
 
@@ -16,3 +17,7 @@ node_modules
 /postgres-data
 .vscode
 .idea
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/

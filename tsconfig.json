@@ -1,5 +1,5 @@
 {
-  "exclude": ["./cypress", "./cypress.config.ts"],
+  "exclude": ["./tests"],
   "include": ["**/*.ts", "**/*.tsx", "vitest.config.ts"],
   "ts-node": {
     "compilerOptions": {

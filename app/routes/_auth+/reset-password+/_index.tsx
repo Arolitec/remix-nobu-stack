@@ -1,11 +1,7 @@
 import { conform, useForm } from '@conform-to/react'
 import { getFieldsetConstraint, parse } from '@conform-to/zod'
-import {
-	LoaderFunctionArgs,
-	MetaFunction,
-	json,
-	redirect,
-} from '@remix-run/node'
+import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node'
+import { json, redirect } from '@remix-run/node'
 import {
 	Form,
 	useActionData,

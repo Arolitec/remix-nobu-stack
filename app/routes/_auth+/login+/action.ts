@@ -1,6 +1,6 @@
 import { parse } from '@conform-to/zod'
 import type { User } from '@prisma/client'
-import { ActionFunctionArgs, json } from '@remix-run/node'
+import { json, type ActionFunctionArgs } from '@remix-run/node'
 import { FormStrategy } from 'remix-auth-form'
 import invariant from 'tiny-invariant'
 import { z } from 'zod'

@@ -1,5 +1,7 @@
 import { conform, useForm } from '@conform-to/react'
 import { getFieldsetConstraint, parse } from '@conform-to/zod'
+import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node'
+import { json } from '@remix-run/node'
 import {
 	Form,
 	useActionData,
@@ -8,11 +10,9 @@ import {
 	useSearchParams,
 } from '@remix-run/react'
 import { useId } from 'react'
-import { actionFn, clientSchema, validate } from './action'
-
-import { LoaderFunctionArgs, MetaFunction, json } from '@remix-run/node'
 import { GeneralErrorBoundary } from '~/components/error-boundary'
 import { requireAnonymous } from '~/utils/auth.server'
+import { actionFn, clientSchema, validate } from './action'
 
 export const meta: MetaFunction = () => [{ title: 'Verify Your Email' }]
 

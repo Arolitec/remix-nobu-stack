@@ -10,6 +10,7 @@ import {
 	ScrollRestoration,
 } from '@remix-run/react'
 
+import rdtStylesheet from 'remix-development-tools/index.css'
 import { getUser } from '~/utils/auth.server'
 import appStylesHref from './styles/app.css?inline'
 import tailwindStylesHref from './styles/tailwind.css?inline'
@@ -18,13 +19,16 @@ export const links: LinksFunction = () => [
 	{ rel: 'stylesheet', href: tailwindStylesHref },
 	{ rel: 'stylesheet', href: appStylesHref },
 	...(cssBundleHref ? [{ rel: 'stylesheet', href: cssBundleHref }] : []),
+	...(process.env.NODE_ENV === 'development'
+		? [{ rel: 'stylesheet', href: rdtStylesheet }]
+		: []),
 ]
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
 	return json({ user: await getUser(request) } as const)
 }
 
-export default function App() {
+function App() {
 	return (
 		<html lang="en" className="h-full">
 			<head>
@@ -42,3 +46,12 @@ export default function App() {
 		</html>
 	)
 }
+
+let AppExport = App
+
+if (process.env.NODE_ENV === 'development') {
+	const { withDevTools } = require('remix-development-tools')
+	AppExport = withDevTools(AppExport)
+}
+
+export default AppExport

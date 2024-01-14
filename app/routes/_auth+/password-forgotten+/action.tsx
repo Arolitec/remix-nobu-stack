@@ -1,7 +1,7 @@
 import { parse } from '@conform-to/zod'
 import { type User } from '@prisma/client'
 import { render } from '@react-email/render'
-import { ActionFunctionArgs, json } from '@remix-run/node'
+import { json, type ActionFunctionArgs } from '@remix-run/node'
 import invariant from 'tiny-invariant'
 import { z } from 'zod'
 import { prisma } from '~/utils/db.server'
