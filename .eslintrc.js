@@ -16,11 +16,4 @@ module.exports = {
 			version: 28,
 		},
 	},
-	overrides: [
-		{
-			// Prevent @remix-run/eslint-config/jest-testing-library to be applied on playwright tests
-			excludedFiles: ['tests/**/?(*.)+(spec|test).[jt]s'],
-			extends: ['@remix-run/eslint-config/jest-testing-library'],
-		},
-	],
 }
