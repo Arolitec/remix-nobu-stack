@@ -16,6 +16,7 @@ export default defineConfig({
 			'.*\\/node_modules\\/.*',
 			'.*\\/build\\/.*',
 			'.*\\/postgres-data\\/.*',
+			'.*\\/playwright-report\\/.*',
 		],
 	},
 })
