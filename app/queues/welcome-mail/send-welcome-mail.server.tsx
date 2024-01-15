@@ -5,7 +5,7 @@ import { sendMail } from '~/utils/mailer.server'
 import WelcomeEmail from './welcome.email.server'
 
 export default Queue(
-	'queue/send-welcome-mail',
+	'queues/welcome-mail/send-welcome-mail',
 	async (user: User) => {
 		const html = render(<WelcomeEmail username={user.email} />)
 
