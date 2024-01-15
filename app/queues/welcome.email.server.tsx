@@ -11,7 +11,7 @@ import {
 	Tailwind,
 	Text,
 } from '@react-email/components'
-import tailwindConfig from '../../../../tailwind.config'
+import tailwindConfig from '../../tailwind.config'
 
 interface WelcomeEmailProps {
 	username: string
