@@ -1,3 +1,3 @@
-import welcomeMailQueue from '~/queues/send-welcome-mail.server'
+import welcomeMailQueue from '~/queues/welcome-mail/send-welcome-mail.server'
 
 export const action = welcomeMailQueue
