@@ -18,6 +18,7 @@
     "setup": "prisma generate && prisma migrate deploy && prisma db seed",
     "start": "cross-env NODE_ENV=production node ./build/server.js",
     "start:mocks": "cross-env NODE_ENV=production node --require ./mocks --require dotenv/config ./build/server.js",
+    "start:e2e:prod": "run-p quirrel start:mocks",
     "test": "vitest",
     "test:e2e:dev": "cross-env PORT=3000 playwright test --ui --project=chromium",
     "pretest:e2e:run": "yarn build",
