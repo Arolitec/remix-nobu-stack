@@ -79,7 +79,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        shard: [1/4, 2/4, 3/4, 4/4]
+        shardIndex: [1, 2, 3, 4]
+        shardTotal: [4]
     steps:
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v3
@@ -115,7 +116,9 @@ jobs:
         run: yarn build
 
       - name: 🌳 Run Playwright tests
-        run: yarn playwright test --shard ${{ matrix.shard }}
+        run:
+          yarn playwright test --shard=${{ matrix.shardIndex }}/${{
+          matrix.shardTotal }}
         env:
           PORT: 3000
           SUPER_ADMIN_EMAIL: 'admin@example.com'
@@ -129,10 +132,10 @@ jobs:
           DATABASE_URL: 'postgresql://postgres:postgres@localhost:5432/postgres'
 
       - name: 🌎 Upload blob report to GitHub Actions Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: all-blob-reports
+          name: blob-report-${{ matrix.shardIndex }}
           path: blob-report
           retention-days: 1
 
@@ -156,16 +159,17 @@ jobs:
         run: yarn install
 
       - name: 🗄️ Download blob reports from GitHub Actions Artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
-          name: all-blob-reports
+          pattern: blob-report-*
           path: all-blob-reports
+          merge-multiple: true
 
       - name: ⛙ Merge into HTML Report
         run: npx playwright merge-reports --reporter html ./all-blob-reports
 
       - name: 🌎 Upload HTML report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: html-report--attempt-${{ github.run_attempt }}
           path: playwright-report
