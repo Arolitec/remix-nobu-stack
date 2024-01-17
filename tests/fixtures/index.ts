@@ -2,6 +2,7 @@ import type { Cookie } from '@playwright/test'
 import { test as base } from '@playwright/test'
 import { installGlobals } from '@remix-run/node'
 import { createSessionCookie } from '../utils/auth'
+import { HomePage } from './home-page'
 import { PasswordForgottenPage } from './password-forgotten-page'
 import { PasswordResetPage } from './password-rest-page'
 import { SignInPage } from './signin-page'
@@ -16,6 +17,7 @@ type Fixtures = {
 	signInPage: SignInPage
 	passwordForgottenPage: PasswordForgottenPage
 	passwordResetPage: PasswordResetPage
+	homePage: HomePage
 }
 
 const test = base.extend<Fixtures>({
@@ -54,6 +56,9 @@ const test = base.extend<Fixtures>({
 	},
 	passwordResetPage: async ({ page }, use) => {
 		await use(new PasswordResetPage(page))
+	},
+	homePage: async ({ page }, use) => {
+		await use(new HomePage(page))
 	},
 })
 
