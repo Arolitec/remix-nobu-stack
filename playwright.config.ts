@@ -38,7 +38,7 @@ export default defineConfig({
 		},
 	],
 	webServer: {
-		command: process.env.CI ? 'yarn start:e2e:prod' : `yarn dev`,
+		command: process.env.CI ? 'yarn test:e2e:prod' : `yarn dev`,
 		reuseExistingServer: !process.env.CI,
 		port: Number(PORT),
 		stderr: 'pipe',
