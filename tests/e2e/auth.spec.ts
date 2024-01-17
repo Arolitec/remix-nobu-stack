@@ -5,7 +5,7 @@ import { createUser, createVerification, setupDb } from '@utils/db'
 import { generateUserCredentials } from '@utils/user'
 import { expect, test } from '../fixtures'
 
-test.describe('register', async () => {
+test.describe('register', () => {
 	test.beforeAll(async () => {
 		await setupDb()
 	})
@@ -84,7 +84,7 @@ test.describe('register', async () => {
 	})
 })
 
-test.describe('[logged in] sign in', async () => {
+test.describe('[logged in] sign in', () => {
 	test.beforeAll(async () => {
 		await setupDb()
 	})
@@ -102,7 +102,7 @@ test.describe('[logged in] sign in', async () => {
 	})
 })
 
-test.describe('[logged out] sign in', async () => {
+test.describe('[logged out] sign in', () => {
 	test.beforeAll(async () => {
 		await setupDb()
 	})
@@ -140,7 +140,7 @@ test.describe('[logged out] sign in', async () => {
 	})
 })
 
-test.describe('reset password', async () => {
+test.describe('reset password', () => {
 	test.beforeAll(async () => {
 		await setupDb()
 	})
