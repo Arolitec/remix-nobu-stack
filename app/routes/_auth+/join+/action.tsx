@@ -1,14 +1,11 @@
 import { parse } from '@conform-to/zod'
-import { type User } from '@prisma/client'
-import { render } from '@react-email/render'
 import { json, type ActionFunctionArgs } from '@remix-run/node'
 import { FormStrategy } from 'remix-auth-form'
 import { z } from 'zod'
+import sendWelcomeEmailQueue from '~/queues/send-welcome-mail/send-welcome-mail.server'
 import { authenticator } from '~/utils/auth.server'
 import { prisma } from '~/utils/db.server'
-import { sendMail } from '~/utils/mailer.server'
 import { safeRedirect } from '~/utils/redirect'
-import WelcomeEmail from './welcome.email.server'
 
 export const clientSchema = z.object({
 	email: z.coerce.string().email('You must enter a valid mail address'),
@@ -48,17 +45,10 @@ export const actionFn = async ({ request }: ActionFunctionArgs) => {
 		submission.value.password,
 	)
 
-	sendWelcomeEmail(user)
+	sendWelcomeEmailQueue.enqueue(user, { delay: '1s' })
 
 	return authenticator.authenticate(FormStrategy.name, request, {
 		successRedirect: redirectTo,
 		context: { formData },
 	})
-}
-
-function sendWelcomeEmail(user: User) {
-	const html = render(<WelcomeEmail username={user.email} />)
-	const subject = 'Welcome to Nobu Stack!'
-
-	return sendMail(user.email, subject, html)
 }
