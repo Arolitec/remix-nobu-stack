@@ -12,6 +12,7 @@ import { useId, useState } from 'react'
 
 import { GeneralErrorBoundary } from '~/components/error-boundary'
 import { actionFn, clientSchema } from './action'
+import { useRedirectTo } from './hooks/redirect'
 import { loaderFn } from './loader'
 
 export const loader = loaderFn
@@ -23,7 +24,7 @@ export const meta: MetaFunction = () => [{ title: 'Sign Up' }]
 export default function Join() {
 	const id = useId()
 	const [searchParams] = useSearchParams()
-	const redirectTo = searchParams.get('redirectTo') ?? undefined
+	const redirectTo = useRedirectTo()
 	const lastSubmission = useActionData<typeof action>()
 	const [form, { email, password }] = useForm({
 		constraint: getFieldsetConstraint(clientSchema),
@@ -101,7 +102,11 @@ export default function Join() {
 						</div>
 					</div>
 
-					<input type="hidden" name="redirectTo" value={redirectTo} />
+					<input
+						type="hidden"
+						name="redirectTo"
+						value={redirectTo ?? undefined}
+					/>
 					<button
 						type="submit"
 						className="btn-primary btn w-full"
