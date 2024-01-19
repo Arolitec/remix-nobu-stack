@@ -18,5 +18,8 @@ export default defineConfig({
 			'.*\\/postgres-data\\/.*',
 			'.*\\/playwright-report\\/.*',
 		],
+		poolMatchGlobs: [
+			['**/(loader|action).test.{js,mjs,cjs,ts,mts,cts}', 'forks'],
+		],
 	},
 })
