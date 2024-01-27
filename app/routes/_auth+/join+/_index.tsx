@@ -13,7 +13,7 @@ import { useId, useState } from 'react'
 import { GeneralErrorBoundary } from '~/components/error-boundary'
 import { actionFn, clientSchema } from './action'
 import { useRedirectTo } from './hooks/redirect'
-import { loaderFn } from './loader'
+import loaderFn from './loader'
 
 export const loader = loaderFn
 
