@@ -1,5 +1,5 @@
 {
-  "exclude": ["./tests"],
+  "exclude": ["./tests", "./app/**/*.(test|spec).ts"],
   "include": ["**/*.ts", "**/*.tsx", "vitest.config.ts"],
   "ts-node": {
     "compilerOptions": {
@@ -8,16 +8,16 @@
     }
   },
   "compilerOptions": {
-    "lib": ["DOM", "DOM.Iterable", "ES2023"],
+    "lib": ["DOM", "DOM.Iterable", "ES2022"],
     "types": ["vitest/globals"],
     "isolatedModules": true,
     "esModuleInterop": true,
     "jsx": "react-jsx",
-    "module": "ESNext",
+    "module": "ES2022",
     "moduleResolution": "Bundler",
     "noImplicitAny": true,
     "resolveJsonModule": true,
-    "target": "ESNext",
+    "target": "ES2022",
     "strict": true,
     "allowJs": true,
     "forceConsistentCasingInFileNames": true,
