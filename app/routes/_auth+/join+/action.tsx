@@ -28,7 +28,7 @@ const schema = clientSchema.superRefine(async (data, ctx) => {
   }
 })
 
-export default async ({ request }: ActionFunctionArgs) => {
+const action = async ({ request }: ActionFunctionArgs) => {
   const formData = await request.formData()
   const submission = await parse(formData, {
     schema,
@@ -52,3 +52,6 @@ export default async ({ request }: ActionFunctionArgs) => {
     context: { formData },
   })
 }
+
+export default action
+export type Action = typeof action
