@@ -3,7 +3,7 @@ import { useForm } from '@conform-to/react'
 import { getFieldsetConstraint, parse } from '@conform-to/zod'
 import { Form, Link, useActionData, useSearchParams } from '@remix-run/react'
 import PasswordInput from '~/components/form/password-input'
-import FormTextInput from '~/components/form/text-input'
+import TextInput from '~/components/form/text-input'
 import useSubmitting from '~/hooks/submit'
 import { clientSchema, type Action } from '../action'
 import { useRedirectTo } from '../hooks/redirect'
@@ -26,7 +26,7 @@ export default function JoinForm() {
 
 	return (
 		<Form method="post" className="space-y-6" {...form.props}>
-			<FormTextInput label="Email address" field={email} />
+			<TextInput label="Email address" field={email} />
 
 			<PasswordInput label="Password" field={password} />
 
