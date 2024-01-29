@@ -4,7 +4,7 @@ import { Label } from '#/label'
 import { conform, type FieldConfig } from '@conform-to/react'
 import { EyeClosedIcon, EyeOpenIcon } from '@radix-ui/react-icons'
 import { useCallback, useState } from 'react'
-import InputError from '~/components/input-error'
+import FieldError from '~/components/form/field-error'
 
 interface Props {
 	label: string
@@ -34,7 +34,7 @@ export default function PasswordInput({ label, field }: Readonly<Props>) {
 						{showPassword ? <EyeClosedIcon /> : <EyeOpenIcon />}
 					</Button>
 				</div>
-				<InputError field={field} />
+				<FieldError field={field} />
 			</div>
 		</div>
 	)

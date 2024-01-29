@@ -2,7 +2,7 @@ import { Input } from '#/input'
 import { Label } from '#/label'
 import type { FieldConfig } from '@conform-to/react'
 import { conform } from '@conform-to/react'
-import InputError from '~/components/input-error'
+import FieldError from '~/components/form/field-error'
 
 interface Props {
 	label: string
@@ -21,7 +21,7 @@ export default function TextInput({ label, field }: Readonly<Props>) {
 					autoFocus={true}
 					autoComplete="email"
 				/>
-				<InputError field={field} />
+				<FieldError field={field} />
 			</div>
 		</div>
 	)
