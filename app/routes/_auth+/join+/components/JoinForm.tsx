@@ -1,7 +1,7 @@
-import { Button } from '#/button'
 import { useForm } from '@conform-to/react'
 import { getFieldsetConstraint, parse } from '@conform-to/zod'
 import { Form, Link, useActionData, useSearchParams } from '@remix-run/react'
+import LoadingButton from '~/components/form/loading-button'
 import PasswordInput from '~/components/form/password-input'
 import TextInput from '~/components/form/text-input'
 import useSubmitting from '~/hooks/submit'
@@ -32,14 +32,15 @@ export default function JoinForm() {
 
 			<input type="hidden" name="redirectTo" value={redirectTo ?? undefined} />
 
-			<Button
+			<LoadingButton
 				type="submit"
 				variant="default"
 				className="w-full"
 				disabled={isSubmitting}
+				loading={isSubmitting}
 			>
 				{isSubmitting ? 'Please wait...' : 'Create Account'}
-			</Button>
+			</LoadingButton>
 
 			<div className="flex items-center justify-center pt-8">
 				<p className="text-center text-sm text-gray-500">
