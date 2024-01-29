@@ -9,7 +9,7 @@ interface Props {
 	field: FieldConfig<string>
 }
 
-export default function FormTextInput({ label, field }: Readonly<Props>) {
+export default function TextInput({ label, field }: Readonly<Props>) {
 	return (
 		<div className="mb-2">
 			<Label htmlFor={field.id}>{label}</Label>
