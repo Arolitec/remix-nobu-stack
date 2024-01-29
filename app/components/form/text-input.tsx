@@ -7,14 +7,24 @@ import FieldError from '~/components/form/field-error'
 interface Props {
 	label: string
 	field: FieldConfig<string>
+	LabelProps?: React.ComponentProps<typeof Label>
+	InputProps?: React.ComponentProps<typeof Input>
 }
 
-export default function TextInput({ label, field }: Readonly<Props>) {
+export default function TextInput({
+	label,
+	field,
+	LabelProps,
+	InputProps,
+}: Readonly<Props>) {
 	return (
 		<div className="mb-2">
-			<Label htmlFor={field.id}>{label}</Label>
+			<Label {...LabelProps} htmlFor={field.id}>
+				{label}
+			</Label>
 			<div className="mt-1">
 				<Input
+					{...InputProps}
 					{...conform.input(field, {
 						type: 'email',
 					})}
