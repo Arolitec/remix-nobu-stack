@@ -1,7 +1,7 @@
 import type { FieldConfig } from '@conform-to/react'
 import userEvent from '@testing-library/user-event'
 import PasswordInput from '~/components/form/password-input'
-import { render, screen } from '~/utils/test-helpers'
+import { render, screen } from '~/utils/testing'
 
 describe('PasswordInput', () => {
 	const field = {

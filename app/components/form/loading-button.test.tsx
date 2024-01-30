@@ -1,4 +1,4 @@
-import { render, screen } from '~/utils/test-helpers'
+import { render, screen } from '~/utils/testing'
 import LoadingButton from './loading-button'
 
 describe('LoadingButton', () => {

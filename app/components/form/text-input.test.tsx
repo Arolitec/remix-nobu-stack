@@ -1,5 +1,5 @@
 import type { FieldConfig } from '@conform-to/react'
-import { render, screen } from '~/utils/test-helpers'
+import { render, screen } from '~/utils/testing'
 import TextInput from './text-input'
 
 describe('TextInput', () => {
