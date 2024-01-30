@@ -26,9 +26,17 @@ export default function JoinForm() {
 
 	return (
 		<Form method="post" className="space-y-6" {...form.props}>
-			<TextInput label="Email address" field={email} />
+			<TextInput
+				label="Email address"
+				field={email}
+				InputProps={{ autoFocus: true, autoComplete: 'email' }}
+			/>
 
-			<PasswordInput label="Password" field={password} />
+			<PasswordInput
+				label="Password"
+				field={password}
+				InputProps={{ autoComplete: 'new-password' }}
+			/>
 
 			<input type="hidden" name="redirectTo" value={redirectTo ?? undefined} />
 
