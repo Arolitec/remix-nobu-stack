@@ -9,21 +9,30 @@ import FieldError from '~/components/form/field-error'
 interface Props {
 	label: string
 	field: FieldConfig<string>
+	InputProps?: React.ComponentProps<typeof Input>
+	LabelProps?: React.ComponentProps<typeof Label>
 }
 
-export default function PasswordInput({ label, field }: Readonly<Props>) {
+export default function PasswordInput({
+	label,
+	field,
+	LabelProps,
+	InputProps,
+}: Readonly<Props>) {
 	const [showPassword, togglePassword] = useToggle()
 
 	return (
 		<div className="mb-2">
-			<Label htmlFor={field.id}>Password</Label>
+			<Label {...LabelProps} htmlFor={field.id}>
+				{label}
+			</Label>
 			<div className="mt-1">
 				<div className="w-full relative">
 					<Input
 						{...conform.input(field, {
 							type: showPassword ? 'text' : 'password',
 						})}
-						autoComplete="new-password"
+						{...InputProps}
 					/>
 					<Button
 						type="button"
