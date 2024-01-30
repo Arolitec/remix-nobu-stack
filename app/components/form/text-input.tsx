@@ -24,12 +24,10 @@ export default function TextInput({
 			</Label>
 			<div className="mt-1">
 				<Input
-					{...InputProps}
 					{...conform.input(field, {
 						type: 'email',
 					})}
-					autoFocus={true}
-					autoComplete="email"
+					{...InputProps}
 				/>
 				<FieldError field={field} />
 			</div>
