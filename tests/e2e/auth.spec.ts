@@ -1,6 +1,3 @@
-/* eslint-disable testing-library/prefer-screen-queries */
-// disable a false positive on playwright's page queries.Seek a better solution
-
 import { createUser, createVerification, setupDb } from '@utils/db'
 import { generateUserCredentials } from '@utils/user'
 import { expect, test } from '../fixtures'
