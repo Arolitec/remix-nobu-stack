@@ -28,6 +28,7 @@ export default defineConfig({
 			},
 		},
 		coverage: {
+			provider: 'v8',
 			reporter: [process.env.CI ? 'json' : 'html'],
 			enabled: true,
 			clean: true,
