@@ -1,6 +1,6 @@
 import { createRemixStub } from '@remix-run/testing'
 import userEvent from '@testing-library/user-event'
-import { render, screen } from '~/utils/test-helpers'
+import { render, screen } from '~/utils/testing'
 import { JoinForm } from './join-form'
 
 const user = userEvent.setup()
@@ -13,15 +13,15 @@ vi.mock('~/queues/send-welcome-mail/send-welcome-mail.server', () => {
 	}
 })
 
+const RemixStub = createRemixStub([
+	{
+		path: '/',
+		Component: JoinForm,
+	},
+])
+
 describe('JoinForm', () => {
 	it('should render', async () => {
-		const RemixStub = createRemixStub([
-			{
-				path: '/',
-				Component: JoinForm,
-			},
-		])
-
 		render(<RemixStub />)
 
 		expect(await screen.findByLabelText(/email address/i)).toBeInTheDocument()
@@ -33,13 +33,6 @@ describe('JoinForm', () => {
 	})
 
 	it('should render the error if input are invalid on submit', async () => {
-		const RemixStub = createRemixStub([
-			{
-				path: '/',
-				Component: JoinForm,
-			},
-		])
-
 		render(<RemixStub />)
 
 		await user.type(screen.getByLabelText(/email address/i), 'email')
