@@ -12,7 +12,7 @@ export default defineConfig({
 		environment: 'happy-dom',
 		setupFiles: ['./test/setup-test-env.ts'],
 		include: ['./app/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
-		exclude: ['.tests/**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
+		exclude: ['./tests/**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
 		watchExclude: [
 			'.*\\/node_modules\\/.*',
 			'.*\\/build\\/.*',
@@ -31,6 +31,14 @@ export default defineConfig({
 			reporter: [process.env.CI ? 'json' : 'html'],
 			enabled: true,
 			clean: true,
+			exclude: [
+				'build/**',
+				'mocks/**',
+				'prisma/**',
+				'tests/**',
+				'types/**',
+				'.yarn/**',
+			],
 		},
 	},
 })
