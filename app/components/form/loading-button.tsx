@@ -13,7 +13,9 @@ export default function LoadingButton({
 }: Readonly<PropsWithChildren<Props>>) {
 	return (
 		<Button {...props}>
-			{loading && <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />}
+			{loading && (
+				<ReloadIcon role="img" className="mr-2 h-4 w-4 animate-spin" />
+			)}
 			{children}
 		</Button>
 	)
