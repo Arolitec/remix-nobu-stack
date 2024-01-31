@@ -1,10 +1,9 @@
 import { useNavigation } from '@remix-run/react'
-import { renderHook } from '@testing-library/react'
 import type { Mock } from 'vitest'
+import { renderHook } from '~/utils/testing'
 import useSubmitting from './submit'
 
 vi.mock('@remix-run/react', async importModule => ({
-	...(await importModule()),
 	useNavigation: vi.fn(),
 }))
 
