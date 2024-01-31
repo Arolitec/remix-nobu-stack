@@ -17,7 +17,7 @@ export const schema = z.object({
 	remember: z.coerce.string().nullable(),
 })
 
-export const actionFn = async ({ request }: ActionFunctionArgs) => {
+const action = async ({ request }: ActionFunctionArgs) => {
 	const formData = await request.formData()
 	const submission = parse(formData, { schema })
 
@@ -56,3 +56,6 @@ export const actionFn = async ({ request }: ActionFunctionArgs) => {
 		)
 	}
 }
+
+export default action
+export type Action = typeof action

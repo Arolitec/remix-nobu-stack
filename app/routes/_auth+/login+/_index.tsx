@@ -3,9 +3,8 @@ import { getFieldsetConstraint, parse } from '@conform-to/zod'
 import type { MetaFunction } from '@remix-run/node'
 import { Form, Link, useActionData, useSearchParams } from '@remix-run/react'
 import { useId } from 'react'
-
 import { GeneralErrorBoundary } from '~/components/error-boundary'
-import { actionFn, schema } from './action'
+import actionFn, { schema } from './action'
 import { loaderFn } from './loader'
 
 export const loader = loaderFn
