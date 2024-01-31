@@ -9,6 +9,25 @@ vi.mock('~/utils/auth.server', async () => ({
 	},
 }))
 
+const DEFAULT_FORM_DATA = {
+	email: 'test@example.com',
+	password: 'password',
+	redirectTo: '/',
+}
+
+function buildFormData(data?: Record<string, string>) {
+	const body = new FormData()
+
+	for (const [key, value] of Object.entries({
+		...data,
+		...DEFAULT_FORM_DATA,
+	})) {
+		body.append(key, value)
+	}
+
+	return body
+}
+
 describe('[login] action', () => {
 	const mockedAuthenticate = vi.mocked(authenticator.authenticate)
 	const user = { id: '123' } as User
@@ -22,9 +41,7 @@ describe('[login] action', () => {
 			throw new Error('Invalid email/password')
 		})
 
-		const body = new FormData()
-		body.append('email', 'fake@example.com')
-		body.append('password', 'fakepassword')
+		const body = buildFormData({ password: 'fakepassword' })
 
 		const request = new Request('http://test/login', {
 			method: 'POST',
@@ -40,10 +57,7 @@ describe('[login] action', () => {
 		mockedAuthenticate.mockResolvedValue(user)
 
 		const redirectTo = '/'
-		const body = new FormData()
-		body.append('email', 'test@example.com')
-		body.append('password', 'password')
-		body.append('redirectTo', redirectTo)
+		const body = buildFormData({ redirectTo })
 
 		const request = new Request('http://test/login', {
 			method: 'POST',
@@ -59,10 +73,7 @@ describe('[login] action', () => {
 	it('should set session cookie if login succeeded', async () => {
 		mockedAuthenticate.mockResolvedValue(user)
 
-		const body = new FormData()
-		body.append('email', 'test@example.com')
-		body.append('password', 'password')
-		body.append('redirectTo', '/')
+		const body = buildFormData()
 
 		const request = new Request('http://test/login', {
 			method: 'POST',
@@ -77,11 +88,7 @@ describe('[login] action', () => {
 	it('should set max-age cookie if remember is checked on redirect response', async () => {
 		mockedAuthenticate.mockResolvedValue(user)
 
-		const body = new FormData()
-		body.append('email', 'test@example.com')
-		body.append('password', 'fakepassword')
-		body.append('redirectTo', '/')
-		body.append('remember', 'on')
+		const body = buildFormData({ remember: 'on' })
 
 		const request = new Request('http://test/login', {
 			method: 'POST',
@@ -97,10 +104,7 @@ describe('[login] action', () => {
 	it('should not set max-age cookie if remember is not checked on redirect response', async () => {
 		mockedAuthenticate.mockResolvedValue(user)
 
-		const body = new FormData()
-		body.append('email', 'test@example.com')
-		body.append('password', 'fakepassword')
-		body.append('redirectTo', '/')
+		const body = buildFormData()
 
 		const request = new Request('http://test/login', {
 			method: 'POST',
