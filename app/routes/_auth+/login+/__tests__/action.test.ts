@@ -1,5 +1,6 @@
 import { User } from '@prisma/client'
 import { authenticator } from '~/utils/auth.server'
+import { buildFormData } from '~/utils/form-data'
 import action from '../action'
 
 vi.mock('~/utils/auth.server', async () => ({
@@ -15,17 +16,8 @@ const DEFAULT_FORM_DATA = {
 	redirectTo: '/',
 }
 
-function buildFormData(data?: Record<string, string>) {
-	const body = new FormData()
-
-	for (const [key, value] of Object.entries({
-		...data,
-		...DEFAULT_FORM_DATA,
-	})) {
-		body.append(key, value)
-	}
-
-	return body
+function _buildFormData(data?: Record<string, string>) {
+	return buildFormData({ ...DEFAULT_FORM_DATA, ...data })
 }
 
 describe('[login] action', () => {
@@ -41,7 +33,7 @@ describe('[login] action', () => {
 			throw new Error('Invalid email/password')
 		})
 
-		const body = buildFormData({ password: 'fakepassword' })
+		const body = _buildFormData({ password: 'fakepassword' })
 
 		const request = new Request('http://test/login', {
 			method: 'POST',
@@ -57,7 +49,7 @@ describe('[login] action', () => {
 		mockedAuthenticate.mockResolvedValue(user)
 
 		const redirectTo = '/'
-		const body = buildFormData({ redirectTo })
+		const body = _buildFormData({ redirectTo })
 
 		const request = new Request('http://test/login', {
 			method: 'POST',
@@ -73,7 +65,7 @@ describe('[login] action', () => {
 	it('should set session cookie if login succeeded', async () => {
 		mockedAuthenticate.mockResolvedValue(user)
 
-		const body = buildFormData()
+		const body = _buildFormData()
 
 		const request = new Request('http://test/login', {
 			method: 'POST',
@@ -88,7 +80,7 @@ describe('[login] action', () => {
 	it('should set max-age cookie if remember is checked on redirect response', async () => {
 		mockedAuthenticate.mockResolvedValue(user)
 
-		const body = buildFormData({ remember: 'on' })
+		const body = _buildFormData({ remember: 'on' })
 
 		const request = new Request('http://test/login', {
 			method: 'POST',
@@ -104,7 +96,7 @@ describe('[login] action', () => {
 	it('should not set max-age cookie if remember is not checked on redirect response', async () => {
 		mockedAuthenticate.mockResolvedValue(user)
 
-		const body = buildFormData()
+		const body = _buildFormData()
 
 		const request = new Request('http://test/login', {
 			method: 'POST',
