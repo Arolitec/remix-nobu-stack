@@ -1,4 +1,4 @@
-import { Mock } from 'vitest'
+import { User } from '@prisma/client'
 import { authenticator } from '~/utils/auth.server'
 import action from '../action'
 
@@ -10,12 +10,15 @@ vi.mock('~/utils/auth.server', async () => ({
 }))
 
 describe('[login] action', () => {
+	const mockedAuthenticate = vi.mocked(authenticator.authenticate)
+	const user = { id: '123' } as User
+
 	beforeEach(() => {
 		vi.clearAllMocks()
 	})
 
 	it('should return response with status 400 if submission is invalid', async () => {
-		;(authenticator.authenticate as Mock).mockImplementation(() => {
+		mockedAuthenticate.mockImplementation(() => {
 			throw new Error('Invalid email/password')
 		})
 
@@ -34,7 +37,7 @@ describe('[login] action', () => {
 	})
 
 	it('should redirect to redirectTo url if login succeeded', async () => {
-		;(authenticator.authenticate as Mock).mockResolvedValue({ id: 1 })
+		mockedAuthenticate.mockResolvedValue(user)
 
 		const redirectTo = '/'
 		const body = new FormData()
@@ -54,7 +57,7 @@ describe('[login] action', () => {
 	})
 
 	it('should set session cookie if login succeeded', async () => {
-		;(authenticator.authenticate as Mock).mockResolvedValue({ id: 1 })
+		mockedAuthenticate.mockResolvedValue(user)
 
 		const body = new FormData()
 		body.append('email', 'test@example.com')
@@ -72,7 +75,7 @@ describe('[login] action', () => {
 	})
 
 	it('should set max-age cookie if remember is checked on redirect response', async () => {
-		;(authenticator.authenticate as Mock).mockResolvedValue({ id: 1 })
+		mockedAuthenticate.mockResolvedValue(user)
 
 		const body = new FormData()
 		body.append('email', 'test@example.com')
@@ -92,7 +95,7 @@ describe('[login] action', () => {
 	})
 
 	it('should not set max-age cookie if remember is not checked on redirect response', async () => {
-		;(authenticator.authenticate as Mock).mockResolvedValue({ id: 1 })
+		mockedAuthenticate.mockResolvedValue(user)
 
 		const body = new FormData()
 		body.append('email', 'test@example.com')
