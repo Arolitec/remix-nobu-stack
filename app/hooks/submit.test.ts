@@ -8,6 +8,10 @@ vi.mock('@remix-run/react', async importModule => ({
 }))
 
 describe('useSubmitting', () => {
+	beforeEach(() => {
+		vi.clearAllMocks()
+	})
+
 	it('should return true if page is submitting', async () => {
 		;(useNavigation as Mock).mockReturnValue({ state: 'submitting' })
 
