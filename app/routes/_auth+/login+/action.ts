@@ -14,7 +14,7 @@ export const schema = z.object({
 		.email('You must enter a valid mail address'),
 	password: z.string({ required_error: 'You must enter a password' }),
 	redirectTo: z.string({ required_error: 'Redirect URL is required' }),
-	remember: z.coerce.string().nullable(),
+	remember: z.boolean().optional(),
 })
 
 const action = async ({ request }: ActionFunctionArgs) => {
@@ -43,7 +43,7 @@ const action = async ({ request }: ActionFunctionArgs) => {
 		return createUserSession({
 			redirectTo,
 			request,
-			remember: submission.value.remember === 'on',
+			remember: !!submission.value.remember,
 			user,
 		} as const)
 	} catch (e) {
