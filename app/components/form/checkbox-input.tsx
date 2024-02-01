@@ -1,0 +1,29 @@
+import { Checkbox } from '#/checkbox'
+import { Label } from '#/label'
+import { FieldConfig, conform } from '@conform-to/react'
+import { cn } from '~/utils/ui'
+
+interface Props {
+	label: string
+	field: FieldConfig<boolean>
+	LabelProps?: React.ComponentPropsWithoutRef<typeof Label>
+}
+
+export function CheckboxInput({ label, field, LabelProps }: Readonly<Props>) {
+	const { type: _, ...checkboxProps } = conform.input(field, {
+		type: 'checkbox',
+	})
+
+	return (
+		<div className="flex items-center space-x-2">
+			<Checkbox {...checkboxProps} />
+			<Label
+				htmlFor={field.id}
+				{...LabelProps}
+				className={cn('font-normal', LabelProps?.className)}
+			>
+				{label}
+			</Label>
+		</div>
+	)
+}
