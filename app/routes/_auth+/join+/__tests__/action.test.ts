@@ -135,4 +135,21 @@ describe('[join] action', () => {
 			expect(response.status).toBe(400)
 		},
 	)
+
+	it('should return a response with status 400 if intent is not submit', async () => {
+		const body = _buildFormData({ intent: 'test' })
+
+		const request = new Request('http://test/join', {
+			method: 'POST',
+			body,
+		})
+
+		const response = await action({
+			request,
+			context: {},
+			params: {},
+		})
+
+		expect(response.status).toBe(400)
+	})
 })
