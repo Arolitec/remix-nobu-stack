@@ -1,18 +1,21 @@
+import { Button } from '#/button'
 import { Link } from '@remix-run/react'
 
 export function PasswordForgottenLink() {
 	return (
-		<label className="label justify-end">
-			<span className="label-text-alt">
+		<div className="flex justify-end mt-1">
+			<span className="text-xs text-zinc-500">
 				Password forgotten?{' '}
-				<Link
-					prefetch="intent"
-					className="link-secondary link"
-					to="/password-forgotten"
-				>
-					Reset
-				</Link>
+				<Button variant="link" className="text-xs p-0 h-auto">
+					<Link
+						prefetch="intent"
+						className="link-secondary link"
+						to="/password-forgotten"
+					>
+						Reset
+					</Link>
+				</Button>
 			</span>
-		</label>
+		</div>
 	)
 }
