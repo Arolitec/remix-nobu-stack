@@ -16,7 +16,7 @@ vi.mock('@remix-run/react', async () => {
 	}
 })
 
-describe('useRedirectTo', () => {
+describe.concurrent('useRedirectTo', () => {
 	beforeEach(() => {
 		mockGet.mockReset()
 	})
