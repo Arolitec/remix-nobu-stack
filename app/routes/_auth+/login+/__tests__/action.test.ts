@@ -20,7 +20,7 @@ function _buildFormData(data?: Record<string, string>) {
 	return buildFormData({ ...DEFAULT_FORM_DATA, ...data })
 }
 
-describe('[login] action', () => {
+describe.concurrent('[login] action', () => {
 	const mockedAuthenticate = vi.mocked(authenticator.authenticate)
 	const user = { id: '123' } as User
 
@@ -28,22 +28,25 @@ describe('[login] action', () => {
 		vi.clearAllMocks()
 	})
 
-	it('should return response with status 400 if submission is invalid', async () => {
-		mockedAuthenticate.mockImplementation(() => {
-			throw new Error('Invalid email/password')
-		})
+	it.sequential(
+		'should return response with status 400 if submission is invalid',
+		async () => {
+			mockedAuthenticate.mockImplementation(() => {
+				throw new Error('Invalid email/password')
+			})
 
-		const body = _buildFormData({ password: 'fakepassword' })
+			const body = _buildFormData({ password: 'fakepassword' })
 
-		const request = new Request('http://test/login', {
-			method: 'POST',
-			body,
-		})
+			const request = new Request('http://test/login', {
+				method: 'POST',
+				body,
+			})
 
-		const response = await action({ request, context: {}, params: {} })
+			const response = await action({ request, context: {}, params: {} })
 
-		expect(response.status).toBe(400)
-	})
+			expect(response.status).toBe(400)
+		},
+	)
 
 	it('should redirect to redirectTo url if login succeeded', async () => {
 		mockedAuthenticate.mockResolvedValue(user)
