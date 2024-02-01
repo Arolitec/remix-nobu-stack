@@ -32,14 +32,7 @@ export default defineConfig({
 			reporter: [process.env.CI ? 'json' : 'html'],
 			enabled: true,
 			clean: true,
-			exclude: [
-				'build/**',
-				'mocks/**',
-				'prisma/**',
-				'tests/**',
-				'types/**',
-				'.yarn/**',
-			],
+			include: ['app/**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
 		},
 	},
 })
