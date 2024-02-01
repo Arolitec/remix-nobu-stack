@@ -1,6 +1,8 @@
+import { Button } from '#/button'
 import { conform, useForm } from '@conform-to/react'
 import { getFieldsetConstraint, parse } from '@conform-to/zod'
 import { Form, useActionData } from '@remix-run/react'
+import { CheckboxInput } from '~/components/form/checkbox-input'
 import TextInput from '~/components/form/text-input'
 import { Input } from '~/components/ui/input'
 import { Label } from '~/components/ui/label'
@@ -65,22 +67,12 @@ export function LoginForm() {
 					ariaAttributes: false,
 				})}
 			/>
-			<button type="submit" className="btn-primary btn w-full">
+			<Button type="submit" className="w-full">
 				Log in
-			</button>
+			</Button>
+
 			<div className="flex items-center justify-between">
-				<div className="form-control">
-					<label htmlFor={remember.id} className="label">
-						<input
-							{...conform.input(remember, {
-								type: 'checkbox',
-								ariaAttributes: false,
-							})}
-							className="checkbox-accent checkbox checkbox-sm"
-						/>
-						<span className="ml-2">Remember me</span>
-					</label>
-				</div>
+				<CheckboxInput label="Remember me" field={remember} />
 			</div>
 		</Form>
 	)
