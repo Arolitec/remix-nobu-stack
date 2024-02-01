@@ -14,7 +14,7 @@ export const schema = z.object({
 	email: z.coerce.string().email('You must enter a valid mail address'),
 })
 
-export const actionFn = async ({ request }: ActionFunctionArgs) => {
+export const action = async ({ request }: ActionFunctionArgs) => {
 	const formData = await request.formData()
 	const submission = parse(formData, { schema })
 
@@ -67,3 +67,6 @@ function sendVerifyEmail(
 
 	return sendMail(user.email, subject, html)
 }
+
+export default action
+export type Action = typeof action

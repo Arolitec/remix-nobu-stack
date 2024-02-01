@@ -6,7 +6,7 @@ import MailCheckIcon from 'remixicon-react/MailCheckLineIcon'
 
 import { useId } from 'react'
 import { GeneralErrorBoundary } from '~/components/error-boundary'
-import { actionFn, schema } from './action'
+import actionFn, { schema, type Action } from './action'
 import loaderFn from './loader'
 
 export const loader = loaderFn
@@ -18,7 +18,7 @@ export const meta: MetaFunction = () => [{ title: 'Password Forgotten' }]
 export default function PasswordForgottenPage() {
 	const id = useId()
 	const [searchParams] = useSearchParams()
-	const passwordForgotten = useFetcher<typeof action>()
+	const passwordForgotten = useFetcher<Action>()
 
 	const lastSubmission = passwordForgotten.data
 		? passwordForgotten.data.submission
