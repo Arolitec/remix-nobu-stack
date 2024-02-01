@@ -7,7 +7,7 @@ import MailCheckIcon from 'remixicon-react/MailCheckLineIcon'
 import { useId } from 'react'
 import { GeneralErrorBoundary } from '~/components/error-boundary'
 import { actionFn, schema } from './action'
-import { loaderFn } from './loader'
+import loaderFn from './loader'
 
 export const loader = loaderFn
 
