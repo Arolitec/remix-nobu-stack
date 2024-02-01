@@ -1,7 +1,6 @@
 import { Checkbox } from '#/checkbox'
 import { Label } from '#/label'
 import { FieldConfig, conform } from '@conform-to/react'
-import { cn } from '~/utils/ui'
 
 interface Props {
 	label: string
@@ -17,11 +16,7 @@ export function CheckboxInput({ label, field, LabelProps }: Readonly<Props>) {
 	return (
 		<div className="flex items-center space-x-2">
 			<Checkbox {...checkboxProps} />
-			<Label
-				htmlFor={field.id}
-				{...LabelProps}
-				className={cn('font-normal', LabelProps?.className)}
-			>
+			<Label htmlFor={field.id} {...LabelProps}>
 				{label}
 			</Label>
 		</div>
