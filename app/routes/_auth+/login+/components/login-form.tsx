@@ -67,13 +67,14 @@ export function LoginForm() {
 					ariaAttributes: false,
 				})}
 			/>
-			<Button type="submit" className="w-full">
-				Log in
-			</Button>
 
 			<div className="flex items-center justify-between">
 				<CheckboxInput label="Remember me" field={remember} />
 			</div>
+
+			<Button type="submit" className="w-full">
+				Log in
+			</Button>
 		</Form>
 	)
 }
