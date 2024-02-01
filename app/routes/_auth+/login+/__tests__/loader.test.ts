@@ -2,7 +2,7 @@ import { authenticator } from '~/utils/auth.server'
 import { commitSession, getSession } from '~/utils/session.server'
 import loader from '../loader'
 
-describe('[login] loader', () => {
+describe.concurrent('[login] loader', () => {
 	it('should return an empty response with status 200', async () => {
 		const request = new Request('http://test/login')
 
