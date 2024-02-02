@@ -10,6 +10,7 @@ describe('BackToLoginLink', () => {
 				Component: BackToLoginLink,
 			},
 		])
+
 		render(<RemixStub />)
 
 		expect(
