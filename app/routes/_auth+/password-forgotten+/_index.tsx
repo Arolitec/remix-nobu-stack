@@ -16,7 +16,7 @@ export default function PasswordForgottenPage() {
 	return (
 		<div className="flex min-h-full flex-col justify-center">
 			<div className="mx-auto w-full max-w-md px-8">
-				<Title className="text-xl mb-10" underlined>
+				<Title className="text-xl mb-16" underlined>
 					Password forgotten
 				</Title>
 
