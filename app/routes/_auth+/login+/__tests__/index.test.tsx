@@ -13,6 +13,8 @@ describe('[login] index', () => {
 
 		render(<RemixStub />)
 
+		expect(screen.getByRole('heading', { name: /log in/i })).toBeInTheDocument()
+
 		expect(screen.getByLabelText(/email address/i)).toBeInTheDocument()
 		expect(screen.getByLabelText(/password/i)).toBeInTheDocument()
 		expect(screen.getByRole('link', { name: /reset/i })).toBeInTheDocument()
