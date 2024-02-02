@@ -14,7 +14,11 @@ export default function LoadingButton({
 	return (
 		<Button {...props}>
 			{loading && (
-				<ReloadIcon role="img" className="mr-2 h-4 w-4 animate-spin" />
+				<ReloadIcon
+					role="img"
+					className="mr-2 h-4 w-4 animate-spin"
+					aria-label="Loading"
+				/>
 			)}
 			{children}
 		</Button>
