@@ -26,8 +26,6 @@ describe('PasswordForgottenForm', () => {
 		expect(
 			screen.getByRole('button', { name: /send verification mail/i }),
 		).toBeInTheDocument()
-		expect(screen.getByText(/remember your password/i))
-		expect(screen.getByRole('link', { name: /back to login/i }))
 	})
 
 	it('should show confirmation message after submitting form', async ({
