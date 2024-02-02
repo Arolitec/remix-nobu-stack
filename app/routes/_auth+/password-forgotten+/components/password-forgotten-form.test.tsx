@@ -53,11 +53,14 @@ describe('PasswordForgottenForm', () => {
 			screen.getByRole('button', { name: /send verification mail/i }),
 		)
 
-		await waitFor(() => {
+		await waitFor(async () => {
+			expect(screen.queryByRole('textbox')).not.toBeInTheDocument()
+
+			expect(await screen.findByText(/mail sent!/i)).toBeInTheDocument()
 			expect(
-				screen.getByText(/we have sent you an e-mail/i),
+				await screen.findByText(/we have sent you an e-mail/i),
 			).toBeInTheDocument()
-			expect(screen.getByRole('img')).toBeInTheDocument()
+			expect(await screen.findByRole('img')).toBeInTheDocument()
 		})
 	})
 })

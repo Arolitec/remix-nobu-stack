@@ -1,3 +1,4 @@
+import { Alert, AlertDescription, AlertTitle } from '#/alert'
 import { useForm } from '@conform-to/react'
 import { getFieldsetConstraint, parse } from '@conform-to/zod'
 import { CheckCircledIcon } from '@radix-ui/react-icons'
@@ -65,10 +66,18 @@ export function PasswordForgottenForm() {
 				</passwordForgotten.Form>
 			) : (
 				<div className="alert alert-success">
-					<CheckCircledIcon className="h-[2rem] w-[2rem]" role="img" />
-					<span>
-						We have sent you an e-mail with instructions to reset your password.
-					</span>
+					<Alert>
+						<CheckCircledIcon
+							className="h-4 w-4"
+							role="img"
+							aria-label="email sent check"
+						/>
+						<AlertTitle>Mail sent!</AlertTitle>
+						<AlertDescription>
+							We have sent you an e-mail with instructions to reset your
+							password.
+						</AlertDescription>
+					</Alert>
 				</div>
 			)}
 		</>
