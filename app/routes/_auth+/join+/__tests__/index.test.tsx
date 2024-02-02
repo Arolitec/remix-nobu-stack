@@ -21,6 +21,8 @@ describe('Join Page', () => {
 	it('renders successfully', async () => {
 		render(<RemixStub />)
 
+		expect(screen.getByText(/join us/i)).toBeInTheDocument()
+
 		expect(screen.getByLabelText(/email address/i)).toBeInTheDocument()
 		expect(screen.getByLabelText(/password/i)).toBeInTheDocument()
 		expect(
