@@ -1,7 +1,9 @@
-import { conform, useForm } from '@conform-to/react'
+import { useForm } from '@conform-to/react'
 import { getFieldsetConstraint, parse } from '@conform-to/zod'
 import { CheckCircledIcon } from '@radix-ui/react-icons'
 import { Link, useFetcher, useSearchParams } from '@remix-run/react'
+import LoadingButton from '~/components/form/loading-button'
+import TextInput from '~/components/form/text-input'
 import { schema, type Action } from '../action'
 
 export function PasswordForgottenForm() {
@@ -33,35 +35,20 @@ export function PasswordForgottenForm() {
 					action="."
 					{...form.props}
 				>
-					<div className="form-control">
-						<label htmlFor={email.id}>
-							<span className="label-text">Email address</span>
-						</label>
-						<div className="mt-1">
-							<input
-								autoComplete="email"
-								required
-								autoFocus
-								{...conform.input(email, { ariaAttributes: true })}
-								className={`input-bordered input w-full ${
-									email.error ? 'input-error' : ''
-								}`}
-							/>
-							{!!email.error && (
-								<div className="label-text pt-1 text-error" id={email.errorId}>
-									{email.error}
-								</div>
-							)}
-						</div>
-					</div>
+					<TextInput
+						label="Email address"
+						field={email}
+						InputProps={{ autoFocus: true, autoComplete: 'email' }}
+					/>
 
-					<button
-						className="btn-primary btn w-full"
+					<LoadingButton
 						type="submit"
 						disabled={isSubmitting}
+						loading={isSubmitting}
+						className="w-full"
 					>
-						{isSubmitting ? 'please wait...' : 'send verification mail'}
-					</button>
+						{isSubmitting ? 'Please wait...' : 'Send verification mail'}
+					</LoadingButton>
 
 					<div className="flex items-center justify-center pt-8">
 						<p className="inline-block  px-2 text-sm text-slate-500">
