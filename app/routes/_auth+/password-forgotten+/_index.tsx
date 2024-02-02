@@ -1,5 +1,4 @@
 import { type MetaFunction } from '@remix-run/node'
-
 import { GeneralErrorBoundary } from '~/components/error-boundary'
 import actionFn from './action'
 import { PasswordForgottenForm } from './components/password-forgotten-form'
