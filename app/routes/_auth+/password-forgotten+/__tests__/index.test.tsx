@@ -18,7 +18,7 @@ describe('PasswordForgottenPage', () => {
 
 		render(<RemixStub />)
 
-		expect(screen.getByText('Password forgotten')).toBeInTheDocument()
+		expect(screen.getByText(/password forgotten/i)).toBeInTheDocument()
 		expect(
 			screen.getByRole('textbox', { name: /email address/i }),
 		).toBeInTheDocument()
