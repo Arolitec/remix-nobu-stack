@@ -39,10 +39,7 @@ describe('[password-forgotten.verify] action', () => {
 
 		mockedVerifyTOTP.mockReturnValueOnce(true)
 
-		const request = new Request('http://test.com/', {
-			method: 'POST',
-			body: buildFormData({ otp: '123456', email }),
-		})
+		const request = buildRequest({ otp: '123456', email })
 
 		const response = await action({ request, context: {}, params: {} })
 
@@ -61,10 +58,7 @@ describe('[password-forgotten.verify] action', () => {
 
 		mockedVerifyTOTP.mockReturnValueOnce(false)
 
-		const request = new Request('https://test.com/', {
-			method: 'POST',
-			body: buildFormData({ otp: '123456', email: 'test@example.com' }),
-		})
+		const request = buildRequest({ otp: '123456', email: 'test@example.com' })
 
 		const response = await action({ request, context: {}, params: {} })
 
@@ -74,13 +68,17 @@ describe('[password-forgotten.verify] action', () => {
 	it('should return 400 if email has no pending verification', async () => {
 		mockedFindFirst.mockResolvedValueOnce(null)
 
-		const request = new Request('https://test.com/', {
-			method: 'POST',
-			body: buildFormData({ otp: '123456', email: 'test@example.com' }),
-		})
+		const request = buildRequest({ otp: '123456', email: 'test@example.com' })
 
 		const response = await action({ request, context: {}, params: {} })
 
 		expect(response.status).toBe(400)
 	})
 })
+
+function buildRequest(body: Record<string, string>) {
+	return new Request('http://test.com/', {
+		method: 'POST',
+		body: buildFormData(body),
+	})
+}
