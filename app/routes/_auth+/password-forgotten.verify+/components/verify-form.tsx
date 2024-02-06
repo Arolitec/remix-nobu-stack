@@ -1,4 +1,4 @@
-import { conform, useForm } from '@conform-to/react'
+import { useForm } from '@conform-to/react'
 import { getFieldsetConstraint, parse } from '@conform-to/zod'
 import {
 	Form,
@@ -6,6 +6,8 @@ import {
 	useLoaderData,
 	useSearchParams,
 } from '@remix-run/react'
+import LoadingButton from '~/components/form/loading-button'
+import TextInput from '~/components/form/text-input'
 import useSubmitting from '~/hooks/submit'
 import { Action, clientSchema } from '../action'
 import { Loader } from '../loader'
@@ -35,55 +37,21 @@ export function VerifyForm() {
 
 	return (
 		<Form method="POST" className="space-y-6" {...form.props}>
-			<div className="form-control">
-				<label htmlFor={email.id} className="label">
-					<span className="label-text">Email Address</span>
-				</label>
-				<div className="mt-1">
-					<input
-						{...conform.input(email, {
-							ariaAttributes: true,
-							type: 'email',
-						})}
-						readOnly
-						className={`input-bordered input w-full ${
-							email.error ? 'input-error' : ''
-						}`}
-						autoComplete="email"
-					/>
-				</div>
-				{!!email.error && (
-					<div id={email.errorId} className="label-text text-error">
-						{email.error}
-					</div>
-				)}
-			</div>
+			<TextInput
+				label="Email Address"
+				field={email}
+				InputProps={{ readOnly: true }}
+			/>
 
-			<div className="form-control">
-				<label htmlFor={otp.id} className="label">
-					<span className="label-text">OTP</span>
-				</label>
-				<div className="mt-1">
-					<input
-						{...conform.input(otp, {
-							ariaAttributes: true,
-						})}
-						className={`input-bordered input w-full ${
-							otp.error ? 'input-error' : ''
-						}`}
-						maxLength={6}
-						autoFocus
-					/>
-				</div>
-				{!!otp.error && (
-					<div id={otp.errorId} className="label-text text-error">
-						{otp.error}
-					</div>
-				)}
-			</div>
-			<button className="btn-primary btn w-full" disabled={isSubmitting}>
+			<TextInput
+				label="OTP"
+				field={otp}
+				InputProps={{ autoFocus: true, maxLength: 6 }}
+			/>
+
+			<LoadingButton className="w-full" loading={isSubmitting}>
 				validate your email
-			</button>
+			</LoadingButton>
 		</Form>
 	)
 }
