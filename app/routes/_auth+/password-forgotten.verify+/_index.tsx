@@ -1,7 +1,6 @@
 import { conform, useForm } from '@conform-to/react'
 import { getFieldsetConstraint, parse } from '@conform-to/zod'
-import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node'
-import { json } from '@remix-run/node'
+import type { MetaFunction } from '@remix-run/node'
 import {
 	Form,
 	useActionData,
@@ -11,30 +10,12 @@ import {
 } from '@remix-run/react'
 import { useId } from 'react'
 import { GeneralErrorBoundary } from '~/components/error-boundary'
-import { requireAnonymous } from '~/utils/auth.server'
-import actionFn, { clientSchema, validate, type Action } from './action'
+import actionFn, { clientSchema, type Action } from './action'
+import loaderFn, { type Loader } from './loader'
 
 export const meta: MetaFunction = () => [{ title: 'Verify Your Email' }]
 
-export const loader = async ({ request }: LoaderFunctionArgs) => {
-	await requireAnonymous(request)
-
-	const searchParams = new URL(request.url).searchParams
-
-	if (!searchParams.has('otp')) {
-		// We don't want to show error if otp is not prefilled,
-		// typically if user did not used the reset link
-		return json({
-			submission: {
-				intent: '',
-				payload: Object.fromEntries(searchParams),
-				error: {},
-			},
-		} as const)
-	}
-
-	return validate(request, searchParams)
-}
+export const loader = loaderFn
 
 export const action = actionFn
 
@@ -44,7 +25,7 @@ export default function VerifyPage() {
 	const id = useId()
 
 	const actionData = useActionData<Action>()
-	const loaderData = useLoaderData<typeof loader>()
+	const loaderData = useLoaderData<Loader>()
 
 	const lastSubmission = loaderData?.submission ?? actionData?.submission
 
