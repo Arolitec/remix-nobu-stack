@@ -12,7 +12,7 @@ import {
 import { useId } from 'react'
 import { GeneralErrorBoundary } from '~/components/error-boundary'
 import { requireAnonymous } from '~/utils/auth.server'
-import { actionFn, clientSchema, validate } from './action'
+import actionFn, { clientSchema, validate, type Action } from './action'
 
 export const meta: MetaFunction = () => [{ title: 'Verify Your Email' }]
 
@@ -43,7 +43,7 @@ export default function VerifyPage() {
 	const { state } = useNavigation()
 	const id = useId()
 
-	const actionData = useActionData<typeof action>()
+	const actionData = useActionData<Action>()
 	const loaderData = useLoaderData<typeof loader>()
 
 	const lastSubmission = loaderData?.submission ?? actionData?.submission

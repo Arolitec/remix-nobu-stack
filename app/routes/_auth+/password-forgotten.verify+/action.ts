@@ -49,7 +49,7 @@ const schema = clientSchema.superRefine(async (object, ctx) => {
 	}
 })
 
-export const actionFn = async ({ request }: ActionFunctionArgs) => {
+const action = async ({ request }: ActionFunctionArgs) => {
 	const formData = await request.formData()
 
 	return validate(request, formData)
@@ -78,3 +78,6 @@ export async function validate(
 		headers: { 'Set-Cookie': await commitSession(session) },
 	})
 }
+
+export default action
+export type Action = typeof action
