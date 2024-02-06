@@ -19,8 +19,7 @@ node_modules
 /public/build
 .env
 
-/cypress/screenshots
-/cypress/videos
+
 /postgres-data
 .vscode
 .idea
@@ -28,3 +27,5 @@ node_modules
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+
+coverage
