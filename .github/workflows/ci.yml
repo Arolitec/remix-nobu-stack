@@ -28,7 +28,7 @@ jobs:
           node-version: 20
 
       - name: 📥 Install deps
-        run: yarn install --immutable
+        run: yarn install --no-immutable
 
       - name: 🔬 Lint
         run: yarn lint
@@ -48,7 +48,7 @@ jobs:
           node-version: 20
 
       - name: 📥 Install deps
-        run: yarn install --immutable
+        run: yarn install --no-immutable
 
       - name: 🔎 Type check
         run: yarn typecheck
@@ -68,7 +68,7 @@ jobs:
           node-version: 20
 
       - name: 📥 Install deps
-        run: yarn install --immutable
+        run: yarn install --no-immutable
 
       - name: ⚡ Run vitest
         run: yarn test -- --coverage
@@ -93,7 +93,7 @@ jobs:
           node-version: 20
 
       - name: 📥 Install deps
-        run: yarn install --immutable
+        run: yarn install --no-immutable
 
       - name: 🐳 Docker compose
         # the sleep is just there to give time for postgres to get started
@@ -156,7 +156,7 @@ jobs:
           node-version: 20
 
       - name: 📥 Install deps
-        run: yarn install --immutable
+        run: yarn install --no-immutable
 
       - name: 🗄️ Download blob reports from GitHub Actions Artifacts
         uses: actions/download-artifact@v4
