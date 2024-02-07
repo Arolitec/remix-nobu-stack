@@ -6,6 +6,7 @@ import {
 	useLoaderData,
 	useSearchParams,
 } from '@remix-run/react'
+import { GeneralErrorBoundary } from '~/components/error-boundary'
 import LoadingButton from '~/components/form/loading-button'
 import TextInput from '~/components/form/text-input'
 import useSubmitting from '~/hooks/submit'
@@ -54,4 +55,8 @@ export function VerifyForm() {
 			</LoadingButton>
 		</Form>
 	)
+}
+
+export function ErrorBoundary() {
+	return <GeneralErrorBoundary />
 }

@@ -1,5 +1,6 @@
 import { Button } from '#/button'
 import { Link, useSearchParams } from '@remix-run/react'
+import { GeneralErrorBoundary } from '~/components/error-boundary'
 
 export function LoginLink() {
 	const [searchParams] = useSearchParams()
@@ -22,4 +23,8 @@ export function LoginLink() {
 			</p>
 		</div>
 	)
+}
+
+export function ErrorBoundary() {
+	return <GeneralErrorBoundary />
 }

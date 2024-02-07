@@ -1,5 +1,6 @@
 import { Button } from '#/button'
 import { Link } from '@remix-run/react'
+import { GeneralErrorBoundary } from '~/components/error-boundary'
 
 export function PasswordForgottenLink() {
 	return (
@@ -18,4 +19,8 @@ export function PasswordForgottenLink() {
 			</span>
 		</div>
 	)
+}
+
+export function ErrorBoundary() {
+	return <GeneralErrorBoundary />
 }

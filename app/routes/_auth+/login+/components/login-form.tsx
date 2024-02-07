@@ -2,6 +2,7 @@ import { Button } from '#/button'
 import { conform, useForm } from '@conform-to/react'
 import { getFieldsetConstraint, parse } from '@conform-to/zod'
 import { Form, useActionData } from '@remix-run/react'
+import { GeneralErrorBoundary } from '~/components/error-boundary'
 import { CheckboxInput } from '~/components/form/checkbox-input'
 import TextInput from '~/components/form/text-input'
 import { Input } from '~/components/ui/input'
@@ -77,4 +78,8 @@ export function LoginForm() {
 			</Button>
 		</Form>
 	)
+}
+
+export function ErrorBoundary() {
+	return <GeneralErrorBoundary />
 }
