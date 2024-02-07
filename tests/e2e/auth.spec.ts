@@ -69,7 +69,7 @@ test.describe('register', () => {
 		).toBeVisible()
 	})
 
-	test('should show/hide password', async ({ signupPage, page }) => {
+	test('should show/hide password', async ({ signupPage }) => {
 		const user = generateUserCredentials()
 		await signupPage.fillInputs(user.email, user.password)
 
