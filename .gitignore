@@ -6,12 +6,7 @@ pnpm-lock.yaml
 pnpm-lock.yml
 yarn-error.log
 .pnp.*
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/sdks
-!.yarn/versions
+.yarn
 
 node_modules
 
