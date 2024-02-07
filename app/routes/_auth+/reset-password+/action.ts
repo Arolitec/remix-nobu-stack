@@ -7,17 +7,17 @@ import { RESET_PASSWORD_SESSION_KEY } from './constants'
 
 export const schema = z
 	.object({
-		password: z.coerce
-			.string()
+		password: z
+			.string({ required_error: 'You must enter a new password' })
 			.min(8, 'Password must contains at least 8 characters'),
-		passwordConfirm: z.coerce.string(),
+		passwordConfirm: z.string(),
 	})
 	.refine(data => data.password === data.passwordConfirm, {
 		message: 'Password does not match',
 		path: ['passwordConfirm'],
 	})
 
-export const actionFn = async ({ request }: ActionFunctionArgs) => {
+const action = async ({ request }: ActionFunctionArgs) => {
 	const formData = await request.formData()
 	const submission = parse(formData, { schema })
 
@@ -39,3 +39,6 @@ export const actionFn = async ({ request }: ActionFunctionArgs) => {
 		},
 	})
 }
+
+export default action
+export type Action = typeof action

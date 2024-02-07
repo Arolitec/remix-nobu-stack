@@ -1,16 +1,16 @@
 import {
 	Button,
 	Container,
+	Font,
+	Head,
 	Hr,
 	Html,
 	Preview,
 	Section,
-	Text,
 	Tailwind,
-	Font,
-	Head,
+	Text,
 } from '@react-email/components'
-import tailwindConfig from '../../../../tailwind.config'
+import tailwindConfig from '../../../tailwind.config'
 
 interface VerifyEmailProps {
 	otp: string

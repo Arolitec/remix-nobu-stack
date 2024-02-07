@@ -5,6 +5,9 @@ yarn.lock
 pnpm-lock.yaml
 pnpm-lock.yml
 yarn-error.log
+.pnp.*
+.yarn/
+.yarn*
 
 node_modules
 
@@ -12,8 +15,7 @@ node_modules
 /public/build
 .env
 
-/cypress/screenshots
-/cypress/videos
+
 /postgres-data
 .vscode
 .idea
@@ -21,3 +23,5 @@ node_modules
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+
+coverage

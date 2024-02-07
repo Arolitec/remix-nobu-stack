@@ -11,7 +11,6 @@ export default Queue<User>(
 		const subject = 'Welcome to Nobu Stack'
 
 		await sendMail(user.email, subject, html)
-		console.log(`Sent welcome email to ${user.email}`)
 	},
 	{ retry: ['1min', '5min', '10min'] },
 )
