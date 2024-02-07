@@ -73,7 +73,11 @@ export function ResetPasswordForm() {
 				</div>
 			</div>
 
-			<button className="btn-primary btn w-full" disabled={isSubmitting}>
+			<button
+				type="submit"
+				className="btn-primary btn w-full"
+				disabled={isSubmitting}
+			>
 				reset password
 			</button>
 		</Form>
