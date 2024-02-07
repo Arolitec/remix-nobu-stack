@@ -13,6 +13,11 @@ vi.mock('~/utils/db.server', () => ({
 	},
 }))
 
+const DEFAULT_BODY = {
+	password: 'password',
+	passwordConfirm: 'password',
+}
+
 describe.concurrent('[reset-password] action', () => {
 	const mockedResetPassword = vi.mocked(prisma.user.resetPassword)
 
@@ -21,17 +26,10 @@ describe.concurrent('[reset-password] action', () => {
 	})
 
 	it('should redirect to "/login" after updating password', async () => {
-		const body = buildFormData({
-			password: 'password',
-			passwordConfirm: 'password',
-		})
-
 		const session = await getSession()
 		session.set(RESET_PASSWORD_SESSION_KEY, 'test@example.com')
 
-		const request = new Request('http://test.com/reset-password', {
-			method: 'POST',
-			body,
+		const request = buildRequest(undefined, {
 			headers: {
 				Cookie: await commitSession(session),
 			},
@@ -48,20 +46,16 @@ describe.concurrent('[reset-password] action', () => {
 	})
 
 	it('should return 400 if password does not match', async () => {
-		const body = buildFormData({
-			password: 'password',
-			passwordConfirm: 'password1',
-		})
-
 		const session = await getSession()
 
-		const request = new Request('http://test.com/reset-password', {
-			method: 'POST',
-			body,
-			headers: {
-				Cookie: await commitSession(session),
+		const request = buildRequest(
+			{ passwordConfirm: 'password1' },
+			{
+				headers: {
+					Cookie: await commitSession(session),
+				},
 			},
-		})
+		)
 
 		const response = await action({ request, context: {}, params: {} })
 
@@ -70,14 +64,7 @@ describe.concurrent('[reset-password] action', () => {
 	})
 
 	it('should return 400 if email is not found in session', async () => {
-		const body = buildFormData({
-			password: 'password',
-			passwordConfirm: 'password',
-		})
-
-		const request = new Request('http://test.com/reset-password', {
-			method: 'POST',
-			body,
+		const request = buildRequest(undefined, {
 			headers: {
 				Cookie: await commitSession(await getSession()),
 			},
@@ -88,3 +75,15 @@ describe.concurrent('[reset-password] action', () => {
 		expect(response.status).toBe(302)
 	})
 })
+
+function _buildFormData(body?: Record<string, string>) {
+	return buildFormData({ ...DEFAULT_BODY, ...body })
+}
+
+function buildRequest(body?: Record<string, string>, init: RequestInit = {}) {
+	return new Request('http://test.com/reset-password', {
+		method: 'POST',
+		body: _buildFormData(body),
+		...init,
+	})
+}
