@@ -10,7 +10,7 @@ vi.mock('~/utils/auth.server', async () => ({
 	},
 }))
 
-const DEFAULT_FORM_DATA = {
+const DEFAULT_BODY = {
 	email: 'test@example.com',
 	password: 'password',
 	redirectTo: '/',
@@ -85,7 +85,7 @@ describe.concurrent('[login] action', () => {
 })
 
 function _buildFormData(data?: Record<string, string>) {
-	return buildFormData({ ...DEFAULT_FORM_DATA, ...data })
+	return buildFormData({ ...DEFAULT_BODY, ...data })
 }
 
 function buildRequest(data?: Record<string, string>) {
