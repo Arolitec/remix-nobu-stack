@@ -8,6 +8,14 @@ module.exports = {
 		'plugin:playwright/recommended',
 		'prettier',
 	],
+	rules: {
+		'testing-library/no-await-sync-events': [
+			'error',
+			{
+				eventModules: ['fire-event'],
+			},
+		],
+	},
 	overrides: [
 		{
 			files: ['app/**'],
@@ -20,14 +28,6 @@ module.exports = {
 			rules: {
 				'testing-library/prefer-screen-queries': 'off',
 			},
-		},
-		{
-			'testing-library/no-await-sync-events': [
-				'error',
-				{
-					eventModules: ['fire-event'],
-				},
-			],
 		},
 	],
 	// We're using vitest which has a very similar API to jest
