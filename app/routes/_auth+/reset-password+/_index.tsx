@@ -9,7 +9,7 @@ import {
 	useNavigation,
 } from '@remix-run/react'
 import { useId } from 'react'
-import { actionFn, schema } from './action'
+import actionFn, { schema, type Action } from './action'
 import { RESET_PASSWORD_SESSION_KEY } from './constants'
 
 import { GeneralErrorBoundary } from '~/components/error-boundary'
@@ -36,7 +36,7 @@ export const action = actionFn
 
 export default function ResetPasswordPage() {
 	const { email } = useLoaderData<typeof loader>()
-	const lastSubmission = useActionData<typeof action>()
+	const lastSubmission = useActionData<Action>()
 	const { state } = useNavigation()
 
 	const id = useId()
