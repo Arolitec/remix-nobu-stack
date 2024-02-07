@@ -1,6 +1,8 @@
-import { conform, useForm } from '@conform-to/react'
+import { useForm } from '@conform-to/react'
 import { getFieldsetConstraint, parse } from '@conform-to/zod'
 import { Form, useActionData, useLoaderData } from '@remix-run/react'
+import LoadingButton from '~/components/form/loading-button'
+import TextInput from '~/components/form/text-input'
 import useSubmitting from '~/hooks/submit'
 import { schema, type Action } from '../action'
 import { type Loader } from '../loader'
@@ -24,62 +26,27 @@ export function ResetPasswordForm() {
 	return (
 		<Form method="POST" className="space-y-6" {...form.props}>
 			<p>{email}</p>
-			<div className="form-control">
-				<label htmlFor={password.id} className="label">
-					<span className="label-text">New password</span>
-				</label>
-				<div className="mt-1">
-					<input
-						{...conform.input(password, {
-							type: 'password',
-							ariaAttributes: true,
-						})}
-						autoComplete="new-password"
-						className={`input-bordered input w-full ${
-							password.error ? 'input-error' : ''
-						}`}
-					/>
-					{!!password.error && (
-						<div className="label-text pt-1 text-error" id={password.errorId}>
-							{password.error}
-						</div>
-					)}
-				</div>
-			</div>
 
-			<div className="form-control">
-				<label htmlFor={passwordConfirm.id} className="label">
-					<span className="label-text">Confirm new password</span>
-				</label>
-				<div className="mt-1">
-					<input
-						{...conform.input(passwordConfirm, {
-							type: 'password',
-							ariaAttributes: true,
-						})}
-						autoComplete="new-password"
-						className={`input-bordered input w-full ${
-							passwordConfirm.error ? 'input-error' : ''
-						}`}
-					/>
-					{!!passwordConfirm.error && (
-						<div
-							className="label-text pt-1 text-error"
-							id={passwordConfirm.errorId}
-						>
-							{passwordConfirm.error}
-						</div>
-					)}
-				</div>
-			</div>
+			<TextInput
+				field={password}
+				label="New password"
+				InputProps={{ autoComplete: 'new-password' }}
+			/>
 
-			<button
+			<TextInput
+				field={passwordConfirm}
+				label="Confirm new password"
+				InputProps={{ autoComplete: 'new-password' }}
+			/>
+
+			<LoadingButton
+				loading={isSubmitting}
 				type="submit"
-				className="btn-primary btn w-full"
+				className="w-full"
 				disabled={isSubmitting}
 			>
 				reset password
-			</button>
+			</LoadingButton>
 		</Form>
 	)
 }
