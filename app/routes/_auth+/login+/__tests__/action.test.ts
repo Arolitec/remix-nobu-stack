@@ -16,10 +16,6 @@ const DEFAULT_FORM_DATA = {
 	redirectTo: '/',
 }
 
-function _buildFormData(data?: Record<string, string>) {
-	return buildFormData({ ...DEFAULT_FORM_DATA, ...data })
-}
-
 describe.concurrent('[login] action', () => {
 	const mockedAuthenticate = vi.mocked(authenticator.authenticate)
 	const user = { id: '123' } as User
@@ -35,12 +31,7 @@ describe.concurrent('[login] action', () => {
 				throw new Error('Invalid email/password')
 			})
 
-			const body = _buildFormData({ password: 'fakepassword' })
-
-			const request = new Request('http://test/login', {
-				method: 'POST',
-				body,
-			})
+			const request = buildRequest({ password: 'fakepassword' })
 
 			const response = await action({ request, context: {}, params: {} })
 
@@ -52,12 +43,7 @@ describe.concurrent('[login] action', () => {
 		mockedAuthenticate.mockResolvedValue(user)
 
 		const redirectTo = '/'
-		const body = _buildFormData({ redirectTo })
-
-		const request = new Request('http://test/login', {
-			method: 'POST',
-			body,
-		})
+		const request = buildRequest({ redirectTo })
 
 		const response = await action({ request, context: {}, params: {} })
 
@@ -68,12 +54,7 @@ describe.concurrent('[login] action', () => {
 	it('should set session cookie if login succeeded', async () => {
 		mockedAuthenticate.mockResolvedValue(user)
 
-		const body = _buildFormData()
-
-		const request = new Request('http://test/login', {
-			method: 'POST',
-			body,
-		})
+		const request = buildRequest()
 
 		const response = await action({ request, context: {}, params: {} })
 
@@ -83,12 +64,7 @@ describe.concurrent('[login] action', () => {
 	it('should set max-age cookie if remember is checked on redirect response', async () => {
 		mockedAuthenticate.mockResolvedValue(user)
 
-		const body = _buildFormData({ remember: 'on' })
-
-		const request = new Request('http://test/login', {
-			method: 'POST',
-			body,
-		})
+		const request = buildRequest({ remember: 'on' })
 
 		const response = await action({ request, context: {}, params: {} })
 
@@ -99,12 +75,7 @@ describe.concurrent('[login] action', () => {
 	it('should not set max-age cookie if remember is not checked on redirect response', async () => {
 		mockedAuthenticate.mockResolvedValue(user)
 
-		const body = _buildFormData()
-
-		const request = new Request('http://test/login', {
-			method: 'POST',
-			body,
-		})
+		const request = buildRequest()
 
 		const response = await action({ request, context: {}, params: {} })
 
@@ -112,3 +83,14 @@ describe.concurrent('[login] action', () => {
 		expect(response.headers.get('Set-Cookie')).not.toContain('Max-Age=604800')
 	})
 })
+
+function _buildFormData(data?: Record<string, string>) {
+	return buildFormData({ ...DEFAULT_FORM_DATA, ...data })
+}
+
+function buildRequest(data?: Record<string, string>) {
+	return new Request('http://test/login', {
+		method: 'POST',
+		body: _buildFormData(data),
+	})
+}
