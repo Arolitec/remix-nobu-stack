@@ -1,7 +1,6 @@
 import { conform, useForm } from '@conform-to/react'
 import { getFieldsetConstraint, parse } from '@conform-to/zod'
-import type { LoaderFunctionArgs, MetaFunction } from '@remix-run/node'
-import { json, redirect } from '@remix-run/node'
+import type { MetaFunction } from '@remix-run/node'
 import {
 	Form,
 	useActionData,
@@ -9,33 +8,18 @@ import {
 	useNavigation,
 } from '@remix-run/react'
 import { useId } from 'react'
-import actionFn, { schema, type Action } from './action'
-import { RESET_PASSWORD_SESSION_KEY } from './constants'
-
 import { GeneralErrorBoundary } from '~/components/error-boundary'
-import { requireAnonymous } from '~/utils/auth.server'
-import { commitSession, getSession } from '~/utils/session.server'
+import actionFn, { schema, type Action } from './action'
+import loaderFn, { type Loader } from './loader'
 
 export const meta: MetaFunction = () => [{ title: 'Reset Your Password' }]
 
-export const loader = async ({ request }: LoaderFunctionArgs) => {
-	await requireAnonymous(request)
-
-	const session = await getSession(request.headers.get('cookie'))
-	const email = session.get(RESET_PASSWORD_SESSION_KEY)
-
-	if (!email || typeof email !== 'string') return redirect('/')
-
-	return json(
-		{ email },
-		{ headers: { 'Set-Cookie': await commitSession(session) } },
-	)
-}
+export const loader = loaderFn
 
 export const action = actionFn
 
 export default function ResetPasswordPage() {
-	const { email } = useLoaderData<typeof loader>()
+	const { email } = useLoaderData<Loader>()
 	const lastSubmission = useActionData<Action>()
 	const { state } = useNavigation()
 
