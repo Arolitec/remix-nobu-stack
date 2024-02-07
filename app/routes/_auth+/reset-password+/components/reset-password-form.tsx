@@ -1,6 +1,7 @@
 import { useForm } from '@conform-to/react'
 import { getFieldsetConstraint, parse } from '@conform-to/zod'
 import { Form, useActionData, useLoaderData } from '@remix-run/react'
+import { GeneralErrorBoundary } from '~/components/error-boundary'
 import LoadingButton from '~/components/form/loading-button'
 import TextInput from '~/components/form/text-input'
 import useSubmitting from '~/hooks/submit'
@@ -49,4 +50,8 @@ export function ResetPasswordForm() {
 			</LoadingButton>
 		</Form>
 	)
+}
+
+export function ErrorBoundary() {
+	return <GeneralErrorBoundary />
 }

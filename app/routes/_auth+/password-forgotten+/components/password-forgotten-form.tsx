@@ -3,6 +3,7 @@ import { useForm } from '@conform-to/react'
 import { getFieldsetConstraint, parse } from '@conform-to/zod'
 import { CheckCircledIcon } from '@radix-ui/react-icons'
 import { useFetcher } from '@remix-run/react'
+import { GeneralErrorBoundary } from '~/components/error-boundary'
 import LoadingButton from '~/components/form/loading-button'
 import TextInput from '~/components/form/text-input'
 import { schema, type Action } from '../action'
@@ -68,4 +69,8 @@ export function PasswordForgottenForm() {
 			)}
 		</>
 	)
+}
+
+export function ErrorBoundary() {
+	return <GeneralErrorBoundary />
 }
