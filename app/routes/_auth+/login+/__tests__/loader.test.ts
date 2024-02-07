@@ -9,7 +9,7 @@ describe.concurrent('[login] loader', () => {
 		const response = await loader({ request, context: {}, params: {} })
 
 		expect(response.status).toBe(200)
-		expect(response.json()).resolves.toEqual({})
+		await expect(response.json()).resolves.toEqual({})
 	})
 
 	it('should redirect to "/" if user is logged in', async () => {

@@ -1,4 +1,4 @@
-import { User } from '@prisma/client'
+import type { User } from '@prisma/client'
 import { authenticator } from '~/utils/auth.server'
 import { buildFormData } from '~/utils/form-data'
 import action from '../action'

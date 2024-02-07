@@ -1,4 +1,4 @@
-import { FieldConfig } from '@conform-to/react'
+import type { FieldConfig } from '@conform-to/react'
 import { render, screen } from '~/utils/testing'
 import { CheckboxInput } from './checkbox-input'
 

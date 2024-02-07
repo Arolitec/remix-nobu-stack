@@ -1,4 +1,4 @@
-import { User } from '@prisma/client'
+import type { User } from '@prisma/client'
 import queue from '~/queues/send-welcome-mail/send-welcome-mail.server'
 import { prisma } from '~/utils/db.server'
 import { buildFormData } from '~/utils/form-data'

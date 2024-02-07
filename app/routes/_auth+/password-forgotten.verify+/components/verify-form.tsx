@@ -9,8 +9,8 @@ import {
 import LoadingButton from '~/components/form/loading-button'
 import TextInput from '~/components/form/text-input'
 import useSubmitting from '~/hooks/submit'
-import { Action, clientSchema } from '../action'
-import { Loader } from '../loader'
+import { clientSchema, type Action } from '../action'
+import type { Loader } from '../loader'
 
 export function VerifyForm() {
 	const [searchParams] = useSearchParams()

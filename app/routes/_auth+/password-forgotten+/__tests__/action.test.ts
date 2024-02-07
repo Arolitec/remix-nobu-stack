@@ -1,4 +1,4 @@
-import { User, Verification } from '@prisma/client'
+import type { User, Verification } from '@prisma/client'
 import sendPasswordForgottenMail from '~/queues/send-email-verification-mail/send-email-verification-mail.server'
 import { prisma } from '~/utils/db.server'
 import { buildFormData } from '~/utils/form-data'

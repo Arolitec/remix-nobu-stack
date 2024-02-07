@@ -1,4 +1,4 @@
-import { Submission } from '@conform-to/react'
+import type { Submission } from '@conform-to/react'
 import { json } from '@remix-run/node'
 import { createRemixStub } from '@remix-run/testing'
 import userEvent from '@testing-library/user-event'
