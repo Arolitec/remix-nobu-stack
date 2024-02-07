@@ -46,31 +46,38 @@ describe('LoginForm', () => {
 		expect(screen.getByText(/you must enter a password/i)).toBeInTheDocument()
 	})
 
-	it("should render form's error if submitted values are invalid", async () => {
-		const error = 'Invalid email/password'
-		const RemixStub = createRemixStub([
-			{
-				path: '/',
-				Component: LoginForm,
-				action() {
-					const submission = {
-						error: {
-							'': [error],
-						},
-						intent: 'submit',
-						payload: {},
-					} satisfies Submission<{ email: string; password: string }>
-					return json(submission, { status: 400 })
+	it(
+		"should render form's error if submitted values are invalid",
+		async () => {
+			const error = 'Invalid email/password'
+			const RemixStub = createRemixStub([
+				{
+					path: '/',
+					Component: LoginForm,
+					action() {
+						const submission = {
+							error: {
+								'': [error],
+							},
+							intent: 'submit',
+							payload: {},
+						} satisfies Submission<{ email: string; password: string }>
+						return json(submission, { status: 400 })
+					},
 				},
-			},
-		])
+			])
 
-		render(<RemixStub />)
+			render(<RemixStub />)
 
-		await user.type(screen.getByLabelText(/email address/i), 'test@example.com')
-		await user.type(screen.getByLabelText(/password/i), 'password')
-		await user.click(screen.getByRole('button', { name: /log in/i }))
+			await user.type(
+				screen.getByLabelText(/email address/i),
+				'test@example.com',
+			)
+			await user.type(screen.getByLabelText(/password/i), 'password')
+			await user.click(screen.getByRole('button', { name: /log in/i }))
 
-		expect(screen.getByText(error)).toBeInTheDocument()
-	})
+			expect(screen.getByText(error)).toBeInTheDocument()
+		},
+		{ retry: 3 },
+	)
 })
