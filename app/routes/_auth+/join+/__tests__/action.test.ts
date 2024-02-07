@@ -23,7 +23,7 @@ vi.mock('~/utils/db.server', async () => {
 	}
 })
 
-const DEFAULT_FORM_DATA = {
+const DEFAULT_BODY = {
 	email: 'test@example.com',
 	password: 'password',
 	redirectTo: '/',
@@ -126,5 +126,5 @@ function buildRequest(data?: Record<string, string>) {
 }
 
 function _buildFormData(data?: Record<string, string>) {
-	return buildFormData({ ...DEFAULT_FORM_DATA, ...data })
+	return buildFormData({ ...DEFAULT_BODY, ...data })
 }
