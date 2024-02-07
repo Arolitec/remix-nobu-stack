@@ -58,7 +58,7 @@ describe('PasswordInput', () => {
 	it('should toggle password visibility', async () => {
 		render(<PasswordInput field={field} label={label} />)
 
-		await userEvent.click(screen.getByRole('button'))
+		await userEvent.click(screen.getByLabelText(/show or hide/i))
 
 		expect(await screen.findByLabelText(/password/i)).toHaveAttribute(
 			'type',

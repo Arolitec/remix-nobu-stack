@@ -39,6 +39,7 @@ export default function PasswordInput({
 						variant="ghost"
 						onClick={togglePassword}
 						className="absolute right-0 top-0 bottom-0"
+						aria-label="Show or hide"
 					>
 						{showPassword ? <EyeClosedIcon /> : <EyeOpenIcon />}
 					</Button>
