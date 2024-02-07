@@ -29,10 +29,6 @@ const DEFAULT_FORM_DATA = {
 	redirectTo: '/',
 }
 
-function _buildFormData(data?: Record<string, string>) {
-	return buildFormData({ ...DEFAULT_FORM_DATA, ...data })
-}
-
 describe.concurrent('[join] action', () => {
 	const mockedEnqueue = vi.mocked(queue.enqueue)
 	const mockedCreateUser = vi.mocked(prisma.user.createUser)
@@ -52,12 +48,7 @@ describe.concurrent('[join] action', () => {
 		mockedCreateUser.mockResolvedValue(mockUser as User)
 		mockedFindUnique.mockResolvedValue(null)
 
-		const body = _buildFormData()
-
-		const request = new Request('http://test/join', {
-			method: 'POST',
-			body,
-		})
+		const request = buildRequest()
 
 		await expect(() =>
 			action({
@@ -72,12 +63,7 @@ describe.concurrent('[join] action', () => {
 		mockedCreateUser.mockResolvedValue(mockUser as User)
 		mockedFindUnique.mockResolvedValue(null)
 
-		const body = _buildFormData()
-
-		const request = new Request('http://test/join', {
-			method: 'POST',
-			body,
-		})
+		const request = buildRequest()
 
 		await expect(() =>
 			action({
@@ -94,12 +80,7 @@ describe.concurrent('[join] action', () => {
 	it('should return a response with 400 status if email is already taken', async () => {
 		mockedFindUnique.mockResolvedValue(mockUser as User)
 
-		const body = _buildFormData()
-
-		const request = new Request('http://test/join', {
-			method: 'POST',
-			body,
-		})
+		const request = buildRequest()
 
 		const response = await action({
 			request,
@@ -112,10 +93,7 @@ describe.concurrent('[join] action', () => {
 	})
 
 	it('should return a response with status 400 if data are invalid', async () => {
-		const request = new Request('http://test/join', {
-			method: 'POST',
-			body: new FormData(),
-		})
+		const request = buildRequest()
 
 		const response = await action({
 			request,
@@ -128,12 +106,7 @@ describe.concurrent('[join] action', () => {
 	})
 
 	it('should return a response with status 400 if intent is not submit', async () => {
-		const body = _buildFormData({ intent: 'test' })
-
-		const request = new Request('http://test/join', {
-			method: 'POST',
-			body,
-		})
+		const request = buildRequest({ intent: 'test' })
 
 		const response = await action({
 			request,
@@ -144,3 +117,14 @@ describe.concurrent('[join] action', () => {
 		expect(response.status).toBe(400)
 	})
 })
+
+function buildRequest(data?: Record<string, string>) {
+	return new Request('http://test.com/join', {
+		method: 'POST',
+		body: _buildFormData(data),
+	})
+}
+
+function _buildFormData(data?: Record<string, string>) {
+	return buildFormData({ ...DEFAULT_FORM_DATA, ...data })
+}
