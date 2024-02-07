@@ -3,8 +3,7 @@ import type { BrowserContext, Locator, Page } from '@playwright/test'
 export class SignUpPage {
 	public readonly emailField: Locator
 	public readonly passwordField: Locator
-	public readonly showPasswordButton: Locator
-	public readonly hidePasswordButton: Locator
+	public readonly showOrHidePasswordButton: Locator
 	public readonly submitButton: Locator
 
 	constructor(
@@ -13,8 +12,7 @@ export class SignUpPage {
 	) {
 		this.emailField = this.page.getByRole('textbox', { name: /email address/i })
 		this.passwordField = this.page.getByRole('textbox', { name: /password/i })
-		this.showPasswordButton = this.page.getByRole('button', { name: /show/i })
-		this.hidePasswordButton = this.page.getByRole('button', { name: /hide/i })
+		this.showOrHidePasswordButton = this.page.getByLabel(/show or hide/i)
 		this.submitButton = this.page.getByRole('button', {
 			name: /create account/i,
 		})
@@ -34,10 +32,10 @@ export class SignUpPage {
 	}
 
 	async showPassword() {
-		await this.showPasswordButton.click()
+		await this.showOrHidePasswordButton.click()
 	}
 
 	async hidePassword() {
-		await this.hidePasswordButton.click()
+		await this.showOrHidePasswordButton.click()
 	}
 }
