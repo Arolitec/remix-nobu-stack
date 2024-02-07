@@ -2,11 +2,15 @@ import { authenticator } from '~/utils/auth.server'
 import { commitSession, getSession } from '~/utils/session.server'
 import loader from '../loader'
 
+const BASE_URL = 'http://test.com/login'
+
 describe.concurrent('[login] loader', () => {
 	it('should return an empty response with status 200', async () => {
-		const request = new Request('http://test/login')
-
-		const response = await loader({ request, context: {}, params: {} })
+		const response = await loader({
+			request: new Request(BASE_URL),
+			context: {},
+			params: {},
+		})
 
 		expect(response.status).toBe(200)
 		await expect(response.json()).resolves.toEqual({})
@@ -16,7 +20,7 @@ describe.concurrent('[login] loader', () => {
 		const session = await getSession('Cookie')
 		session.set(authenticator.sessionKey, { id: 1 })
 
-		const request = new Request('http://test/login', {
+		const request = new Request(BASE_URL, {
 			headers: {
 				Cookie: await commitSession(session),
 			},
