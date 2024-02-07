@@ -16,6 +16,10 @@ vi.mock('~/utils/db.server', () => ({
 describe.concurrent('[reset-password] action', () => {
 	const mockedResetPassword = vi.mocked(prisma.user.resetPassword)
 
+	beforeEach(() => {
+		vi.clearAllMocks()
+	})
+
 	it('should redirect to "/login" after updating password', async () => {
 		const body = buildFormData({
 			password: 'password',
