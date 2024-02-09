@@ -17,7 +17,7 @@ interface VerifyEmailProps {
 	verifyLink: string
 }
 
-export default function VerifyEmail(props: VerifyEmailProps) {
+export default function VerifyEmail(props: Readonly<VerifyEmailProps>) {
 	const { otp, verifyLink } = props
 
 	return (
