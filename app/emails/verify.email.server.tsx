@@ -1,8 +1,10 @@
 import {
+	Body,
 	Button,
 	Container,
 	Font,
 	Head,
+	Heading,
 	Hr,
 	Html,
 	Preview,
@@ -10,7 +12,6 @@ import {
 	Tailwind,
 	Text,
 } from '@react-email/components'
-import tailwindConfig from '../../tailwind.config'
 
 interface VerifyEmailProps {
 	otp: string
@@ -21,41 +22,48 @@ export default function VerifyEmail(props: Readonly<VerifyEmailProps>) {
 	const { otp, verifyLink } = props
 
 	return (
-		<Tailwind config={tailwindConfig}>
-			<Html lang="en" data-theme="light">
-				<Head>
-					<Font fontFamily="Nunito Sans" fallbackFontFamily="Verdana" />
-				</Head>
-				<Preview>Nobu Stack - Email Verification</Preview>
-				<Container>
-					<Section className="flex w-full items-center justify-center">
-						<Text className="text-2xl font-bold uppercase">
+		<Html lang="en">
+			<Head>
+				<Font
+					fontFamily="Nunito Sans"
+					fallbackFontFamily="Verdana"
+					webFont={{
+						url: 'https://fonts.gstatic.com/s/nunitosans/v15/pe0TMImSLYBIv1o4X1M8ce2xCx3yop4tQpF_MeTm0lfUVwoNnq4CLz0_upHZPYsZ51Q42ptCprt4R-tQKr51pE8.woff2',
+						format: 'woff2',
+					}}
+				/>
+			</Head>
+			<Preview>Nobu Stack - Email Verification</Preview>
+			<Tailwind>
+				<Body className="bg-white my-auto mx-auto px-2 ">
+					<Container className="border border-zinc-200 border-solid  px-4 text-sm my-10 max-w-96 rounded">
+						<Heading className="text-xl font-semibold text-center my-8">
 							Email verification
-						</Text>
-					</Section>
+						</Heading>
 
-					<Section>
-						<Text className="text-base">
-							Here is your verification code:{' '}
-							<code className="font-semibold tracking-wider">{otp}</code>,
+						<Text className="text-base leading-relaxed">
+							Here is your verification code: {otp}
 						</Text>
 						<Text className="text-base">
 							or, you can click the button below
 						</Text>
-					</Section>
 
-					<Section className="my-4 flex items-center justify-center">
-						<Button href={verifyLink} className="btn-primary btn ">
-							Verify email
-						</Button>
-					</Section>
+						<Section className="my-8 text-center">
+							<Button
+								href={verifyLink}
+								className=" bg-zinc-900 text-zinc-50 whitespace-nowrap rounded-md text-sm font-medium h-4 px-4 py-2"
+							>
+								Verify email
+							</Button>
+						</Section>
 
-					<Hr />
-					<Text className="text-base">
-						All rights reserved. {new Date().getFullYear()}
-					</Text>
-				</Container>
-			</Html>
-		</Tailwind>
+						<Hr />
+						<Text className="text-sm text-zinc-400 font-light text-center">
+							All rights reserved. {new Date().getFullYear()}
+						</Text>
+					</Container>
+				</Body>
+			</Tailwind>
+		</Html>
 	)
 }
