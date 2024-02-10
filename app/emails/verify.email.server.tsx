@@ -36,17 +36,13 @@ export default function VerifyEmail(props: Readonly<VerifyEmailProps>) {
 			<Preview>Nobu Stack - Email Verification</Preview>
 			<Tailwind>
 				<Body className="bg-white my-auto mx-auto px-2 ">
-					<Container className="border border-zinc-200 border-solid  px-4 text-sm my-10 max-w-96 rounded">
+					<Container className="border border-zinc-200 border-solid  px-4 text-sm my-10 max-w-96 rounded leading-relaxed">
 						<Heading className="text-xl font-semibold text-center my-8">
 							Email verification
 						</Heading>
 
-						<Text className="text-base leading-relaxed">
-							Here is your verification code: {otp}
-						</Text>
-						<Text className="text-base">
-							or, you can click the button below
-						</Text>
+						<Text>Here is your verification code: {otp}</Text>
+						<Text>or, you can click the button below</Text>
 
 						<Section className="my-8 text-center">
 							<Button
@@ -57,8 +53,8 @@ export default function VerifyEmail(props: Readonly<VerifyEmailProps>) {
 							</Button>
 						</Section>
 
-						<Hr />
-						<Text className="text-sm text-zinc-400 font-light text-center">
+						<Hr className="my-8" />
+						<Text className="text-zinc-400 font-light text-center mb-8">
 							All rights reserved. {new Date().getFullYear()}
 						</Text>
 					</Container>
