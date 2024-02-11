@@ -5,7 +5,6 @@ const path = require('path')
 
 const PackageJson = require('@npmcli/package-json')
 const semver = require('semver')
-const YAML = require('yaml') //TODO remove this dependency
 
 const escapeRegExp = string =>
 	// $& means the whole matched string
