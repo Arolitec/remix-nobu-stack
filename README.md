@@ -1,6 +1,6 @@
 # Remix Nobu Stack
 
-![The Remix Blues Stack](https://repository-images.githubusercontent.com/461012689/37d5bd8b-fa9c-4ab0-893c-f0a199d5012d)
+![Remix Nobu Stack](https://gist.github.com/assets/80514220/850ddce6-805d-40f3-80db-1e3cc96f5a36)
 
 Learn more about [Remix Stacks](https://remix.run/stacks).
 
