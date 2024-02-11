@@ -38,6 +38,11 @@ const getPackageManagerCommand = packageManager =>
 			lockfile: 'yarn.lock',
 			run: (script, args) => `yarn ${script} ${args || ''}`,
 		}),
+		bun: () => ({
+			exec: 'bun',
+			lockfile: 'bun.lockb',
+			run: (script, args) => `bun ${script} ${args || ''}`,
+		}),
 	})[packageManager]()
 
 const getPackageManagerVersion = packageManager =>
@@ -162,7 +167,7 @@ const main = async ({ isTypeScript, packageManager, rootDirectory }) => {
 
 	await Promise.all(fileOperationPromises)
 
-	execSync(pm.run('format', '--loglevel warn'), {
+	execSync(pm.run('format', '--log-level warn'), {
 		cwd: rootDirectory,
 		stdio: 'inherit',
 	})
