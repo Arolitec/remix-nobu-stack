@@ -1,13 +1,15 @@
 # Remix Nobu Stack
 
-![The Remix Blues Stack](https://repository-images.githubusercontent.com/461012689/37d5bd8b-fa9c-4ab0-893c-f0a199d5012d)
+![Remix Nobu Stack](https://gist.github.com/assets/80514220/850ddce6-805d-40f3-80db-1e3cc96f5a36)
 
 Learn more about [Remix Stacks](https://remix.run/stacks).
 
 ```sh
-npx create-remix@latest --template arolitec/remix-nobu-stack
+npx create-remix@latest <your-project-name> --template arolitec/remix-nobu-stack
 # or
-yarn create remix --template arolitec/remix-nobu-stack
+yarn create remix <your-project-name> --template arolitec/remix-nobu-stack
+# or
+bunx create-remix@latest <your-project-name> --template arolitec/remix-nobu-stack
 ```
 
 ## What's in the stack
@@ -19,17 +21,28 @@ yarn create remix --template arolitec/remix-nobu-stack
   [remix-auth](https://github.com/sergiodxa/remix-auth)
 - Database ORM with [Prisma](https://prisma.io)
 - Styling with [Tailwind](https://tailwindcss.com/) and
-  [Daisy UI](https://daisyui.com/)
-- End-to-end testing with [Cypress](https://cypress.io)
+  [Shadcn/ui](https://ui.shadcn.com)
+- End-to-end testing with [Playwright](https://playwright.dev)
 - Local third party request mocking with [MSW](https://mswjs.io)
 - Unit testing with [Vitest](https://vitest.dev) and
   [Testing Library](https://testing-library.com)
 - Code formatting with [Prettier](https://prettier.io)
 - Linting with [ESLint](https://eslint.org)
 - Static Types with [TypeScript](https://typescriptlang.org)
+- Monitoring with [Highlight.io](https://www.highlight.io/)
+- Email building with [React Email](https://react.email/docs/introduction)
+- Form validation with [Conform](https://conform.guide) and
+  [Zod](https://zod.dev/)
+- Remix route definition using
+  [Remix Flat Routes](https://github.com/kiliman/remix-flat-routes)
+- Job queuing with [Quirrel](https://quirrel.dev/)
 
 Not a fan of bits of the stack? Fork it, change it, and use
 `npx create-remix --template your/repo`! Make it your own.
+
+## Compatibility
+
+This stack is opinionated, only TypeScript is supported!
 
 ## Development
 
@@ -82,26 +95,28 @@ started:
 ### Relevant code:
 
 This is a simple app with a production-ready auth flow, a perfect foundation for
-you to build a full stack app with Prisma and Remix and Daisy UI.
+you to build a full stack app with Prisma and Remix and Shadcn/ui.
 
 - creating users, and logging in and out
   [./app/routes/\_auth+](./app/routes/_auth+)
 - user sessions, and verifying them
   [./app/utils/session.server.ts](./app/utils/session.server.ts)
+- building emails with React [./app/emails](./app/emails)
+- Job queue definition [./app/queues](./app/queues)
 
 ## Deployment
 
-This Remix Stack comes with two GitHub Actions that handle typecheck (if
-TypeScript used), unit and integration tests run.
+This Remix Stack comes with two GitHub Actions that handle typecheck, unit and
+integration tests run.
 
 To add a Docker image building or automatic deployment step, just update the
-workflow.
+workflow or add a dedicated workflow
 
 ## GitHub Actions
 
 We use GitHub Actions for continuous integration and deployment. Anything that
 gets into the `main` branch will be deployed to production after running
-tests/build/etc. Anything in the `dev` branch will be deployed to staging.
+tests/build/etc.
 
 ## Testing
 
