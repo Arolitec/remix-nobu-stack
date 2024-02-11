@@ -1,7 +1,7 @@
 import { render } from '@react-email/render'
 import { Queue } from 'quirrel/remix'
+import VerifyEmail from '~/emails/verify.email.server'
 import { sendMail } from '~/utils/mailer.server'
-import VerifyEmail from './verify.email.server'
 
 export default Queue<{ email: string; otp: string; verifyLink: string }>(
 	'queues/send-email-verification-mail',

@@ -6,6 +6,7 @@
 
 import { PassThrough } from 'node:stream'
 
+import { H, HandleError } from '@highlight-run/remix/server'
 import {
 	createReadableStreamFromReadable,
 	type EntryContext,
@@ -15,6 +16,10 @@ import { isbot } from 'isbot'
 import { renderToPipeableStream } from 'react-dom/server'
 
 const ABORT_DELAY = 5_000
+
+// Report backend errors to Highlight
+const nodeOptions = { projectID: process.env.HIGHLIGHT_PROJECT_ID ?? '' }
+export const handleError = HandleError(nodeOptions)
 
 export default function handleRequest(
 	request: Request,
@@ -28,13 +33,13 @@ export default function handleRequest(
 				responseStatusCode,
 				responseHeaders,
 				remixContext,
-		  )
+			)
 		: handleBrowserRequest(
 				request,
 				responseStatusCode,
 				responseHeaders,
 				remixContext,
-		  )
+			)
 }
 
 function handleBotRequest(
@@ -86,6 +91,7 @@ function handleBrowserRequest(
 	remixContext: EntryContext,
 ) {
 	return new Promise((resolve, reject) => {
+		let shellRendered = false
 		const { pipe, abort } = renderToPipeableStream(
 			<RemixServer
 				context={remixContext}
@@ -94,6 +100,7 @@ function handleBrowserRequest(
 			/>,
 			{
 				onShellReady() {
+					shellRendered = true
 					const body = new PassThrough()
 
 					responseHeaders.set('Content-Type', 'text/html')
@@ -111,7 +118,10 @@ function handleBrowserRequest(
 					reject(error)
 				},
 				onError(error: unknown) {
-					console.error(error)
+					if (shellRendered) {
+						logError(error, request)
+					}
+
 					responseStatusCode = 500
 				},
 			},
@@ -119,4 +129,22 @@ function handleBrowserRequest(
 
 		setTimeout(abort, ABORT_DELAY)
 	})
+}
+
+function logError(error: unknown, request?: Request) {
+	const parsed = request
+		? H.parseHeaders(Object.fromEntries(request.headers))
+		: undefined
+
+	if (error instanceof Error) {
+		H.consumeError(error, parsed?.secureSessionId, parsed?.requestId)
+	} else {
+		H.consumeError(
+			new Error(`Unknown error: ${JSON.stringify(error)}`),
+			parsed?.secureSessionId,
+			parsed?.requestId,
+		)
+	}
+
+	console.error(error)
 }

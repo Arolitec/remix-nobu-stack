@@ -1,5 +1,7 @@
+import { H } from '@highlight-run/remix/client'
 import type { MetaFunction } from '@remix-run/node'
 import { Form, Link } from '@remix-run/react'
+import { useEffect } from 'react'
 import { GeneralErrorBoundary } from '~/components/error-boundary'
 
 import { useOptionalUser } from '~/utils/user'
@@ -8,6 +10,14 @@ export const meta: MetaFunction = () => [{ title: 'Nobu Stack' }]
 
 export default function Index() {
 	const user = useOptionalUser()
+
+	useEffect(() => {
+		H.identify(user?.id ? 'jay@highlight.io' : 'anonymous', {
+			id: user?.id ?? 'anonymous',
+			email: user?.email ?? 'anonymous@anonymous.com',
+		})
+	}, [user])
+
 	return (
 		<main className="relative min-h-screen sm:flex sm:items-center sm:justify-center">
 			<div className="relative sm:pb-16 sm:pt-8">

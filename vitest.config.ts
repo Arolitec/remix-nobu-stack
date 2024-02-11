@@ -29,7 +29,7 @@ export default defineConfig({
 		},
 		coverage: {
 			provider: 'v8',
-			reporter: [process.env.CI ? 'json' : 'html'],
+			reporter: [process.env.CI ? 'text-summary' : 'text-summary', 'html'],
 			enabled: true,
 			clean: true,
 			include: ['app/**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],

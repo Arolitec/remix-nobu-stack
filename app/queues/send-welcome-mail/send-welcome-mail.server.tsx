@@ -1,8 +1,8 @@
 import type { User } from '@prisma/client'
 import { render } from '@react-email/components'
 import { Queue } from 'quirrel/remix'
+import WelcomeEmail from '~/emails/welcome.email.server'
 import { sendMail } from '~/utils/mailer.server'
-import WelcomeEmail from './welcome.email.server'
 
 export default Queue<User>(
 	'queues/send-welcome-email',

@@ -25,3 +25,4 @@ node_modules
 /playwright/.cache/
 
 coverage
+.react-email
