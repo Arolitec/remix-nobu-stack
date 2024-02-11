@@ -1,9 +1,18 @@
+.vscode
+.idea
+
 node_modules
 
 /build
 /public/build
 .env
 
-/cypress/screenshots
-/cypress/videos
 /postgres-data
+
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
+coverage
+.react-email
